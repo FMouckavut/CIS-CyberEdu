@@ -1,0 +1,237 @@
+/* Resetování základních stylů pro čistý začátek */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Flexbox pro vycentrování obsahu na celou obrazovku */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+.container {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 450px;
+}
+
+h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+/* Stylování inputu */
+/* Kontejner držící input a ikonku pospolu */
+.input-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Stylování inputu - přidán padding napravo, aby text nepodlezl pod ikonku */
+input[type="password"],
+input[type="text"] {
+    width: 100%;
+    padding: 15px;
+    padding-right: 50px; /* ZDE je místo rezervované pro ikonku oka */
+    font-size: 1.1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input[type="password"]:focus,
+input[type="text"]:focus {
+    border-color: #007bff;
+}
+
+/* Pozicování ikonky oka */
+.toggle-btn {
+    position: absolute;
+    right: 15px; /* Odstup od pravého okraje kontejneru */
+    top: 50%;
+    transform: translateY(-50%); /* Posune ikonku přesně na střed na výšku */
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #888;
+    padding: 0;
+    display: flex; /* Pomáhá vycentrovat samotné SVG uvnitř tlačítka */
+    transition: color 0.3s ease;
+}
+
+.toggle-btn:hover {
+    color: #333; /* Po přejetí myší ikonka ztmavne */
+}
+
+/* Stylování seznamu požadavků */
+.requirements-list {
+    list-style: none;
+}
+
+.requirement {
+    font-size: 0.95rem;
+    color: #888;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+/* Přidáno :first-child, aby se šířka 20px aplikovala JEN na ikonku */
+.requirement span:first-child {
+    margin-right: 10px;
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+    display: inline-block; /* Pomáhá udržet správný tvar u prvního elementu */
+}
+
+/* Stylování nadpisů nad seznamy */
+.req-heading {
+    font-size: 1.05rem;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: #444;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+/* Třída pro splněný POVINNÝ požadavek (zelená) */
+.requirement.valid-mandatory {
+    color: #28a745;
+    font-weight: 500;
+}
+
+/* Třída pro splněný VOLITELNÝ požadavek (modrá) */
+.requirement.valid-optional {
+    color: #007bff;
+    font-weight: 500;
+}
+
+/* Stylování kontejneru pro MFA checkbox */
+.mfa-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; /* Vytvoříme mezeru před seznamem požadavků */
+}
+
+.mfa-container input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    cursor: pointer;
+    accent-color: #007bff; /* Změní barvu zaškrtnutého boxu na modrou (v moderních prohlížečích) */
+}
+
+.mfa-container label {
+    font-size: 0.95rem;
+    color: #555;
+    cursor: pointer;
+    user-select: none; /* Zabrání nechtěnému označování textu při klikání */
+}
+
+/* Kontejner pro bezpečnostní otázku */
+.security-question-container,
+.password-hint-container {
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column; /* Prvky se poskládají hezky pod sebe */
+    gap: 10px; /* Vytvoří mezeru 10px mezi nadpisem, menu a polem */
+}
+
+.security-question-container label,
+.password-hint-container label {
+    font-size: 0.95rem;
+    color: #444;
+    font-weight: 500;
+}
+
+/* Stylování rozbalovacího menu (select) a pole pro odpověď */
+select, 
+.security-question-container input[type="text"],
+.password-hint-container input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    outline: none;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.3s ease;
+    cursor: pointer;
+}
+
+select:focus, 
+.security-question-container input[type="text"]:focus,
+.password-hint-container input[type="text"]:focus {
+    border-color: #007bff;
+}
+
+/* Základní styl pro zprávu pod nápovědou */
+.hint-msg {
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: -5px;
+    transition: color 0.3s ease; /* Plynulá změna barvy */
+}
+
+/* Různé stavy zprávy */
+.msg-error { color: #dc3545; }   /* Červená - obsahuje heslo */
+.msg-warn { color: #ffc107; }    /* Oranžová - nesmysl nebo krátké */
+.msg-info { color: #17a2b8; }    /* Modrá - prázdné pole (edukace) */
+.msg-success { color: #28a745; } /* Zelená - vypadá to v pořádku */
+
+/* Třída, kterou bude náš JavaScript přidávat a odebírat */
+.hidden {
+    display: none !important; /* Důležité: Tímto prvek úplně zmizí ze stránky */
+}
+
+/* Kontejner pro tlačítko a zprávu */
+.submit-container {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Hlavní tlačítko */
+.primary-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    width: 100%;
+    font-weight: bold;
+}
+
+.primary-btn:hover {
+    background-color: #0056b3; /* Tmavší modrá při najetí myší */
+}
+
+.primary-btn:active {
+    transform: scale(0.98); /* Efekt "zamáčknutí" při kliknutí */
+}
