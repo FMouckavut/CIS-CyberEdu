@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontrola síly hesla</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Vytvořte si silné heslo</h1>
+        <p>Tréninkový nástroj pro tvorbu bezpečného hesla.</p>
+        
+        <div class="input-container">
+            <input type="password" id="password-input" placeholder="Zadejte heslo..." autofocus>
+            
+            <button type="button" id="toggle-password" class="toggle-btn" aria-label="Zobrazit heslo">
+                <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="mfa-container">
+            <input type="checkbox" id="mfa-checkbox">
+            <label for="mfa-checkbox">Zapnout vícefaktorovou autentizaci (MFA)</label>
+        </div>
+
+        <div class="security-question-container">
+            <label for="sq-select">Nastavení bezpečnostní otázky:</label>
+            <select id="sq-select">
+                <option value="none">Nenastavovat bezpečnostní otázku</option>
+                <option value="mother">Příjmení matky za svobodna</option>
+                <option value="pet">Jméno prvního domácího mazlíčka</option>
+                <option value="movie">Nejoblíbenější film</option>
+            </select>
+            
+            <input type="text" id="sq-answer" class="hidden" placeholder="Zadejte odpověď...">
+        </div>
+
+        <div class="password-hint-container">
+            <label for="hint-input">Nápověda pro heslo (volitelné):</label>
+            <input type="text" id="hint-input" placeholder="Zadejte nápovědu k heslu...">
+            <span id="hint-message" class="hint-msg hidden"></span>
+        </div>
+        
+        <h3 class="req-heading">Povinné parametry</h3>
+        <ul class="requirements-list">
+            <li id="req-length" class="requirement"><span>○</span> <span id="length-text">Minimálně 15 znaků</span></li>
+            <li id="req-pwned" class="requirement"><span>○</span> Heslo nebylo kompromitováno (HIBP)</li>
+        </ul>
+
+        <h3 class="req-heading">Volitelné parametry</h3>
+        <ul class="requirements-list">
+            <li id="req-upper" class="requirement"><span>○</span> Alespoň jedno velké písmeno</li>
+            <li id="req-lower" class="requirement"><span>○</span> Alespoň jedno malé písmeno</li>
+            <li id="req-number" class="requirement"><span>○</span> Alespoň jedno číslo</li>
+            <li id="req-special" class="requirement"><span>○</span> Speciální znak (např. !@#$%^&*)</li>
+        </ul>
+
+        <div class="submit-container">
+            <button type="button" id="check-btn" class="primary-btn">Kontrola hesla</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
