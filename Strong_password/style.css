@@ -21,8 +21,9 @@ body {
     padding: 40px;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    width: 100%;
-    max-width: 450px;
+    width: fit-content;    /* Okno se roztáhne přesně podle obsahu */
+    min-width: 350px;      /* Aby okno nebylo příliš úzké, když je prázdné */
+    max-width: 90vw;       /* Aby na mobilech nepřeteklo mimo obrazovku (90 % šířky okna) */
 }
 
 h1 {
