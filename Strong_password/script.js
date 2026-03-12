@@ -16,6 +16,14 @@ const hintMessage = document.getElementById('hint-message');
 
 const checkBtn = document.getElementById('check-btn');
 
+// Načtení prvků modálního okna
+const modal = document.getElementById('result-modal');
+const modalTitle = document.getElementById('modal-title');
+const modalMessage = document.getElementById('modal-message');
+const closeModalBtn = document.getElementById('close-modal');
+const modalOkBtn = document.getElementById('modal-ok-btn');
+const modalContent = document.querySelector('.modal-content');
+
 // Objekt obsahující všechny prvky požadavků
 const requirements = {
     length: document.getElementById('req-length'),
@@ -29,72 +37,79 @@ const requirements = {
 let requiredMinLength = 15;
 
 // Funkce, která změní vzhled řádku podle toho, zda je pravidlo splněno
-function updateRequirement(element, isValid, validClass) {
-    if (isValid) {
+function updateRequirement(element, isValid, validClass, isEmpty, isMandatory = false) {
+    // 1. Nejprve odstraníme barevné třídy, abychom měli "čistý štít"
+    element.classList.remove(validClass, 'invalid-mandatory');
+
+    if (isEmpty) {
+        // STAV A: Pole je prázdné -> vše vracíme do šedého výchozího stavu s kolečkem
+        element.querySelector('span').textContent = '○';
+    } else if (isValid) {
+        // STAV B: Pravidlo je splněno -> přidáme úspěšnou třídu (zelená/modrá) a fajfku
         element.classList.add(validClass);
-        element.querySelector('span').textContent = '✓'; // Změníme kolečko na fajfku
+        element.querySelector('span').textContent = '✓';
     } else {
-        element.classList.remove(validClass);
-        element.querySelector('span').textContent = '○'; // Vrátíme zpět na kolečko
+        // STAV C: Pravidlo NENÍ splněno a uživatel už něco napsal
+        if (isMandatory) {
+            // Jde o povinný parametr -> nastavíme červenou barvu a křížek
+            element.classList.add('invalid-mandatory');
+            element.querySelector('span').textContent = '✗';
+        } else {
+            // Jde o volitelný parametr -> necháme jen obyčejné šedé kolečko
+            element.querySelector('span').textContent = '○';
+        }
     }
 }
 
 // 1. ČÁST: LOKÁLNÍ KONTROLA REGULÁRNÍMI VÝRAZY
 function validatePasswordLocal(password) {
-    // Kontrola délky (minimálně 12 znaků)
-    updateRequirement(requirements.length, password.length >= requiredMinLength, 'valid-mandatory');
+    // Vytvoříme si proměnnou, která je 'true', pokud je heslo úplně prázdné
+    const isEmpty = password === ''; 
+
+    // Kontrola délky - Přidali jsme 'isEmpty' a 'true' (protože je to POVINNÝ parametr)
+    updateRequirement(requirements.length, password.length >= requiredMinLength, 'valid-mandatory', isEmpty, true);
     
-    // Kontrola velkého písmene (RegEx hledá cokoliv od A do Z)
-    updateRequirement(requirements.upper, /[A-Z]/.test(password), 'valid-optional');
-    
-    // Kontrola malého písmene (RegEx hledá cokoliv od a do z)
-    updateRequirement(requirements.lower, /[a-z]/.test(password), 'valid-optional');
-    
-    // Kontrola čísla (RegEx hledá číslici 0-9)
-    updateRequirement(requirements.number, /[0-9]/.test(password), 'valid-optional');
-    
-    // Kontrola speciálního znaku (RegEx hledá cokoliv kromě písmen, číslic a mezer)
-    updateRequirement(requirements.special, /[^A-Za-z0-9\s]/.test(password), 'valid-optional');
+    // Kontroly pro volitelné parametry - Přidali jsme 'isEmpty' a 'false'
+    updateRequirement(requirements.upper, /[A-Z]/.test(password), 'valid-optional', isEmpty, false);
+
+    updateRequirement(requirements.lower, /[a-z]/.test(password), 'valid-optional', isEmpty, false);
+
+    updateRequirement(requirements.number, /[0-9]/.test(password), 'valid-optional', isEmpty, false);
+
+    updateRequirement(requirements.special, /[^A-Za-z0-9\s]/.test(password), 'valid-optional', isEmpty, false);
 }
 
 // 2. ČÁST: BEZPEČNÁ KONTROLA PROTI HIBP API (k-anonymita)
 async function checkPwnedAPI(password) {
-    // Pokud je heslo prázdné, zrušíme validaci
-    if (!password) {
-        updateRequirement(requirements.pwned, false, 'valid-mandatory');
+    const isEmpty = password === '';
+
+    // Pokud je heslo prázdné, rovnou nastavíme výchozí stav a ukončíme funkci
+    if (isEmpty) {
+        updateRequirement(requirements.pwned, false, 'valid-mandatory', isEmpty, true);
         return;
     }
 
     try {
-        // A. Zahešujeme heslo algoritmem SHA-1 (bezpečný prohlížečový standard API)
         const encoder = new TextEncoder();
         const data = encoder.encode(password);
         const hashBuffer = await crypto.subtle.digest('SHA-1', data);
         
-        // Převedeme buffer na Hexadecimální řetězec (např. "5BAA6...")
         const hashArray = Array.from(new Uint8Array(hashBuffer));
         const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
 
-        // B. Rozdělíme hash pro k-anonymitu
-        const prefix = hashHex.substring(0, 5); // Prvních 5 znaků posíláme API
-        const suffix = hashHex.substring(5);    // Zbytek kontrolujeme jen my lokálně
+        const prefix = hashHex.substring(0, 5); 
+        const suffix = hashHex.substring(5);    
 
-        // C. Zavoláme API (posíláme JEN prefix!)
         const response = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`);
         const responseText = await response.text();
 
-        // API nám vrátí textový seznam ve formátu "SUFFIX:počet_výskytů" oddělený novými řádky
-        // Příklad řádku: "A0A1B2C3D4...:125"
-        
-        // D. Zjistíme, jestli se NÁŠ sufix nachází v datech od API
         const isPwned = responseText.includes(suffix);
 
-        // Pokud NENÍ kompromitováno (isPwned === false), je to úspěch (true)
-        updateRequirement(requirements.pwned, !isPwned, 'valid-mandatory');
+        // Voláme updateRequirement s tím, že jde o povinný parametr (isMandatory = true)
+        updateRequirement(requirements.pwned, !isPwned, 'valid-mandatory', isEmpty, true);
 
     } catch (error) {
         console.error("Chyba při komunikaci s HIBP API:", error);
-        // V případě výpadku API necháme položku v neutrálním stavu
     }
 }
 
@@ -182,70 +197,77 @@ sqSelect.addEventListener('change', (event) => {
     }
 });
 
-// Hlídáme psaní do pole pro nápovědu
-hintInput.addEventListener('input', () => {
-    const currentPassword = passwordInput.value.toLowerCase();
-    const currentHint = hintInput.value.toLowerCase();
-
-    // 1. Před každou kontrolou to "vyčistíme" do výchozího stavu
-    hintMessage.className = 'hint-msg'; // Odstraní staré barvy i třídu hidden
-    hintInput.style.borderColor = '';
-    
-    /*
-    // 2. Kaskáda pravidel - od nejčastějšího po nejhorší
-    if (currentHint === '') {
-        // Prázdné pole - Edukujeme uživatele
-        hintMessage.textContent = '💡 Tip: Nenastavovat nápovědu je často ta nejbezpečnější volba.';
-        hintMessage.classList.add('msg-info');
-        hintInput.style.borderColor = '#17a2b8';
-        
-    } else if (currentPassword !== '' && currentHint.includes(currentPassword)) {
-        // Obsahuje heslo - Kritická chyba!
-        hintMessage.textContent = '❌ Pozor: Nápověda nesmí obsahovat samotné heslo!';
-        hintMessage.classList.add('msg-error');
-        hintInput.style.borderColor = '#dc3545';
-        
-    } */
-    
-    // else if (currentHint.length > 0 && currentHint.length < 3) {
-    //     // Příliš krátké (např. "a", "xy")
-    //     hintMessage.textContent = '⚠️ Nápověda je příliš krátká, pravděpodobně vám nepomůže.';
-    //     hintMessage.classList.add('msg-warn');
-    //     hintInput.style.borderColor = '#ffc107';
-        
-    // } else if (/(.)\1{2,}/.test(currentHint) || currentHint.includes('asdf') || currentHint.includes('qwert')) {
-    //     // Magie! Regulární výraz /(.)\1{2,}/ hledá 3 a více stejných znaků po sobě (aaa, 111)
-    //     // Dále hlídáme klasické přejíždění po klávesnici (asdf)
-    //     hintMessage.textContent = '⚠️ Nápověda vypadá jako náhodné znaky. Zkuste smysluplnou frázi.';
-    //     hintMessage.classList.add('msg-warn');
-    //     hintInput.style.borderColor = '#ffc107';
-        
-    // } else {
-    //     // Pokud to projde vším výše, vypadá to jako dobrá nápověda
-    //     hintMessage.textContent = '✅ Dobrá nápověda by měla dávat smysl pouze vám.';
-    //     hintMessage.classList.add('msg-success');
-    //     hintInput.style.borderColor = '#28a745';
-    // }
-});
-
 // Událost pro kliknutí na finální tlačítko "Kontrola hesla"
 checkBtn.addEventListener('click', () => {
-    // 1. Kontrola povinných parametrů
-    const isLengthValid = document.getElementById('req-length').classList.contains('valid-mandatory');
-    const isPwnedValid = document.getElementById('req-pwned').classList.contains('valid-mandatory');
-    
-    // 2. Kontrola bezpečnostní otázky
+    // 1. Zjistíme stavy všech povinných požadavků
+    const isLengthValid = requirements.length.classList.contains('valid-mandatory');
+    const isPwnedValid = requirements.pwned.classList.contains('valid-mandatory');
     const isQuestionNone = sqSelect.value === 'none';
-    
-    // 3. Kontrola nápovědy
     const isHintEmpty = hintInput.value.trim() === '';
 
-    // Vyhodnocení pomocí vyskakovacího okna (alert)
-    if (isLengthValid && isPwnedValid && isQuestionNone && isHintEmpty) {
-        // Použijeme funkci alert() pro zobrazení úspěchu
-        alert('🎉 Gratulujeme! Vaše heslo i nastavení zabezpečení splňují nejpřísnější standardy.\n\nFLAG(silneheslo)');
+    // 2. Vytvoříme si prázdné pole, do kterého budeme sbírat chybové hlášky
+    let errors = [];
+
+    // Pokud něco není splněno, přidáme do pole srozumitelnou zprávu
+    if (!isLengthValid) {
+        errors.push(`Heslo nesplňuje minimální délku (${requiredMinLength} znaků).`);
+    }
+    if (!isPwnedValid) {
+        errors.push('Heslo bylo nalezeno v databázi uniklých hesel a není bezpečné.');
+    }
+    if (!isQuestionNone) {
+        errors.push('Bezpečnostní otázka by neměla být nastavena (dle zadání úkolu).');
+    }
+    if (!isHintEmpty) {
+        errors.push('Pole pro nápovědu k heslu by mělo zůstat prázdné (pokud je to možné).');
+    }
+
+    // 3. Rozhodneme, co do modalu vypíšeme
+    // 3. Rozhodneme, co do modalu vypíšeme
+    if (errors.length === 0) {
+        // Žádné chyby = ÚSPĚCH
+        modalTitle.textContent = '🎉 Gratulujeme!';
+        modalTitle.style.color = '#28a745'; // Zelený nadpis
+        modalMessage.innerHTML = 'Vaše heslo i nastavení zabezpečení splňují nejpřísnější standardy.<br><br><strong>FLAG(silneheslo)</strong>';
+        
+        // PŘIDÁNO: Přidáme třídu, která modal roztáhne a zakáže zalamování
+        modalContent.classList.add('success-mode');
     } else {
-        // Použijeme funkci alert() pro zobrazení chyby
-        alert('❌ Něco není v pořádku.\n\nZkontrolujte, zda máte splněné všechny povinné parametry a další nastavení dle zadání.');
+        // Máme chyby = SELHÁNÍ
+        modalTitle.textContent = '❌ Něco není v pořádku';
+        modalTitle.style.color = '#dc3545'; // Červený nadpis
+        
+        let errorHtml = '<p>Zkontrolujte a opravte prosím následující problémy:</p>';
+        errorHtml += '<ul class="modal-error-list">';
+        
+        errors.forEach((err) => {
+            errorHtml += `<li>${err}</li>`;
+        });
+        errorHtml += '</ul>';
+        
+        modalMessage.innerHTML = errorHtml; 
+        
+        // PŘIDÁNO: Odebereme třídu, aby se dlouhé chyby mohly zalamovat do normálního okna
+        modalContent.classList.remove('success-mode');
+    }
+
+    // 4. Zobrazíme modal odstraněním třídy 'hidden'
+    modal.classList.remove('hidden');
+});
+
+// Funkce pro zavření modalu
+function closeModal() {
+    modal.classList.add('hidden');
+}
+
+// Přiřazení zavírací funkce k tlačítkům
+closeModalBtn.addEventListener('click', closeModal);
+modalOkBtn.addEventListener('click', closeModal);
+
+// Vylepšení: Zavření modalu při kliknutí mimo něj (na ztmavené pozadí)
+modal.addEventListener('click', (event) => {
+    // Zkontrolujeme, jestli uživatel klikl přímo na pozadí (ne na obsah okna uvnitř)
+    if (event.target === modal) {
+        closeModal();
     }
 });

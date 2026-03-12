@@ -121,6 +121,12 @@ input[type="text"]:focus {
     font-weight: 500;
 }
 
+/* Třída pro NESPLNĚNÝ povinný požadavek (červená) */
+.requirement.invalid-mandatory {
+    color: #dc3545;
+    font-weight: 500;
+}
+
 /* Třída pro splněný VOLITELNÝ požadavek (modrá) */
 .requirement.valid-optional {
     color: #007bff;
@@ -235,4 +241,82 @@ select:focus,
 
 .primary-btn:active {
     transform: scale(0.98); /* Efekt "zamáčknutí" při kliknutí */
+}
+
+/* --- VYSKAKOVACÍ OKNO (MODAL) --- */
+.modal {
+    position: fixed; /* Zůstane na místě i při scrollování */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Poloprůhledné černé pozadí */
+    display: flex; /* Pomůže nám vycentrovat obsah */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ujistíme se, že je modal nad vším ostatním */
+}
+
+/* Třída hidden zde zajistí, že flexbox nepřebije naše skrytí */
+.modal.hidden {
+    display: none !important;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px; /* Stejná šířka jako náš hlavní kontejner */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    position: relative;
+    text-align: center;
+}
+
+/* Speciální třídy pro úspěšný stav modalu */
+.modal-content.success-mode {
+    width: fit-content;
+    max-width: 90vw; /* Pojistka pro mobilní telefony, aby okno nepřeteklo */
+}
+
+/* Zabráníme zalamování textu úspěšné zprávy */
+.modal-content.success-mode #modal-message {
+    white-space: nowrap; 
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.5rem;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #333;
+}
+
+#modal-title {
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+#modal-message {
+    font-size: 1rem;
+    color: #444;
+    text-align: left; /* Text chyb zarovnáme doleva pro lepší čitelnost */
+    line-height: 1.5;
+}
+
+/* Stylování seznamu konkrétních chyb */
+.modal-error-list {
+    margin-top: 15px;
+    margin-left: 20px;
+    color: #dc3545; /* Červená barva pro chyby */
+}
+
+.modal-error-list li {
+    margin-bottom: 5px;
 }
