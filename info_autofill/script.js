@@ -24,7 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Karetní údaje hezky pohromadě dole
             { id: 'cc-name', label: 'Jméno na kartě (viditelné)' },
             { id: 'cc-number', label: 'Číslo karty (skryté)' },
-            { id: 'cc-exp', label: 'Expirace karty (skryté)' }
+            { id: 'cc-exp', label: 'Expirace karty (skryté)' },
+            { id: 'cc-cvv', label: 'CVV kód (skryté)' }
         ];
 
         // Projdeme všechna pole
