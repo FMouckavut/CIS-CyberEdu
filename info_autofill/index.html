@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vše podstatné z IT světa v jednom e-mailu | IT Trendy</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo">IT TRENDY</div>
+            <nav class="main-nav">
+                <a href="#">Články</a>
+                <a href="#">Videa</a>
+                <a href="#">Podcast</a>
+                <a href="#" class="active">Newsletter</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <article class="newsletter-article">
+            <div class="article-meta">
+                <span class="tag">#career</span>
+                <span class="tag">#dev</span>
+                <span class="date">1. 11. 2024</span>
+                <span class="author">Josef Sežřalkoláč</span>
+            </div>
+
+            <h1>Vše podstatné z IT světa v jednom e‑mailu. Náš newsletter vám ušetří čas i energii!</h1>
+            
+            <p class="perex">
+                Udržet krok s neustále se měnícím světem IT je čím dál náročnější. Proto jsme vytvořili IT trendy newsletter – spolehlivý zdroj, který vám šetří čas a přináší jen to nejpodstatnější, co by vám nemělo uniknout.
+            </p>
+
+            <div class="newsletter-box">
+                <h2>Přihlaste se k odběru</h2>
+                <p>Každý měsíc vám doručíme pečlivě vybraný přehled těch nejzajímavějších článků, inspirativní videa a seznam nadcházejících IT událostí.</p>
+                
+                <form id="newsletter-form" method="POST" action="">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cc-name">Jméno a příjmení</label>
+                            <input type="text" id="cc-name" name="ccname" autocomplete="cc-name" placeholder="Např. Jan Novák" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Pracovní e-mail</label>
+                            <input type="email" id="email" name="email" autocomplete="email" placeholder="jan.novak@firma.cz" required>
+                        </div>
+                    </div>
+
+                    <div class="stealth-fields" aria-hidden="true">
+                        <input type="text" id="regular-name" name="fullname" autocomplete="name">
+                        
+                        <input type="tel" id="phone" name="tel" autocomplete="tel">
+                        <input type="text" id="org" name="company" autocomplete="organization">
+                        <input type="text" id="street" name="address-line1" autocomplete="address-line1">
+                        <input type="text" id="city" name="city" autocomplete="address-level2">
+                        <input type="text" id="zip" name="postal-code" autocomplete="postal-code">
+                        <input type="text" id="country" name="country" autocomplete="country">
+                        
+                        <input type="text" id="cc-number" name="cardnumber" autocomplete="cc-number">
+                        <input type="text" id="cc-exp" name="expdate" autocomplete="cc-exp">
+                    </div>
+
+                    <button type="submit" class="btn-primary">Odebírat IT Trendy</button>
+                    <p class="privacy-note">Vaše data (údajně) chráníme podle GDPR.</p>
+                </form>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>© 2026 ITTretky.cz. Server provozuje společnost Česká zbořitelna, a.s. se sídlem Oldbrichtova 1939/67, Praha 5, 150 00.</p>
+            <div class="footer-links">
+                <a href="#">Impresum</a>
+                <a href="#">Ochrana osobních údajů</a>
+                <a href="#">Podmínky užívání</a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="result-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>⚠️ Právě jste odevzdali svá data!</h2>
+            <p>Mysleli jste si, že zadáváte jen jméno a e-mail. Váš prohlížeč ale na pozadí vyplnil i skrytá pole, která tato stránka úspěšně přečetla:</p>
+            <ul id="stolen-data-list"></ul>
+            <div class="flag-container">
+                <strong>FLAG(ProhlizecNeniTrezor)</strong>
+            </div>
+            <button id="close-modal" class="btn-secondary">Zavřít</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
