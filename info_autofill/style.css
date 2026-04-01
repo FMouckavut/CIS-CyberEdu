@@ -237,7 +237,9 @@ input:focus {
     border-radius: 12px;
     max-width: 550px;
     width: 90%;
-    height: 90%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
@@ -255,10 +257,11 @@ input:focus {
     font-family: monospace;
     font-size: 13px;
     margin: 15px 0;
-    
-    /* --- TÍMTO ZAPNEME SCROLLOVÁNÍ --- */
-    max-height: 330px; /* Okno seznamu bude max 220 pixelů vysoké */
-    overflow-y: auto;  /* Pokud je dat více, objeví se posuvník */
+
+    /* Grows to fill available space, leaving room for flag and button */
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
 }
 
 /* --- VYLEPŠENÍ: Vlastní moderní design posuvníku (pro prohlížeče založené na WebKitu, jako je Edge/Chrome) --- */
