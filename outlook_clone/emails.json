@@ -1,0 +1,114 @@
+{
+    "groups": [
+        {
+            "id": "tento-tyden",
+            "label": "Tento týden",
+            "emails": [
+                {
+                    "id": 1,
+                    "isRead": true,
+                    "sender": {
+                        "name": "Notion Team",
+                        "email": "notify@mail.notion.so",
+                        "initials": "NT",
+                        "avatarColor": "teal"
+                    },
+                    "subject": "For you in VUT: Projekty",
+                    "date": "2026-03-02T09:23:00",
+                    "bodyHtml": "<p>This email was sent by Notion Team. Body content not available in this demo.</p>",
+                    "type": "normal"
+                },
+                {
+                    "id": 2,
+                    "isRead": false,
+                    "sender": {
+                        "name": "test@email.cz",
+                        "email": "test@email.cz",
+                        "initials": "J",
+                        "avatarColor": "blue"
+                    },
+                    "subject": "Kontroly pokoju 16. 3. - 20. 3. 2026",
+                    "date": "2026-03-02T08:17:00",
+                    "bodyHtml": "<p>Dobry den,</p><p>v tydnu <strong><u>16. 03. - 20. 03. 2026</u></strong> budou probihat kontroly pokoju. Vzdy v case <strong>9. 30 - 13. 00</strong> hod.</p><p><strong><u>Nove se to tyka i zamestnaneckych pokoju !</u></strong></p><p>Pisu s dostatecnym predstihem, tak, aby jste se mohli na kontrolu radne pripravit. <u>Vymluvy, &quot;necetl jsem, nevim, to mel udelat spolubydlici&quot; a podobne, neberu. Nebudu se nikam vracet ani jednou, ani dvakrat, jak tomu bylo v minulosti. Oznameni je vylepeno ve vytazich, v prizemi na sklenenych dverich chodby, na nastenkach i na vratnici. Jste dospeli lide, vysokoskolaci, mate to v povinnostech udrzovat pokoj v cistote, tak doufam, ze se k tomu tak i postavite.</u></p><p>Pokud ne, budu to povazovat za poruseni ubytovaci smlouvy/kolejniho radu s postihem, ktery bude zadan do systemu ISKaM a to ve vysi 1500,-Kc.</p><p>Dale bych byla rada a zadam vas vsechny, pokud budete v den kontroly na pokoji, tak abyste me cekali a nekomunikovali se mnou v polospanku z postele a polonazi. Verte, neni to kolikr\u00e1t prijemny pohled !</p><p>Zacinam rano vzdy od pokoju s cisly napr. 901 - 906, 940 -935, dale stred chodby a nakonec strana k lesu.</p><p>Rozpis kontrol pokoju podle pater:</p><p>16. 03. pondeli&nbsp; 9. a 8. patro<br>17. 03. utery 7. a 6. patro<br>18. 03. streda 5. a 4. patro<br>19. 03. ctvrtek 3. a 2. patro<br>20. 03. patek 1. patro</p><p>Vase pritomnost na pokoji NENI NUTNA, STACI, ZE BUDE UKLIZENO !!!</p><p>Kropáčková</p>",
+                    "type": "phishing"
+                }
+            ]
+        },
+        {
+            "id": "minuly-tyden",
+            "label": "Minulý týden",
+            "emails": [
+                {
+                    "id": 3,
+                    "isRead": false,
+                    "sender": {
+                        "name": "GitHub",
+                        "email": "noreply@github.com",
+                        "initials": "G",
+                        "avatarColor": "brass"
+                    },
+                    "subject": "[GitHub] Claude is requesting updated permissions",
+                    "date": "2026-02-28T02:06:00",
+                    "bodyHtml": "<p>Updated Permissions Request</p><p>The GitHub App Claude is requesting updated permissions for your account. Visit GitHub to review and accept or deny the request.</p>",
+                    "type": "spam"
+                },
+                {
+                    "id": 4,
+                    "isRead": true,
+                    "sender": {
+                        "name": "info@skm.vutbr.cz",
+                        "email": "info@skm.vutbr.cz",
+                        "initials": "I",
+                        "avatarColor": "blue"
+                    },
+                    "subject": "Accommodation BUT/ Ubytování VUT",
+                    "date": "2026-02-27T11:28:00",
+                    "bodyHtml": "<p>Dobrý den,</p><p>V brzké době budou zahájeny rezervace ubytování pro příští akademický rok. Sledujte prosím systém ISKaM pro další informace.</p><p>S pozdravem,<br>Správa kolejí a menzí VUT</p>",
+                    "type": "normal"
+                },
+                {
+                    "id": 5,
+                    "isRead": true,
+                    "sender": {
+                        "name": "GitHub",
+                        "email": "noreply@github.com",
+                        "initials": "G",
+                        "avatarColor": "brass"
+                    },
+                    "subject": "[GitHub] Claude is requesting updated permissions",
+                    "date": "2026-02-28T02:06:00",
+                    "bodyHtml": "<p>Updated Permissions Request</p><p>The GitHub App Claude is requesting updated permissions for your account. Visit GitHub to review and accept or deny the request.</p>",
+                    "type": "spam"
+                },
+                {
+                    "id": 6,
+                    "isRead": true,
+                    "sender": {
+                        "name": "GitHub",
+                        "email": "noreply@github.com",
+                        "initials": "G",
+                        "avatarColor": "brass"
+                    },
+                    "subject": "[GitHub] Claude is requesting updated permissions",
+                    "date": "2026-02-28T02:06:00",
+                    "bodyHtml": "<p>Updated Permissions Request</p><p>The GitHub App Claude is requesting updated permissions for your account. Visit GitHub to review and accept or deny the request.</p>",
+                    "type": "spam"
+                },
+                {
+                    "id": 7,
+                    "isRead": true,
+                    "sender": {
+                        "name": "JetBrains Account",
+                        "email": "no_reply@jetbrains.com",
+                        "initials": "JA",
+                        "avatarColor": "cranberry"
+                    },
+                    "subject": "Renew your JetBrains Educational License",
+                    "date": "2026-02-26T02:02:00",
+                    "bodyHtml": "<p>Hi Jan,</p><p>We would like to just quickly remind you that your JetBrains Educational License is about to expire. Please visit JetBrains website to renew your license and continue using our tools.</p><p>Best regards,<br>JetBrains Team</p>",
+                    "type": "normal"
+                }
+            ]
+        }
+    ]
+}
