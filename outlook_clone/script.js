@@ -608,7 +608,11 @@
 
         if (allCorrect) {
             title.textContent = 'Gratulujeme!';
-            text.innerHTML = 'Správně jste identifikovali všechny nebezpečné e-maily. Výborná práce!';
+            text.innerHTML = 'Správně jste identifikovali všechny nebezpečné e-maily. Výborná práce!'
+                + '<div style="margin-top:16px;padding:12px 16px;background:#f0faf0;border:2px solid #0e700e;border-radius:6px;text-align:center;">'
+                + '<div style="font-size:11px;color:#555;margin-bottom:4px;">Váš příznak (CTF flag):</div>'
+                + '<span style="font-family:monospace;font-size:16px;font-weight:700;color:#0e700e;user-select:text;cursor:text;letter-spacing:0.5px;">FLAG(SocialniInzenyrstvi)</span>'
+                + '</div>';
             title.style.color = '#0e700e';
         } else {
             title.textContent = 'Zkuste to znovu';
