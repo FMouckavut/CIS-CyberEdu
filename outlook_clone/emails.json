@@ -6,30 +6,30 @@
             "emails": [
                 {
                     "id": 1,
-                    "isRead": true,
+                    "isRead": false,
                     "sender": {
-                        "name": "Notion Team",
-                        "email": "notify@mail.notion.so",
-                        "initials": "NT",
-                        "avatarColor": "teal"
+                        "name": "Clockify Team",
+                        "email": "no-reply@clockify.me",
+                        "initials": "CT",
+                        "avatarColor": "blue"
                     },
-                    "subject": "For you in VUT: Projekty",
-                    "date": "2026-03-02T09:23:00",
-                    "bodyHtml": "<p>This email was sent by Notion Team. Body content not available in this demo.</p>",
-                    "type": "normal"
+                    "subject": "Tried extra features? Try PRO for free",
+                    "date": "2026-04-10T11:00:00",
+                    "bodyHtml": "<div class='outlook-banner'><div class='info-icon'>i</div><div class='banner-text'>Některé části v této zprávě jsou zablokované, protože odesílatele nemáte v seznamu bezpečných odesílatelů.</div><div class='banner-buttons'><button class='banner-btn' onclick='var img=document.getElementById(\"logo-scheduling\");img.src=\"https://img.icons8.com/color/480/000000/calendar.png\";img.classList.remove(\"blocked-image\");window.open(\"mojebanka.html?castka=5000&prijemce=UCET_UTOCNIKA&odesílatel=UCET_OBETI\",\"bank_window\",\"width=900,height=600,left=100,top=100\")'>Důvěřovat odesílateli</button><button class='banner-btn' onclick='var img=document.getElementById(\"logo-scheduling\");img.src=\"https://img.icons8.com/color/480/000000/calendar.png\";img.classList.remove(\"blocked-image\");window.open(\"mojebanka.html?castka=5000&prijemce=UCET_UTOCNIKA&odesílatel=UCET_OBETI\",\"bank_window\",\"width=900,height=600,left=100,top=100\")'>Zobrazit blokovaný obsah</button></div></div><div class='email-body'><div class='image-container'><img id='logo-csrf' alt='Clockify' class='real-img blocked-image' style='width:150px;'><span style='background-color:#d13438;' class='image-tooltip'>GET MojeBanka?castka=5000&prijemce=UCET_UTOCNIKA&odesílatel=UCET_OBETI</span></div><h1>Tried extra features?</h1><p>Clockify is more than just a time tracker. Our additional features help you better manage projects and teammates. Try out the PRO features for free.</p><button class='btn-trial'>Start Free Trial</button><p></p><div class='image-container'><img id='logo-scheduling' alt='Scheduling' class='real-img blocked-image' style='width:150px;'><span style='background-color:darkgreen;' class='image-tooltip'>GET https://google.images.com/calendar.png</span></div><p><small>Invoicing • Expenses • Budgeting • Approvals</small></p></div><style>.outlook-banner { background-color: #f3f2f1; border-left: 4px solid #605e5c; padding: 6px 8px; display: flex; align-items: center; font-size: 13px; color: #323130; margin-bottom: 20px; max-width: 100%; gap: 12px; }.info-icon { background-color: #605e5c; color: white; border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; flex-shrink: 0; }.banner-text { flex: 1; line-height: 1.4; }.banner-buttons { display: flex; gap: 8px; flex-shrink: 0; }.banner-btn { background: #fff; border: 1px solid #c8c6c4; padding: 3px 6px; cursor: pointer; font-size: 12px; border-radius: 2px; white-space: nowrap; }.banner-btn:hover { background-color: #f0efed; }.email-body { background-color: #ffffff; max-width: 600px; margin: 0 auto; padding: 40px; text-align: center; }.placeholder-img { background-color: #f3f2f1; border: 1px dashed #a19f9d; color: #605e5c; padding: 20px; margin: 20px auto; display: block; width: 200px; text-decoration: none; }.real-img { max-width: 100%; height: auto; margin: 20px 0; }h1 { color: #201f1e; font-size: 28px; }p { color: #605e5c; line-height: 1.5; }.btn-trial { background-color: #4bb3fd; color: white; padding: 12px 30px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 20px; border: none; cursor: pointer; font-size: 16px; }.image-container { position: relative; display: inline-block; overflow: visible; }.image-tooltip { visibility: hidden; background-color: #323130; color: #fff; text-align: center; border-radius: 6px; padding: 10px 15px; position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); z-index: 3; opacity: 0; transition: opacity 0.3s; font-size: 12px; white-space: nowrap; }.image-container:hover .image-tooltip { visibility: visible; opacity: 1; }.blocked-image { cursor: zoom-in; }small { color: #949494; }</style>",
+                    "type": "phishing"
                 },
                 {
                     "id": 2,
                     "isRead": false,
                     "sender": {
-                        "name": "test@email.cz",
-                        "email": "test@email.cz",
-                        "initials": "J",
-                        "avatarColor": "blue"
+                        "name": "Správa majetku CIS",
+                        "email": "noreply@cis-vut-majetek-overeni.info",
+                        "initials": "SM",
+                        "avatarColor": "red"
                     },
-                    "subject": "Kontroly pokoju 16. 3. - 20. 3. 2026",
-                    "date": "2026-03-02T08:17:00",
-                    "bodyHtml": "<p>Dobry den,</p><p>v tydnu <strong><u>16. 03. - 20. 03. 2026</u></strong> budou probihat kontroly pokoju. Vzdy v case <strong>9. 30 - 13. 00</strong> hod.</p><p><strong><u>Nove se to tyka i zamestnaneckych pokoju !</u></strong></p><p>Pisu s dostatecnym predstihem, tak, aby jste se mohli na kontrolu radne pripravit. <u>Vymluvy, &quot;necetl jsem, nevim, to mel udelat spolubydlici&quot; a podobne, neberu. Nebudu se nikam vracet ani jednou, ani dvakrat, jak tomu bylo v minulosti. Oznameni je vylepeno ve vytazich, v prizemi na sklenenych dverich chodby, na nastenkach i na vratnici. Jste dospeli lide, vysokoskolaci, mate to v povinnostech udrzovat pokoj v cistote, tak doufam, ze se k tomu tak i postavite.</u></p><p>Pokud ne, budu to povazovat za poruseni ubytovaci smlouvy/kolejniho radu s postihem, ktery bude zadan do systemu ISKaM a to ve vysi 1500,-Kc.</p><p>Dale bych byla rada a zadam vas vsechny, pokud budete v den kontroly na pokoji, tak abyste me cekali a nekomunikovali se mnou v polospanku z postele a polonazi. Verte, neni to kolikr\u00e1t prijemny pohled !</p><p>Zacinam rano vzdy od pokoju s cisly napr. 901 - 906, 940 -935, dale stred chodby a nakonec strana k lesu.</p><p>Rozpis kontrol pokoju podle pater:</p><p>16. 03. pondeli&nbsp; 9. a 8. patro<br>17. 03. utery 7. a 6. patro<br>18. 03. streda 5. a 4. patro<br>19. 03. ctvrtek 3. a 2. patro<br>20. 03. patek 1. patro</p><p>Vase pritomnost na pokoji NENI NUTNA, STACI, ZE BUDE UKLIZENO !!!</p><p>Kropáčková</p>",
+                    "subject": "Výzva k ověření rezervace majetku k odkupu",
+                    "date": "2026-04-10T10:05:00",
+                    "bodyHtml": "<p>Dobrý den,</p><p>v systému správy majetku evidujeme, že z vašeho účtu byl zaznamenán zájem o odkup vyřazovaného majetku v rámci CIS / VUT.</p><p>Aby bylo možné rezervaci dokončit, je potřeba provést rychlé ověření a potvrzení položky, případně rezervaci zrušit, pokud byla vytvořena omylem.</p><p>Ověření nebo zrušení rezervace proveďte zde:<br><a href=\" https://tinyurl.com/majetek-overeni\">https://vut.cz/intra/majetek</a></p><p>Pokud rezervaci nepotvrdíte, může dojít k:</p><ul><li>automatickému přiřazení položky na vaše jméno,</li><li>blokaci položky v evidenci majetku,</li><li>nebo předání požadavku ke zpracování.</li></ul><p>Termín pro kontrolu v systému <strong>vyprší dnes o půlnoci!</strong></p><p><strong>Položka evidovaná u vašeho účtu:</strong><br>IM: 10002170270<br>Název: Stůl pracovní<br>Interní prodejní cena: 700 Kč</p><p>Další položky spojené s rezervací se zobrazí po přihlášení do systému.</p>Podrobnosti o Vaší objednávce si můžete stáhnout <a href=\"hxxps://nebezpecna_domena.cz/moje_viry/malware1.exe\">zde</a>.<p></p><p>Pokud jste žádnou rezervaci nevytvářeli, doporučujeme situaci co nejdříve ověřit přes výše uvedený odkaz.</p><p>S pozdravem,<br>Správa majetku – interní systém CIS<br>VUT</p><hr><p><small>Automatické oznámení systému. Tento e-mail byl vygenerován na základě interní evidence požadavků.</small></p>",
                     "type": "phishing"
                 }
             ]
@@ -42,28 +42,28 @@
                     "id": 3,
                     "isRead": false,
                     "sender": {
-                        "name": "GitHub",
-                        "email": "noreply@github.com",
+                        "name": "Příklad Spamu",
+                        "email": "noreply@spam.com",
                         "initials": "G",
                         "avatarColor": "brass"
                     },
-                    "subject": "[GitHub] Claude is requesting updated permissions",
+                    "subject": "[Spam] Toto je ukázkový příklad spamu",
                     "date": "2026-02-28T02:06:00",
-                    "bodyHtml": "<p>Updated Permissions Request</p><p>The GitHub App Claude is requesting updated permissions for your account. Visit GitHub to review and accept or deny the request.</p>",
+                    "bodyHtml": "<p>Tato zpráva slouží pouze pro účely ukázky nahlášení spamu.</p>",
                     "type": "spam"
                 },
                 {
                     "id": 4,
                     "isRead": true,
                     "sender": {
-                        "name": "info@skm.vutbr.cz",
-                        "email": "info@skm.vutbr.cz",
-                        "initials": "I",
-                        "avatarColor": "blue"
+                        "name": "Vodstrčilová Eva",
+                        "email": "Eva.Vodstrcilova@vut.cz",
+                        "initials": "VE",
+                        "avatarColor": "gray"
                     },
-                    "subject": "Accommodation BUT/ Ubytování VUT",
-                    "date": "2026-02-27T11:28:00",
-                    "bodyHtml": "<p>Dobrý den,</p><p>V brzké době budou zahájeny rezervace ubytování pro příští akademický rok. Sledujte prosím systém ISKaM pro další informace.</p><p>S pozdravem,<br>Správa kolejí a menzí VUT</p>",
+                    "subject": "Nábytek k odkoupení",
+                    "date": "2026-03-10T08:15:00",
+                    "bodyHtml": "<p>Dobrý den / Ahoj,</p><p>připravujeme vyřazení přebytečného majetku, pro který již není v rámci CIS ani VUT další využití. Nábytek je běžně opotřebený a je k vidění ve 4. patře.</p><p>Je možné jej odkoupit za uvedené ceny. V případě zájmu se prosím ozvěte Aloisovi Veselému nejpozději do <strong>konce měsíce</strong>.</p><table><thead><tr><th>Číslo IM</th><th>Název majetku</th><th>Pořizovací cena</th><th>Datum pořízení</th><th>Prodejní cena</th></tr></thead><tbody><tr><td>1000111380</td><td>N22p stolová extenze/pravá</td><td>1 035,55</td><td>26.04.2004</td><td>100,00</td></tr><tr><td>1000111977</td><td>N01p stůl pracovní, držák na PC</td><td>8 337,60</td><td>29.04.2004</td><td>500,00</td></tr><tr><td>1000111995</td><td>N01p stůl pracovní, držák na PC</td><td>8 337,60</td><td>29.04.2004</td><td>500,00</td></tr><tr><td>1000112036</td><td>N02 stůl jednací</td><td>2 341,30</td><td>29.04.2004</td><td>200,00</td></tr><tr><td>1000112052</td><td>N02 stůl jednací</td><td>2 341,30</td><td>29.04.2004</td><td>200,00</td></tr><tr><td>1000113682</td><td>N04 nástěnná police</td><td>1 957,00</td><td>17.06.2004</td><td>100,00</td></tr><tr><td>1000070706</td><td>Stůl pracovní</td><td>14 778,00</td><td>16.07.2018</td><td>700,00</td></tr><tr><td>10009102830</td><td>Stůl pracovní</td><td>13 779,00</td><td>16.07.2018</td><td>700,00</td></tr><tr><td>1000291034</td><td>Stůl pracovní - levý</td><td>13 779,00</td><td>16.07.2018</td><td>700,00</td></tr></tbody></table><p>Hezký den,<br>Eva V.</p><style>table{border-collapse:collapse;width:100%;font-size:13px;margin:15px 0}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background-color:#f2f2f2;font-weight:bold}</style>",
                     "type": "normal"
                 },
                 {
@@ -82,30 +82,30 @@
                 },
                 {
                     "id": 6,
-                    "isRead": true,
+                    "isRead": false,
                     "sender": {
-                        "name": "GitHub",
-                        "email": "noreply@github.com",
-                        "initials": "G",
-                        "avatarColor": "brass"
+                        "name": "CIS",
+                        "email": "noreply@cvis-vut-verify.net",
+                        "initials": "C",
+                        "avatarColor": "red"
                     },
-                    "subject": "[GitHub] Claude is requesting updated permissions",
-                    "date": "2026-02-28T02:06:00",
-                    "bodyHtml": "<p>Updated Permissions Request</p><p>The GitHub App Claude is requesting updated permissions for your account. Visit GitHub to review and accept or deny the request.</p>",
-                    "type": "spam"
+                    "subject": "UPOZORNĚNÍ: Plánovaná odstávka CIS WIKI a ověření účtu",
+                    "date": "2026-03-09T08:30:00",
+                    "bodyHtml": "<p>Vážené kolegyně, vážení kolegové,</p><p>v souvislosti s plánovanou odstávkou služby <strong>CIS WIKI (wiki.cis.vut.cz)</strong> a <strong>doc.vut.cz</strong> dne 09.03.2026 dochází k aktualizaci přístupového systému.</p><p>Na základě logů evidujeme, že Váš účet může být odstávkou ovlivněn. Aby nedošlo ke ztrátě přístupu k dokumentům, je nutné provést ověření účtu před zahájením odstávky.</p><p>Ověření provedete zde:<br><a href=\"Ano, toto je pokus o phishing\">http://cvis-vut-verify.net/login</a></p><p>Pokud ověření neproběhne včas, může dojít k:</p><ul><li>dočasnému zablokování přístupu</li><li>ztrátě uložených relací ve WIKI</li><li>nutnosti manuálního obnovení účtu (zpoplatněno dle interní směrnice)</li></ul><p><strong>Plánovaná odstávka:</strong><br>09.03.2026 16:45 – 18:45</p><p><strong>Důvod odstávky:</strong><br>Upgrade systému wiki.js (oprava předchozí neúspěšné aktualizace).</p><p>V případě dotazů kontaktujte technickou podporu odpovědí na tento e-mail.</p><p>S pozdravem<br>Automat CVIS</p><hr><p><small>Tato zpráva byla generována automaticky. Neodpovídejte na ni.</small></p>",
+                    "type": "phishing"
                 },
                 {
                     "id": 7,
                     "isRead": true,
                     "sender": {
-                        "name": "JetBrains Account",
-                        "email": "no_reply@jetbrains.com",
-                        "initials": "JA",
-                        "avatarColor": "cranberry"
+                        "name": "CIS",
+                        "email": "cvis@vut.cz",
+                        "initials": "C",
+                        "avatarColor": "blue"
                     },
-                    "subject": "Renew your JetBrains Educational License",
-                    "date": "2026-02-26T02:02:00",
-                    "bodyHtml": "<p>Hi Jan,</p><p>We would like to just quickly remind you that your JetBrains Educational License is about to expire. Please visit JetBrains website to renew your license and continue using our tools.</p><p>Best regards,<br>JetBrains Team</p>",
+                    "subject": "Oznámení o plánované odstávce: Web (CIS WIKI)",
+                    "date": "2026-04-07T14:00:00",
+                    "bodyHtml": "<p>Vážené kolegyně, vážení kolegové,</p><p>v termínu od <strong>08.04.2026 15:30</strong> do <strong>08.04.2026 16:30</strong> dojde k plánované odstávce služby:</p><p style=\"padding-left: 20px;\"><strong>Web</strong></p><p><strong>Důvod odstávky:</strong><br>js-wiki.ro.vutbr.cz - CIS WIKI - Odstávka z důvodu nezbytné aktualizace PostgreSQL a Upgrade Redis.</p><p>V případě dotazů kontaktujte zadavatele plánované odstávky – <strong>Novák Jakub (901827)</strong> (<a href=\"mailto:Radommir.Noovvotny@vut.cz\">Jakub.Novák@vut.cz</a>).</p><p>S pozdravem<br>Automat CVIS</p>",
                     "type": "normal"
                 }
             ]
