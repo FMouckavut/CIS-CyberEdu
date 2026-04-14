@@ -13,6 +13,9 @@
         senderAvatar: '#reading-pane-sender-avatar',
         senderInitials: '#reading-pane-sender-initials',
         senderName: '#reading-pane-sender-name',
+        senderEmail: '#reading-pane-sender-email',
+        recipientsRow: '#reading-pane-recipients-row',
+        recipientsContent: '#reading-pane-recipients-content',
         date: '#reading-pane-date',
         body: '#reading-pane-body',
         listContainer: '#emailListContainer',
@@ -232,6 +235,15 @@
         /* Sender name */
         $(SEL.senderName).textContent = email.sender.name;
 
+        /* Sender email (in angle brackets right next to the name) */
+        const senderEmailEl = $(SEL.senderEmail);
+        if (senderEmailEl) {
+            senderEmailEl.textContent = email.sender.email ? '<' + email.sender.email + '>' : '';
+        }
+
+        /* Recipients row (Komu: ...) */
+        renderRecipients(email);
+
         /* Date */
         $(SEL.date).textContent = getFullDate(email);
 
@@ -249,6 +261,64 @@
         if (senderBtn) {
             senderBtn.setAttribute('aria-label', `Od: ${email.sender.name}`);
         }
+    }
+
+    /* ================================================================
+       Recipients row rendering (Komu: ...)
+       ================================================================ */
+
+    function parseRecipients(str) {
+        if (!str) return [];
+        return str.split(';').map(function (s) { return s.trim(); }).filter(function (s) { return s.length > 0; });
+    }
+
+    function renderRecipients(email) {
+        const row = document.querySelector(SEL.recipientsRow);
+        const content = document.querySelector(SEL.recipientsContent);
+        if (!row || !content) return;
+
+        const list = parseRecipients(email.recipients);
+        if (list.length === 0) {
+            row.style.display = 'none';
+            content.innerHTML = '';
+            return;
+        }
+
+        row.style.display = '';
+        renderRecipientsCollapsed(list);
+    }
+
+    function renderRecipientsCollapsed(list) {
+        const content = document.querySelector(SEL.recipientsContent);
+        if (!content) return;
+
+        let html = '<span class="reading-pane-recipient-name">' + escapeHtml(list[0]) + (list.length > 1 ? ';' : '') + '</span>';
+        if (list.length > 1) {
+            const more = list.length - 1;
+            html += '<span class="reading-pane-more-link" role="button" tabindex="0">&nbsp;&nbsp;+' + more + ' další</span>';
+        }
+        content.innerHTML = html;
+
+        if (list.length > 1) {
+            const link = content.querySelector('.reading-pane-more-link');
+            if (link) {
+                link.addEventListener('click', function () {
+                    renderRecipientsExpanded(list);
+                });
+            }
+        }
+    }
+
+    function renderRecipientsExpanded(list) {
+        const content = document.querySelector(SEL.recipientsContent);
+        if (!content) return;
+
+        let html = '<span class="reading-pane-recipient-name">' + escapeHtml(list[0]) + ';</span>';
+        for (let i = 1; i < list.length; i++) {
+            const sep = i < list.length - 1 ? ';' : '';
+            html += '<div class="reading-pane-recipient-name reading-pane-recipient-extra">' + escapeHtml(list[i]) + sep + '</div>';
+        }
+        content.innerHTML = html;
     }
 
     /* ================================================================
