@@ -5,8 +5,37 @@
             "label": "Tento týden",
             "emails": [
                 {
-                    "id": 2,
+                    "id": 1,
                     "isRead": false,
+                    "sender": {
+                        "name": "Clockify Team",
+                        "email": "no-reply@clockify.me",
+                        "initials": "CT",
+                        "avatarColor": "blue"
+                    },
+                    "recipients": "Novák Jan (168149)",
+                    "subject": "Tried extra features? Try PRO for free",
+                    "date": "2026-04-27T11:00:00",
+                    "bodyHtml": "<div class='outlook-banner'><div class='info-icon'>i</div><div class='banner-text'>Některé části v této zprávě jsou zablokované, protože odesílatele nemáte v seznamu bezpečných odesílatelů.</div><div class='banner-buttons'><button class='banner-btn' onclick='var img=document.getElementById(\"logo-scheduling\");img.src=\"https://img.icons8.com/color/480/000000/calendar.png\";img.classList.remove(\"blocked-image\");window.open(\"mojebanka.html?castka=5000&prijemce=UCET_UTOCNIKA&odesílatel=UCET_OBETI\",\"bank_window\",\"width=900,height=600,left=100,top=100\")'>Důvěřovat odesílateli</button><button class='banner-btn' onclick='var img=document.getElementById(\"logo-scheduling\");img.src=\"https://img.icons8.com/color/480/000000/calendar.png\";img.classList.remove(\"blocked-image\");window.open(\"mojebanka.html?castka=5000&prijemce=UCET_UTOCNIKA&odesílatel=UCET_OBETI\",\"bank_window\",\"width=900,height=600,left=100,top=100\")'>Zobrazit blokovaný obsah</button></div></div><div class='email-body'><div class='image-container'><img id='logo-csrf' alt='Clockify' class='real-img blocked-image' style='width:150px;'><span style='background-color:#d13438;' class='image-tooltip'>GET MojeBanka?castka=5000&prijemce=UCET_UTOCNIKA&odesílatel=UCET_OBETI</span></div><h1>Tried extra features?</h1><p>Clockify is more than just a time tracker. Our additional features help you better manage projects and teammates. Try out the PRO features for free.</p><button class='btn-trial'>Start Free Trial</button><p></p><div class='image-container'><img id='logo-scheduling' alt='Scheduling' class='real-img blocked-image' style='width:150px;'><span style='background-color:darkgreen;' class='image-tooltip'>GET https://google.images.com/calendar.png</span></div><p><small>Invoicing • Expenses • Budgeting • Approvals</small></p></div><style>.outlook-banner { background-color: #f3f2f1; border-left: 4px solid #605e5c; padding: 6px 8px; display: flex; align-items: center; font-size: 13px; color: #323130; margin-bottom: 20px; max-width: 100%; gap: 12px; }.info-icon { background-color: #605e5c; color: white; border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; flex-shrink: 0; }.banner-text { flex: 1; line-height: 1.4; }.banner-buttons { display: flex; gap: 8px; flex-shrink: 0; }.banner-btn { background: #fff; border: 1px solid #c8c6c4; padding: 3px 6px; cursor: pointer; font-size: 12px; border-radius: 2px; white-space: nowrap; }.banner-btn:hover { background-color: #f0efed; }.email-body { background-color: #ffffff; max-width: 600px; margin: 0 auto; padding: 40px; text-align: center; }.placeholder-img { background-color: #f3f2f1; border: 1px dashed #a19f9d; color: #605e5c; padding: 20px; margin: 20px auto; display: block; width: 200px; text-decoration: none; }.real-img { max-width: 100%; height: auto; margin: 20px 0; }h1 { color: #201f1e; font-size: 28px; }p { color: #605e5c; line-height: 1.5; }.btn-trial { background-color: #4bb3fd; color: white; padding: 12px 30px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 20px; border: none; cursor: pointer; font-size: 16px; }.image-container { position: relative; display: inline-block; overflow: visible; }.image-tooltip { visibility: hidden; background-color: #323130; color: #fff; text-align: center; border-radius: 6px; padding: 10px 15px; position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); z-index: 3; opacity: 0; transition: opacity 0.3s; font-size: 12px; white-space: nowrap; }.image-container:hover .image-tooltip { visibility: visible; opacity: 1; }.blocked-image { cursor: zoom-in; }small { color: #949494; }</style>",
+                    "type": "phishing"
+                },
+                {
+                    "id": 3,
+                    "isRead": false,
+                    "sender": {
+                        "name": "Jaromír Gajdoš",
+                        "email": "918201@vutbr.cz",
+                        "initials": "JG",
+                        "avatarColor": "teal"
+                    },
+                    "subject": "Aktualizujte prosím svou službu VUT.",
+                    "date": "2026-04-10T02:06:00",
+                    "bodyHtml": "<p>Vážené kolegyně, vážení kolegové,<br>vážené studentky, vážení studenti,</p><p>v rámci soustavného posilování preventivních bezpečnostních opatření pro Vás Vysoké učení technické v Brně připravilo novou generaci aplikace pro podporu krizové komunikace, která umožní v případě mimořádných událostí rozesílat varovné SMS zprávy našim zaměstnancům a studujícím. Informace o mimořádné události se tak k Vám dostane tou nejrychlejší možnou cestou.</p><p>V souvislosti se spuštěním aplikace bychom Vás rádi požádali o vyplnění Vašeho krizového kontaktu v Intraportálu.</p><p>Tento krizový kontakt bude využit výhradně v případě potřeby zaslání informační zprávy v případě mimořádné události, nesmí být využit k jinému účelu. Kontakt je uložen na interních úložištích ve vlastnictví VUT odděleně od ostatních kontaktních informací tak, aby nebylo možné jej zobrazit neoprávněnou osobou nebo využít k jinému účelu. Pro více informací o zpracování a ochraně osobních údajů – krizový kontakt <a href=\"https://adekri.github.io/CIS/id-vut.cz\">klikněte zde</a>.</p><p>Rád bych vyslovil přání, že krizového kontaktu nebudeme nikdy muset využít. Nicméně je nutné přihlédnout k vnějším okolnostem a být připraven je vždy lepší než opak.</p><p>Děkujeme za pochopení a vstřícnost, s pozdravem<br><br>Mgr. Kamil Gregorek, MBA<br>kancléř VUT</p>",
+                    "type": "phishing"
+                },
+                {
+                    "id": 2,
+                    "isRead": true,
                     "sender": {
                         "name": "Správa majetku CIS",
                         "email": "noreply@cis-vut-majetek-overeni.info",
@@ -21,7 +50,7 @@
                 },
                 {
                     "id": 8,
-                    "isRead": false,
+                    "isRead": true,
                     "sender": {
                         "name": "Personální oddělení VUT",
                         "email": "hr-oznameni@vut-personalni.cz",
@@ -72,7 +101,7 @@
                 },
                 {
                     "id": 9,
-                    "isRead": false,
+                    "isRead": true,
                     "sender": {
                         "name": "Microsoft 365",
                         "email": "security-noreply@microsoft365-vut.com",
@@ -102,7 +131,7 @@
                 },
                 {
                     "id": 6,
-                    "isRead": false,
+                    "isRead": true,
                     "sender": {
                         "name": "CIS",
                         "email": "noreply@cvis-vut-verify.net",
@@ -132,7 +161,7 @@
                 },
                 {
                     "id": 11,
-                    "isRead": false,
+                    "isRead": true,
                     "sender": {
                         "name": "IEEE Xplore",
                         "email": "publications@ieee-notifications.org",
