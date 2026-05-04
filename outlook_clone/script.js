@@ -643,32 +643,34 @@
         evalBtn.addEventListener('click', function (e) {
             e.preventDefault();
 
-            var allCorrect = true;
-            var mistakes = [];
+            var phishingErrors = [];
+            var spamErrors = [];
 
             for (var id in emailMap) {
                 var email = emailMap[id];
                 var correctType = email.type || 'normal';
                 var userFlag = userFlags[id] || null;
 
-                if (correctType === 'normal') {
-                    if (userFlag !== null) {
-                        allCorrect = false;
-                        mistakes.push({ email: email, expected: 'normal', got: userFlag });
-                    }
+                /* Correctly labeled → skip */
+                if (correctType === 'normal' && userFlag === null) continue;
+                if (correctType === userFlag) continue;
+
+                var mistake = { email: email, expected: correctType, got: userFlag };
+
+                /* A phishing error is any mismatch where phishing is involved,
+                   either the email IS phishing (missed) or was wrongly flagged AS phishing. */
+                if (correctType === 'phishing' || userFlag === 'phishing') {
+                    phishingErrors.push(mistake);
                 } else {
-                    if (userFlag !== correctType) {
-                        allCorrect = false;
-                        mistakes.push({ email: email, expected: correctType, got: userFlag });
-                    }
+                    spamErrors.push(mistake);
                 }
             }
 
-            showEvalModal(allCorrect, mistakes);
+            showEvalModal(phishingErrors, spamErrors);
         });
     }
 
-    function showEvalModal(allCorrect, mistakes) {
+    function showEvalModal(phishingErrors, spamErrors) {
         var modal = document.getElementById('evalModal');
         var title = document.getElementById('evalModalTitle');
         var text = document.getElementById('evalModalText');
@@ -676,25 +678,43 @@
 
         if (!modal || !title || !text || !btn) return;
 
-        if (allCorrect) {
-            title.textContent = 'Gratulujeme!';
-            text.innerHTML = 'Správně jste identifikovali všechny nebezpečné e-maily. Výborná práce!'
-                + '<div style="margin-top:16px;padding:12px 16px;background:#f0faf0;border:2px solid #0e700e;border-radius:6px;text-align:center;">'
-                + '<div style="font-size:11px;color:#555;margin-bottom:4px;">Váš příznak (CTF flag):</div>'
-                + '<span style="font-family:monospace;font-size:16px;font-weight:700;color:#0e700e;user-select:text;cursor:text;letter-spacing:0.5px;">FLAG(SocialniInzenyrstvi)</span>'
-                + '</div>';
-            title.style.color = '#0e700e';
-        } else {
-            title.textContent = 'Zkuste to znovu';
-            var html = '<p>Některé e-maily nebyly označeny správně:</p>';
-            html += '<ul style="margin-top:8px;padding-left:20px;">';
-            var labels = { spam: 'spam', phishing: 'phishing', normal: 'normální' };
-            for (var i = 0; i < mistakes.length; i++) {
-                var m = mistakes[i];
+        var labels = { spam: 'spam', phishing: 'phishing', normal: 'normální' };
+
+        function renderMistakeList(list) {
+            var html = '<ul style="margin-top:8px;padding-left:20px;">';
+            for (var i = 0; i < list.length; i++) {
+                var m = list[i];
                 var got = m.got ? labels[m.got] : 'neoznačen';
-                html += '<li><strong>' + escapeHtml(m.email.subject) + '</strong> — správně: ' + labels[m.expected] + ', vaše označení: ' + got + '</li>';
+                html += '<li><strong>' + escapeHtml(m.email.subject) + '</strong> — správně: '
+                    + labels[m.expected] + ', vaše označení: ' + got + '</li>';
             }
             html += '</ul>';
+            return html;
+        }
+
+        var flagHtml = '<div style="margin-top:16px;padding:12px 16px;background:#f0faf0;border:2px solid #0e700e;border-radius:6px;text-align:center;">'
+            + '<div style="font-size:11px;color:#555;margin-bottom:4px;">Vaše vlajka:</div>'
+            + '<span style="font-family:monospace;font-size:16px;font-weight:700;color:#0e700e;user-select:text;cursor:text;letter-spacing:0.5px;">FLAG(SocialniInzenyrstvi)</span>'
+            + '</div>';
+
+        if (phishingErrors.length === 0 && spamErrors.length === 0) {
+            title.textContent = 'Gratulujeme!';
+            text.innerHTML = 'Správně jste identifikovali všechny nebezpečné e-maily. Výborná práce!' + flagHtml;
+            title.style.color = '#0e700e';
+        } else if (phishingErrors.length === 0) {
+            /* All phishing correct → flag is awarded even though spam/normal are off */
+            title.textContent = 'Skoro perfektní!';
+            var html = '<p>Všechny phishingové e-maily jste označili správně — zde je vlajka pro tento úkol. '
+                + 'Některé spam / normální e-maily však byly označeny chybně:</p>';
+            html += renderMistakeList(spamErrors);
+            html += flagHtml;
+            text.innerHTML = html; 
+            title.style.color = '#0e700e';
+        } else {
+            /* Any phishing mistake → no flag, show every mistake */
+            title.textContent = 'Zkuste to znovu';
+            var html = '<p>Některé e-maily nebyly označeny správně:</p>';
+            html += renderMistakeList(phishingErrors.concat(spamErrors));
             text.innerHTML = html;
             title.style.color = '#c4314b';
         }
