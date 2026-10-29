@@ -1,322 +1,791 @@
-/* Resetování základních stylů pro čistý začátek */
-* {
+/* ==========================================================================
+   Písma - přibalená v projektu (složka fonts/), aby stránka vypadala
+   na všech zařízeních stejně a nic se nestahovalo z cizích serverů.
+   Noto Sans / Noto Sans Mono, licence SIL OFL 1.1 (fonts/OFL.txt)
+   ========================================================================== */
+@font-face {
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("fonts/noto-sans-latin.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Rozšířená latinka - česká písmena (ě, š, č, ř, ž, ů ...) */
+@font-face {
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("fonts/noto-sans-latin-ext.woff2") format("woff2");
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* Neproporcionální písmo jen pro flag (stačí základní latinka) */
+@font-face {
+    font-family: "Noto Sans Mono";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("fonts/noto-sans-mono-latin.woff2") format("woff2");
+}
+
+/* ==========================================================================
+   Tokeny
+   ========================================================================== */
+:root {
+    color-scheme: light;
+
+    /* Světlá paleta: velmi světle šedá / černý text / fialová */
+    --bg:        #F2F2F3;
+    --surface:   #FAFAFA;
+    --field:     #FDFDFD;
+    --text:      #0A0A0A;
+    --accent:    #363199;
+    --on-accent: #FAFAFA;
+    --ok:        #15803D;
+    --bad:       #C62828;
+    --on-state:  #FAFAFA; /* barva fajfky / křížku ve vyplněném čtverci */
+    --scrim:     rgb(10 10 10 / 0.45);
+
+    /* Odvozené odstíny - míchají se z textu a plochy, takže sedí v obou režimech */
+    --text-muted:  color-mix(in srgb, var(--text) 64%, var(--surface));
+    --text-faint:  color-mix(in srgb, var(--text) 46%, var(--surface));
+    --line:        color-mix(in srgb, var(--text) 9%, var(--surface));
+    --line-strong: color-mix(in srgb, var(--text) 18%, var(--surface));
+    --hover:       color-mix(in srgb, var(--text) 5%, var(--surface));
+    --accent-soft: color-mix(in srgb, var(--accent) 16%, transparent);
+
+    /* Přibalená písma; systémová jsou jen záloha, než se načtou */
+    --font-sans: "Noto Sans", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    --font-mono: "Noto Sans Mono", ui-monospace, Consolas, monospace;
+
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 12px;
+    --space-lg: 16px;
+    --space-xl: 24px;
+    --space-2xl: 32px;
+    --space-3xl: 48px;
+
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 12px;
+
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --focus-ring: 0 0 0 3px var(--accent-soft), 0 0 0 1px var(--accent);
+
+    /* Značky stavu - používají se jako maska, barvu dodá pozadí */
+    --mark-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.25l3 3 6-6.5' fill='none' stroke='black' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    --mark-cross: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 4.5l7 7M11.5 4.5l-7 7' fill='none' stroke='black' stroke-width='2.25' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+/* Tmavá paleta: černá / bílý text / žlutá */
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+
+        --bg:        #0A0A0A;
+        --surface:   #121212;
+        --field:     #0D0D0D;
+        --text:      #F5F5F5;
+        --accent:    #F2A900;
+        --on-accent: #0A0A0A;
+        --ok:        #4ADE80;
+        --bad:       #F87171;
+        --on-state:  #0A0A0A;
+        --scrim:     rgb(0 0 0 / 0.7);
+    }
+}
+
+/* ==========================================================================
+   Základ
+   ========================================================================== */
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Flexbox pro vycentrování obsahu na celou obrazovku */
+[hidden] {
+    display: none !important;
+}
+
+/* Sjednocení napříč zařízeními a prohlížeči */
+html {
+    -webkit-text-size-adjust: 100%; /* iOS by jinak sám zvětšoval písmo */
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent; /* bez šedého záblesku po klepnutí */
+}
+
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
-    background-color: #f4f4f9;
-    color: #333;
+    min-height: 100dvh;
+    display: grid;
+    align-content: center;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans); /* dědí všechny prvky včetně tlačítek a polí */
+    font-size: 1rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
-.container {
-    background: #ffffff;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    width: fit-content;    /* Okno se roztáhne přesně podle obsahu */
-    min-width: 350px;      /* Aby okno nebylo příliš úzké, když je prázdné */
-    max-width: 90vw;       /* Aby na mobilech nepřeteklo mimo obrazovku (90 % šířky okna) */
+button,
+input,
+select {
+    font: inherit;
+    color: inherit;
+}
+
+/* Žádný vzhled formulářových prvků podle systému (např. vnitřní stín na iOS) */
+button,
+.input,
+.checkbox {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Jednotný fokus pro tlačítka s ikonou a checkbox (pole mají vlastní, viz .input:focus) */
+.icon-btn:focus-visible,
+.copy-btn:focus-visible,
+.checkbox:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+}
+
+/* V režimu vysokého kontrastu (Windows) se stíny nekreslí - fokus ukážeme obrysem */
+@media (forced-colors: active) {
+    .input:focus,
+    .icon-btn:focus-visible,
+    .copy-btn:focus-visible,
+    .checkbox:focus-visible {
+        outline: 2px solid;
+    }
+}
+
+/* Edge přidává do pole pro heslo vlastní "oko" a křížek - máme vlastní tlačítko */
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
+/* Automatické vyplnění nemá přebarvit pole na žluto / modře */
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover {
+    -webkit-text-fill-color: var(--text);
+    box-shadow: 0 0 0 1000px var(--field) inset;
+    caret-color: var(--text);
+}
+
+.input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--text);
+    box-shadow: 0 0 0 1000px var(--field) inset, var(--focus-ring);
+}
+
+/* ==========================================================================
+   Rozvržení stránky
+   ========================================================================== */
+.page {
+    width: 100%;
+    max-width: 960px;
+    margin-inline: auto;
+    padding: clamp(var(--space-xl), 6vh, 80px) clamp(var(--space-lg), 4vw, var(--space-3xl));
+}
+
+.masthead {
+    margin-bottom: var(--space-xl);
 }
 
 h1 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: clamp(1.5rem, 1.25rem + 1vw, 1.875rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
 }
 
-p {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 25px;
+.lede {
+    margin-top: var(--space-xs);
+    color: var(--text-muted);
 }
 
-/* Stylování inputu */
-/* Kontejner držící input a ikonku pospolu */
-.input-container {
-    position: relative;
+/* Jeden obdélník: vlevo pole formuláře, vpravo parametry */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    padding: clamp(var(--space-xl), 4vw, 34px);
+}
+
+.column--report {
+    border-left: 1px solid var(--line);
+}
+
+/* Tlačítko pod obdélníkem s malou mezerou */
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: var(--space-xl);
+}
+
+/* Na mobilu se seznam požadavků přesune hned pod heslo, aby byla zpětná vazba vidět při psaní */
+@media (max-width: 820px) {
+    .layout {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xl);
+        padding: var(--space-xl) clamp(var(--space-lg), 5vw, var(--space-xl));
+    }
+
+    .column {
+        display: contents;
+    }
+
+    .field--password { order: 1; }
+    .report          { order: 2; }
+    .field-group     { order: 3; }
+
+    .actions .btn {
+        width: 100%;
+    }
+}
+
+/* ==========================================================================
+   Formulářová pole
+   ========================================================================== */
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.field-label {
+    font-size: 0.9375rem;
+    font-weight: 500;
+}
+
+/* Malé nadpisy (Heslo, Povinné / Volitelné parametry) */
+.field--password .field-label,
+.group-heading {
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.input {
     width: 100%;
-    margin-bottom: 20px;
-}
-
-/* Stylování inputu - přidán padding napravo, aby text nepodlezl pod ikonku */
-input[type="password"],
-input[type="text"] {
-    width: 100%;
-    padding: 15px;
-    padding-right: 50px; /* ZDE je místo rezervované pro ikonku oka */
-    font-size: 1.1rem;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
+    min-height: 46px;
+    padding: 0 var(--space-md);
+    background: var(--field);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
     outline: none;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-input[type="password"]:focus,
-input[type="text"]:focus {
-    border-color: #007bff;
+.input::placeholder {
+    color: var(--text-faint);
+    opacity: 1;
 }
 
-/* Pozicování ikonky oka */
-.toggle-btn {
-    position: absolute;
-    right: 15px; /* Odstup od pravého okraje kontejneru */
-    top: 50%;
-    transform: translateY(-50%); /* Posune ikonku přesně na střed na výšku */
+.input:hover {
+    border-color: var(--text-faint);
+}
+
+.input:focus {
+    border-color: var(--accent);
+    box-shadow: var(--focus-ring);
+}
+
+.password-field {
+    position: relative;
+}
+
+.input--password {
+    min-height: 54px;
+    padding-right: 56px;
+    font-size: 1.125rem;
+}
+
+.input--password[type="password"]:not(:placeholder-shown) {
+    letter-spacing: 0.16em;
+}
+
+.icon-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
     background: none;
     border: none;
+    border-radius: var(--radius-sm);
+    color: var(--text-faint);
     cursor: pointer;
-    color: #888;
-    padding: 0;
-    display: flex; /* Pomáhá vycentrovat samotné SVG uvnitř tlačítka */
-    transition: color 0.3s ease;
+    transition: color 0.2s ease, background-color 0.2s ease;
 }
 
-.toggle-btn:hover {
-    color: #333; /* Po přejetí myší ikonka ztmavne */
+.icon-btn:hover {
+    color: var(--text);
+    background: var(--hover);
 }
 
-/* Stylování seznamu požadavků */
-.requirements-list {
+.password-field .icon-btn {
+    position: absolute;
+    right: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Oko -> přeškrtnuté oko, když je heslo zobrazené */
+.password-toggle .icon-hide,
+.password-toggle[aria-pressed="true"] .icon-show {
+    display: none;
+}
+
+.password-toggle[aria-pressed="true"] .icon-hide {
+    display: block;
+}
+
+/* Select s vlastní šipkou */
+.select {
+    position: relative;
+}
+
+.select select {
+    padding-right: 44px;
+    cursor: pointer;
+}
+
+.select::after {
+    content: "";
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    border-right: 1.5px solid var(--text-muted);
+    border-bottom: 1.5px solid var(--text-muted);
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+}
+
+.reveal {
+    animation: reveal 0.35s var(--ease-out);
+}
+
+/* MFA - prostý řádek s checkboxem */
+.option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    min-height: 44px;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    background: var(--field);
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.option:hover .checkbox {
+    border-color: var(--text-faint);
+}
+
+.checkbox::after {
+    content: "";
+    width: 5px;
+    height: 10px;
+    margin-top: -2px;
+    border-right: 2px solid var(--on-accent);
+    border-bottom: 2px solid var(--on-accent);
+    transform: rotate(45deg) scale(0);
+    transition: transform 0.2s var(--ease-out);
+}
+
+.checkbox:checked,
+.option:hover .checkbox:checked {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.checkbox:checked::after {
+    transform: rotate(45deg) scale(1);
+}
+
+/* ==========================================================================
+   Parametry hesla
+   ========================================================================== */
+.group-heading {
+    padding-bottom: var(--space-sm);
+}
+
+.group-heading:not(:first-child) {
+    margin-top: var(--space-xl);
+}
+
+.requirements {
     list-style: none;
 }
 
 .requirement {
-    font-size: 0.95rem;
-    color: #888;
-    margin-bottom: 10px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr) auto;
     align-items: center;
-    transition: color 0.3s ease;
+    gap: var(--space-md);
+    padding: 9px 0;
+    border-top: 1px solid var(--line);
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    transition: color 0.2s ease;
 }
 
-/* Přidáno :first-child, aby se šířka 20px aplikovala JEN na ikonku */
-.requirement span:first-child {
-    margin-right: 10px;
-    font-size: 1.1rem;
-    width: 20px;
-    text-align: center;
-    display: inline-block; /* Pomáhá udržet správný tvar u prvního elementu */
+.req-code {
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-faint);
+    transition: color 0.2s ease;
 }
 
-/* Stylování nadpisů nad seznamy */
-.req-heading {
-    font-size: 1.05rem;
-    margin-top: 15px;
-    margin-bottom: 10px;
-    color: #444;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 5px;
+/* Stavový čtverec: prázdný -> vyplněný s fajfkou / křížkem.
+   Text uvnitř je jen pro čtečky obrazovky, vizuálně ho skryjeme. */
+.req-status {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    font-size: 0;
+    color: transparent;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-/* Třída pro splněný POVINNÝ požadavek (zelená) */
-.requirement.valid-mandatory {
-    color: #28a745;
+.req-status::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--on-state);
+    -webkit-mask: var(--mark) center / 14px no-repeat;
+    mask: var(--mark) center / 14px no-repeat;
+    opacity: 0;
+    transform: scale(0.4);
+    transition: opacity 0.15s ease, transform 0.25s var(--ease-out);
+}
+
+.requirement[data-state="valid"] {
+    --state: var(--ok);
+    --mark: var(--mark-check);
+}
+
+/* Splněný volitelný parametr má barvu akcentu (fialová / žlutá) */
+.requirement[data-kind="optional"][data-state="valid"] {
+    --state: var(--accent);
+}
+
+.requirement[data-state="invalid"] {
+    --state: var(--bad);
+    --mark: var(--mark-cross);
+}
+
+/* Vyhodnocený řádek (splněno / nesplněno) se celý obarví barvou stavu */
+.requirement:not([data-state="neutral"]) {
+    color: var(--state);
     font-weight: 500;
 }
 
-/* Třída pro NESPLNĚNÝ povinný požadavek (červená) */
-.requirement.invalid-mandatory {
-    color: #dc3545;
-    font-weight: 500;
+.requirement:not([data-state="neutral"]) .req-code {
+    color: var(--state);
 }
 
-/* Třída pro splněný VOLITELNÝ požadavek (modrá) */
-.requirement.valid-optional {
-    color: #007bff;
-    font-weight: 500;
+.requirement:not([data-state="neutral"]) .req-status {
+    background: var(--state);
+    border-color: var(--state);
 }
 
-/* Stylování kontejneru pro MFA checkbox */
-.mfa-container {
-    display: flex;
+.requirement:not([data-state="neutral"]) .req-status::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ==========================================================================
+   Tlačítka
+   ========================================================================== */
+.btn {
+    display: inline-flex;
     align-items: center;
-    margin-bottom: 20px; /* Vytvoříme mezeru před seznamem požadavků */
-}
-
-.mfa-container input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    margin-right: 10px;
-    cursor: pointer;
-    accent-color: #007bff; /* Změní barvu zaškrtnutého boxu na modrou (v moderních prohlížečích) */
-}
-
-.mfa-container label {
-    font-size: 0.95rem;
-    color: #555;
-    cursor: pointer;
-    user-select: none; /* Zabrání nechtěnému označování textu při klikání */
-}
-
-/* Kontejner pro bezpečnostní otázku */
-.security-question-container,
-.password-hint-container {
-    margin-bottom: 25px;
-    display: flex;
-    flex-direction: column; /* Prvky se poskládají hezky pod sebe */
-    gap: 10px; /* Vytvoří mezeru 10px mezi nadpisem, menu a polem */
-}
-
-.security-question-container label,
-.password-hint-container label {
-    font-size: 0.95rem;
-    color: #444;
-    font-weight: 500;
-}
-
-/* Stylování rozbalovacího menu (select) a pole pro odpověď */
-select, 
-.security-question-container input[type="text"],
-.password-hint-container input[type="text"] {
-    width: 100%;
-    padding: 12px;
-    font-size: 1rem;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    outline: none;
-    background-color: #fff;
-    color: #333;
-    transition: border-color 0.3s ease;
-    cursor: pointer;
-}
-
-select:focus, 
-.security-question-container input[type="text"]:focus,
-.password-hint-container input[type="text"]:focus {
-    border-color: #007bff;
-}
-
-/* Základní styl pro zprávu pod nápovědou */
-.hint-msg {
-    font-size: 0.85rem;
-    font-weight: 500;
-    margin-top: -5px;
-    transition: color 0.3s ease; /* Plynulá změna barvy */
-}
-
-/* Různé stavy zprávy */
-.msg-error { color: #dc3545; }   /* Červená - obsahuje heslo */
-.msg-warn { color: #ffc107; }    /* Oranžová - nesmysl nebo krátké */
-.msg-info { color: #17a2b8; }    /* Modrá - prázdné pole (edukace) */
-.msg-success { color: #28a745; } /* Zelená - vypadá to v pořádku */
-
-/* Třída, kterou bude náš JavaScript přidávat a odebírat */
-.hidden {
-    display: none !important; /* Důležité: Tímto prvek úplně zmizí ze stránky */
-}
-
-/* Kontejner pro tlačítko a zprávu */
-.submit-container {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-}
-
-/* Hlavní tlačítko */
-.primary-btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 14px 24px;
-    font-size: 1.1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.1s ease;
-    width: 100%;
-    font-weight: bold;
-}
-
-.primary-btn:hover {
-    background-color: #0056b3; /* Tmavší modrá při najetí myší */
-}
-
-.primary-btn:active {
-    transform: scale(0.98); /* Efekt "zamáčknutí" při kliknutí */
-}
-
-/* --- VYSKAKOVACÍ OKNO (MODAL) --- */
-.modal {
-    position: fixed; /* Zůstane na místě i při scrollování */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Poloprůhledné černé pozadí */
-    display: flex; /* Pomůže nám vycentrovat obsah */
     justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Ujistíme se, že je modal nad vším ostatním */
+    min-width: 200px;
+    min-height: 48px;
+    padding: 0 var(--space-xl);
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: filter 0.2s ease, transform 0.1s ease, opacity 0.2s ease;
 }
 
-/* Třída hidden zde zajistí, že flexbox nepřebije naše skrytí */
-.modal.hidden {
-    display: none !important;
+.btn--large {
+    min-width: 240px;
+    min-height: 54px;
+    padding: 0 var(--space-2xl);
+    font-size: 1.0625rem;
+}
+
+.btn--primary {
+    background: var(--accent);
+    color: var(--on-accent);
+}
+
+.btn--primary:hover {
+    filter: brightness(1.12);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: progress;
+}
+
+/* ==========================================================================
+   Vyskakovací okno (modal)
+   ========================================================================== */
+/* Okno je uprostřed díky margin: auto. Když se na nízkou obrazovku nevejde,
+   začne nahoře a dá se posouvat (place-items: center by ho uřízlo i nahoře). */
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    overflow-y: auto;
+    padding: var(--space-lg);
+    background: var(--scrim);
+    animation: fade 0.2s ease;
 }
 
 .modal-content {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 450px; /* Stejná šířka jako náš hlavní kontejner */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     position: relative;
-    text-align: center;
+    width: 100%;
+    max-width: 460px;
+    margin: auto;
+    padding: var(--space-2xl) clamp(var(--space-xl), 5vw, var(--space-2xl)) clamp(var(--space-xl), 5vw, var(--space-2xl));
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    animation: rise 0.35s var(--ease-out);
 }
 
-/* Speciální třídy pro úspěšný stav modalu */
+/* Úspěch - okno se přizpůsobí šířce textu; zalomí se, jen když se nevejde na šířku obrazovky */
 .modal-content.success-mode {
     width: fit-content;
-    max-width: 90vw; /* Pojistka pro mobilní telefony, aby okno nepřeteklo */
-}
-
-/* Zabráníme zalamování textu úspěšné zprávy */
-.modal-content.success-mode #modal-message {
-    white-space: nowrap; 
+    max-width: 100%;
 }
 
 .close-btn {
     position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 1.5rem;
-    color: #888;
+    top: var(--space-md);
+    right: var(--space-md);
+}
+
+.modal-title {
+    padding-right: var(--space-3xl);
+    margin-bottom: var(--space-lg);
+    font-weight: 700;
+    font-size: 1.375rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+}
+
+.modal-title[data-tone="success"] { color: var(--ok); }
+.modal-title[data-tone="error"]   { color: var(--bad); }
+
+.modal-message {
+    line-height: 1.55;
+}
+
+.modal-message p + p {
+    margin-top: var(--space-xl);
+}
+
+/* Flag + tlačítko pro zkopírování vedle sebe, oba prvky stejně vysoké */
+.flag-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.flag {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg);
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    user-select: all;
+}
+
+.copy-btn {
+    display: inline-grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    background: var(--field);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
     cursor: pointer;
-    transition: color 0.3s ease;
+    transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.close-btn:hover {
-    color: #333;
+.copy-btn:hover {
+    color: var(--text);
+    border-color: var(--text-faint);
+    background: var(--hover);
 }
 
-#modal-title {
-    margin-bottom: 15px;
-    font-size: 1.4rem;
+.copy-btn:active {
+    transform: translateY(1px);
 }
 
-#modal-message {
-    font-size: 1rem;
-    color: #444;
-    text-align: left; /* Text chyb zarovnáme doleva pro lepší čitelnost */
-    line-height: 1.5;
+.copy-btn .icon-done {
+    display: none;
 }
 
-/* Stylování seznamu konkrétních chyb */
+/* Potvrzení po zkopírování - ikonka se na chvíli změní na zelenou fajfku */
+.copy-btn[data-copied] {
+    color: var(--ok);
+    border-color: var(--ok);
+}
+
+.copy-btn[data-copied] .icon-copy {
+    display: none;
+}
+
+.copy-btn[data-copied] .icon-done {
+    display: block;
+    animation: rise 0.25s var(--ease-out);
+}
+
 .modal-error-list {
-    margin-top: 15px;
-    margin-left: 20px;
-    color: #dc3545; /* Červená barva pro chyby */
+    list-style: none;
+    margin-top: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
 }
 
+/* Stejný červený čtverec s křížkem jako v seznamu parametrů */
 .modal-error-list li {
-    margin-bottom: 5px;
+    position: relative;
+    padding-left: 30px;
+    color: var(--bad);
+}
+
+.modal-error-list li::before,
+.modal-error-list li::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-sm);
+}
+
+.modal-error-list li::before {
+    background: var(--bad);
+}
+
+.modal-error-list li::after {
+    background: var(--on-state);
+    -webkit-mask: var(--mark-cross) center / 13px no-repeat;
+    mask: var(--mark-cross) center / 13px no-repeat;
+}
+
+.modal-ok {
+    width: 100%;
+    margin-top: var(--space-xl);
+}
+
+/* ==========================================================================
+   Pohyb
+   ========================================================================== */
+@keyframes fade {
+    from { opacity: 0; }
+}
+
+@keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+}
+
+@keyframes reveal {
+    from { opacity: 0; transform: translateY(-4px); }
+}
+
+.masthead,
+.card {
+    animation: rise 0.6s var(--ease-out) backwards;
+}
+
+.card {
+    animation-delay: 0.08s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0s !important;
+        transition-duration: 0.01ms !important;
+    }
 }

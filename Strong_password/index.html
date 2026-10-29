@@ -2,77 +2,151 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
+    <!-- Stránka smí načítat jen vlastní soubory; jediný cizí server je HIBP API pro kontrolu hesla.
+         (data: je potřeba pro ikonky fajfky / křížku v CSS) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src https://api.pwnedpasswords.com; base-uri 'none'; form-action 'none'">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kontrola síly hesla</title>
+    <meta name="color-scheme" content="light dark">
+    <title>Strong Password</title>
+    <!-- ?v= vynutí načtení nové verze ikony (prohlížeče ikony silně cachují) -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=3">
+    <!-- Písma jsou součástí projektu; přednačtení zabrání přeskočení písma po načtení -->
+    <link rel="preload" href="fonts/noto-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/noto-sans-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
-        <h1>Vytvořte si silné heslo</h1>
-        <p>Tréninkový nástroj pro tvorbu bezpečného hesla.</p>
-        
-        <div class="input-container">
-            <input type="password" id="password-input" placeholder="Zadejte heslo..." autofocus>
-            
-            <button type="button" id="toggle-password" class="toggle-btn" aria-label="Zobrazit heslo">
-                <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                    <circle cx="12" cy="12" r="3"></circle>
+    <main class="page">
+        <header class="masthead">
+            <h1>Vytvořte si silné heslo</h1>
+            <p class="lede">Tréninkový nástroj pro tvorbu bezpečného hesla. </p>
+        </header>
+
+        <div class="card">
+            <div class="layout">
+                <div class="column column--form">
+                    <div class="field field--password">
+                        <label class="field-label" for="password-input">Heslo</label>
+                        <div class="password-field">
+                            <input type="password" id="password-input" class="input input--password" placeholder="Zadejte heslo..." autocomplete="new-password" spellcheck="false" autofocus>
+                            <button type="button" id="toggle-password" class="icon-btn password-toggle" aria-label="Zobrazit heslo" aria-pressed="false">
+                                <svg class="icon-show" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                <svg class="icon-hide" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="option" for="mfa-checkbox">
+                            <input type="checkbox" id="mfa-checkbox" class="checkbox">
+                            <span>Zapnout vícefaktorovou autentizaci (MFA)</span>
+                        </label>
+
+                        <div class="field">
+                            <label class="field-label" for="sq-select">Nastavení bezpečnostní otázky:</label>
+                            <div class="select">
+                                <select id="sq-select" class="input">
+                                    <option value="none">Nenastavovat bezpečnostní otázku</option>
+                                    <option value="mother">Příjmení matky za svobodna</option>
+                                    <option value="pet">Jméno prvního domácího mazlíčka</option>
+                                    <option value="movie">Nejoblíbenější film</option>
+                                </select>
+                            </div>
+                            <input type="text" id="sq-answer" class="input reveal" placeholder="Zadejte odpověď..." aria-label="Odpověď na bezpečnostní otázku" hidden>
+                        </div>
+
+                        <div class="field">
+                            <label class="field-label" for="hint-input">Nápověda pro heslo (volitelné):</label>
+                            <input type="text" id="hint-input" class="input" placeholder="Zadejte nápovědu k heslu...">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column column--report">
+                    <section class="report" aria-label="Parametry hesla">
+                        <h2 class="group-heading">Povinné parametry</h2>
+                        <ul class="requirements">
+                            <li id="req-length" class="requirement" data-state="neutral">
+                                <span class="req-code" aria-hidden="true">Délka</span>
+                                <span id="length-text">Minimálně 15 znaků</span>
+                                <span class="req-status"></span>
+                            </li>
+                            <li id="req-pwned" class="requirement" data-state="neutral">
+                                <span class="req-code" aria-hidden="true">HIBP</span>
+                                <span id="pwned-text">Heslo nebylo kompromitováno</span>
+                                <span class="req-status"></span>
+                            </li>
+                        </ul>
+
+                        <h2 class="group-heading">Volitelné parametry</h2>
+                        <ul class="requirements">
+                            <li id="req-upper" class="requirement" data-state="neutral">
+                                <span class="req-code" aria-hidden="true">A–Z</span>
+                                <span>Alespoň jedno velké písmeno</span>
+                                <span class="req-status"></span>
+                            </li>
+                            <li id="req-lower" class="requirement" data-state="neutral">
+                                <span class="req-code" aria-hidden="true">a–z</span>
+                                <span>Alespoň jedno malé písmeno</span>
+                                <span class="req-status"></span>
+                            </li>
+                            <li id="req-number" class="requirement" data-state="neutral">
+                                <span class="req-code" aria-hidden="true">0–9</span>
+                                <span>Alespoň jedno číslo</span>
+                                <span class="req-status"></span>
+                            </li>
+                            <li id="req-special" class="requirement" data-state="neutral">
+                                <span class="req-code" aria-hidden="true">#!?</span>
+                                <span>Speciální znak (např. !@#$%^&amp;*)</span>
+                                <span class="req-status"></span>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button type="button" id="check-btn" class="btn btn--primary btn--large">Kontrola hesla</button>
+        </div>
+    </main>
+
+    <div id="result-modal" class="modal" hidden>
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-message">
+            <button type="button" id="close-modal" class="icon-btn close-btn" aria-label="Zavřít">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true">
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
                 </svg>
             </button>
-        </div>
-        
-        <div class="mfa-container">
-            <input type="checkbox" id="mfa-checkbox">
-            <label for="mfa-checkbox">Zapnout vícefaktorovou autentizaci (MFA)</label>
-        </div>
-
-        <div class="security-question-container">
-            <label for="sq-select">Nastavení bezpečnostní otázky:</label>
-            <select id="sq-select">
-                <option value="none">Nenastavovat bezpečnostní otázku</option>
-                <option value="mother">Příjmení matky za svobodna</option>
-                <option value="pet">Jméno prvního domácího mazlíčka</option>
-                <option value="movie">Nejoblíbenější film</option>
-            </select>
-            
-            <input type="text" id="sq-answer" class="hidden" placeholder="Zadejte odpověď...">
-        </div>
-
-        <div class="password-hint-container">
-            <label for="hint-input">Nápověda pro heslo (volitelné):</label>
-            <input type="text" id="hint-input" placeholder="Zadejte nápovědu k heslu...">
-            <span id="hint-message" class="hint-msg hidden"></span>
-        </div>
-        
-        <h3 class="req-heading">Povinné parametry</h3>
-        <ul class="requirements-list">
-            <li id="req-length" class="requirement"><span>○</span> <span id="length-text">Minimálně 15 znaků</span></li>
-            <li id="req-pwned" class="requirement"><span>○</span> Heslo nebylo kompromitováno (HIBP)</li>
-        </ul>
-
-        <h3 class="req-heading">Volitelné parametry</h3>
-        <ul class="requirements-list">
-            <li id="req-upper" class="requirement"><span>○</span> Alespoň jedno velké písmeno</li>
-            <li id="req-lower" class="requirement"><span>○</span> Alespoň jedno malé písmeno</li>
-            <li id="req-number" class="requirement"><span>○</span> Alespoň jedno číslo</li>
-            <li id="req-special" class="requirement"><span>○</span> Speciální znak (např. !@#$%^&*)</li>
-        </ul>
-
-        <div class="submit-container">
-            <button type="button" id="check-btn" class="primary-btn">Kontrola hesla</button>
+            <h2 id="modal-title" class="modal-title">Výsledek kontroly</h2>
+            <div id="modal-message" class="modal-message"></div>
+            <button type="button" id="modal-ok-btn" class="btn btn--primary modal-ok">Rozumím</button>
         </div>
     </div>
 
-    <div id="result-modal" class="modal hidden">
-        <div class="modal-content">
-            <span id="close-modal" class="close-btn" aria-label="Zavřít">&times;</span>
-            <h2 id="modal-title">Výsledek kontroly</h2>
-            <div id="modal-message"></div>
-            <button type="button" id="modal-ok-btn" class="primary-btn" style="margin-top: 20px;">Rozumím</button>
-        </div>
-    </div>
+    <!-- Řádek s flagem a tlačítkem pro zkopírování (vkládá se do modalu při úspěchu) -->
+    <template id="flag-template">
+        <p class="flag-row">
+            <strong class="flag">FLAG(silneheslo)</strong>
+            <button type="button" class="copy-btn" aria-label="Zkopírovat flag" title="Zkopírovat">
+                <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <svg class="icon-done" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </button>
+        </p>
+    </template>
 
     <script src="script.js"></script>
 </body>
