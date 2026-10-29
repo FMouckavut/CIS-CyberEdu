@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>AI/Real IMG</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <span class="brand">Skutečná fotografie, nebo AI?</span>
+      <span class="status" id="status" hidden>
+        <span>Správně <strong id="done">0</strong>/<span class="js-total">12</span></span>
+        <span class="muted">Chybně <span id="wrong">0</span></span>
+      </span>
+    </div>
+    <div class="bar" id="bar" role="progressbar" aria-label="Správně označeno" aria-valuemin="0" hidden><div class="bar-fill" id="bar-fill"></div></div>
+  </header>
+
+  <main>
+    <!-- Úvod -->
+    <section id="intro" class="intro">
+      <h1>AI generované obrázky</h1>
+      <p class="lead"> Vítejte ve cvičení na rozpoznávání AI obrázků. Úkolem je u každého z <span class="js-total">12</span> obrázků určit, zda jde o skutečnou fotografii, nebo o obrázek vytvořený AI. Nesprávně označený obrázek se později zobrazí znovu. </p>
+
+      <h2 class="label">Jak rozpoznat obrázek vytvořený AI</h2>
+      <ul class="tips">
+        <li>Prohlédněte si detaily: prsty, zuby, uši, šperky a brýle.</li>
+        <li>Zkontrolujte nápisy, cedule a registrační značky. AI často vytváří nesmyslný text.</li>
+        <li>Sledujte pozadí a okraje objektů, které často splývají nebo nedávají smysl.</li>
+        <li>Pomocí zpětného vyhledávání zjistěte, odkud obrázek pochází.</li>
+      </ul>
+      <p class="lead"> K dispozici jsou také odkazy na různé nástroje, které vám mohou pomoci. Buďte ale opatrní, žádný detektor není neomylný. Nejspolehlivější je ověřit si obrázek z více nezávislých zdrojů a zjistit odkud pochází.</p>
+
+      <button type="button" id="start" class="btn btn-primary btn-start" disabled>Začít</button>
+      <p id="load-error" class="error" role="alert" hidden>Nepodařilo se načíst soubor <code>images.json</code>. Web je nutné spustit přes webový server (např. Live Server ve VS Code), nikoli otevřením souboru z disku.</p>
+    </section>
+
+    <!-- Hra -->
+    <section id="game" class="game" hidden>
+      <div class="stage">
+        <p id="feedback" class="feedback" aria-live="polite"></p>
+        <figure id="figure" class="figure">
+          <button type="button" id="open-lightbox" class="img-btn" aria-label="Zvětšit obrázek">
+            <img id="photo" src="" alt="">
+          </button>
+        </figure>
+
+        <section class="answer-block" aria-label="Odpověď">
+          <div class="answers">
+            <button type="button" class="btn btn-answer" data-answer="real">
+              <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+              Skutečná fotografie <kbd>R</kbd>
+            </button>
+            <button type="button" class="btn btn-answer" data-answer="ai">
+              <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/></svg>
+              Vytvořeno AI <kbd>A</kbd>
+            </button>
+          </div>
+          <button type="button" id="next" class="btn btn-primary next" hidden>
+            Další obrázek
+            <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            <kbd>Enter</kbd>
+          </button>
+        </section>
+      </div>
+
+      <aside class="side">
+        <section class="block" aria-labelledby="tools-title">
+          <div class="label-row">
+            <h2 id="tools-title" class="label">Ověřovací nástroje</h2>
+            <span class="info" tabindex="0" aria-describedby="tools-info">
+              <svg class="i" viewBox="0 0 24 24" aria-label="Informace"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+              <span id="tools-info" class="tooltip" role="tooltip">Uvedené nástroje jsou pouze příklady. Můžete použít jakékoli jiné nástroje dle vlastního uvážení.</span>
+            </span>
+          </div>
+          <ul id="tools-list" class="tools"></ul>
+        </section>
+
+        <div class="download-block">
+          <a id="download" class="btn download" href="" download target="_blank">
+            <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+            Stáhnout obrázek
+          </a>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Konec -->
+    <section id="end" class="end" hidden>
+      <p class="eyebrow">Dokončeno</p>
+      <h1 id="end-title" tabindex="-1">Všechny obrázky byly označeny správně</h1>
+      <p class="lead">Zde je Vaše vlajka pro splnění úkolu: </p>
+      <div class="flag-row">
+        <code id="flag" class="flag"></code>
+        <button type="button" id="copy" class="btn">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="1"/><path d="M16 8V4H4v12h4"/></svg>
+          <span id="copy-label">Zkopírovat</span>
+        </button>
+      </div>
+
+      <dl class="stats">
+        <div><dt>Pokusů celkem</dt><dd id="stat-attempts"></dd></div>
+        <div><dt>Správně napoprvé</dt><dd><span id="stat-first"></span> / <span class="js-total">12</span></dd></div>
+      </dl>
+    </section>
+  </main>
+
+  <!-- Vyskakovací okno se zpětnou vazbou -->
+  <dialog id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-text">
+    <p class="eyebrow bad">Nesprávná odpověď</p>
+    <h2 id="modal-title"></h2>
+    <p id="modal-text"></p>
+    <button type="button" id="modal-ok" class="btn btn-primary" autofocus>Rozumím</button>
+  </dialog>
+
+  <!-- Lightbox -->
+  <dialog id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Zvětšený obrázek">
+    <p class="lb-hint">Obrázek lze přiblížit kliknutím nebo kolečkem myši</p>
+    <button type="button" id="lb-close" class="lb-close" aria-label="Zavřít">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div id="lb-stage" class="lb-stage"><img id="lb-img" src="" alt=""></div>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>

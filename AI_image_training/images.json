@@ -1,0 +1,85 @@
+{
+  "vlajka": "RmFsZXNueU9ic2Fo",
+  "textSkutecna": "Tento obrázek je skutečná fotografie, nebyl vytvořen umělou inteligencí.",
+  "obrazky": [
+    {
+      "id": 1,
+      "soubor": "img/01.jpeg",
+      "alt": "Portrét ženy zblízka",
+      "odpoved": "ai",
+      "vysvetleni": "Tento obličej vytvořila AI na webu thispersondoesnotexist.com. Podobné tváře se často používají u falešných profilů. Povšimněte si rozmazaného a nelogického pozadí, vlasů splývajících s okolím a nesouměrných doplňků (náušnice, brýle). Tyto generátory navíc umisťují oči téměř vždy na stejné místo uprostřed obrázku."
+    },
+    {
+      "id": 2,
+      "soubor": "img/02.jpg",
+      "alt": "Skupinové selfie na střeše",
+      "odpoved": "real"
+    },
+    {
+      "id": 3,
+      "soubor": "img/03.png",
+      "alt": "Příspěvek ze sociální sítě: papež v bílé bundě na ulici",
+      "odpoved": "ai",
+      "vysvetleni": "Tento obrázek vytvořil v roce 2023 nástroj Midjourney a oklamal miliony lidí po celém světě. Prozrazuje ho zdeformovaná ruka s lahví a řetízek kříže, který nepřirozeně splývá s oblečením. Zpětné vyhledávání obrázku by okamžitě nalezlo články vyvracející jeho pravost."
+    },
+    {
+      "id": 4,
+      "soubor": "img/04.jpg",
+      "alt": "Lidé na rovné pláni, ve které se zrcadlí nebe a mraky",
+      "odpoved": "real"
+    },
+    {
+      "id": 5,
+      "soubor": "img/05.jpg",
+      "alt": "Dřevěná bedýnka se zeleninou a ovocem z trhu",
+      "odpoved": "real"
+    },
+    {
+      "id": 6,
+      "soubor": "img/06.jpg",
+      "alt": "Ulice s tramvajovou zastávkou a obchody",
+      "odpoved": "ai",
+      "vysvetleni": "Tuto ulici vytvořila AI. Zaměřte se na nápisy, cedule a registrační značky. AI často vytváří znaky, které připomínají text, ale nedávají smysl. Obrázek navíc nese neviditelný vodoznak a údaje o původu (Content Credentials), které odhalí nástroj Content Credentials Verify."
+    },
+    {
+      "id": 7,
+      "soubor": "img/07.png",
+      "alt": "Skupinové selfie na horách u rozhledny",
+      "odpoved": "ai",
+      "vysvetleni": "Tento snímek byl vytvořen pomocí AI. Běžné příznaky AI jako jsou počet prstů, zvláštní zuby či odlesky v očích zde vypadají na první pohled v pořádku. Je nutné se tedy zaměřit na detaily, např. obrysy jednotlivých prvků, kde se oblečení navzájem slévá, nebo zvláštní detaily v pozadí. Nástroj Content Credentials Verify navíc ukáže, kterým nástrojem obrázek vznikl."
+    },
+    {
+      "id": 8,
+      "soubor": "img/08.jpg",
+      "alt": "Vrchol výškové budovy proti obloze",
+      "odpoved": "real"
+    },
+    {
+      "id": 9,
+      "soubor": "img/09.png",
+      "alt": "Zaplavené náměstí s hasiči na člunu",
+      "odpoved": "ai",
+      "vysvetleni": "Tuto „zpravodajskou“ fotografii povodně vytvořila AI. Falešné snímky katastrof se objevují bezprostředně po události a rychle se šíří, protože vyvolávají silné emoce. Povšimněte si nápisů na obchodech a značkách, které nedávají smysl, nejednotného oblečení hasičů nebo obrazu na displeji mobilu, který neodpovídá tomu, co je zrovna foceno. Před sdílením podobné fotografie je vhodné ověřit ji zpětným vyhledáváním a zjistit, zda o události informují důvěryhodná média."
+    },
+    {
+      "id": 10,
+      "soubor": "img/10.jpg",
+      "alt": "Obývací pokoj bytu z inzerátu",
+      "odpoved": "ai",
+      "vysvetleni": "Tento „byt k pronájmu“ neexistuje, vytvořila ho AI. Podvodníci takové fotografie používají ve falešných inzerátech, aby vylákali zálohu. Prozrazuje ho zrcadlo, které neodráží to, co by mělo, výhledy z oken, které k sobě nepasují, a předměty, které jsou nepřirozeně umístěné nebo splývají s okolím."
+    },
+    {
+      "id": 11,
+      "soubor": "img/11.jpg",
+      "alt": "Pes zblízka",
+      "odpoved": "real"
+    },
+    {
+      "id": 12,
+      "soubor": "img/12.jpg",
+      "alt": "Selfie mladé ženy v kavárně",
+      "odpoved": "ai",
+      "vysvetleni": "I tuto fotografii vytvořila AI. Moderní generátory již zvládají ruce i pleť velmi věrně, takže pouhým okem ji nemusí být možné rozpoznat. Podezřelé je až příliš dokonalé osvětlení a hladká pleť. V takovém případě pomohou spíše nástroje, například AI detektor Hive, a především zpětné vyhledávání. Skutečný člověk má fotografie i na jiných místech, tvář vytvořená AI nikoli."
+    }
+  ]
+}
