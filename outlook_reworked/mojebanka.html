@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internetové bankovnictví | Potvrzení</title>
+
+    <style>
+        :root {
+            --primary-blue: #002f6c; /* Typická bankovní modř */
+            --secondary-blue: #0056b3;
+            --success-green: #28a745;
+            --bg-gray: #f4f7f9;
+            --text-dark: #333333;
+            --text-muted: #6c757d;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-gray);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Simulovaná horní lišta banky */
+        .navbar {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-weight: 600;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        .user-info {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .main-wrapper {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .status-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            border-top: 6px solid var(--success-green);
+        }
+
+        .status-header {
+            padding: 30px;
+            text-align: center;
+            background: linear-gradient(to bottom, #ffffff, #fcfcfc);
+            border-bottom: 1px solid #eee;
+        }
+
+        .check-icon {
+            width: 60px;
+            height: 60px;
+            background: #e8f5e9;
+            color: var(--success-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin: 0 auto 15px;
+        }
+
+        .status-header h1 {
+            font-size: 22px;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        .amount-display {
+            padding: 30px;
+            text-align: center;
+            background: #f8f9fa;
+        }
+
+        .amount-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .amount-value {
+            font-size: 42px;
+            font-weight: 300;
+            color: var(--primary-blue);
+        }
+
+        .details-grid {
+            padding: 30px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .value {
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text-dark);
+            text-align: right;
+        }
+
+
+        .btn-container {
+            padding: 20px 30px 40px;
+            text-align: center;
+        }
+
+        .primary-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .primary-btn:hover {
+            background-color: var(--secondary-blue);
+        }
+
+        .security-footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+        }
+
+        @media (max-width: 480px) {
+            .amount-value { font-size: 32px; }
+            .detail-item { flex-direction: column; text-align: left; }
+            .value { text-align: left; margin-top: 4px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">MOJE BANKA</div>
+        <div class="user-info">Zabezpečená relace: <strong>Klient ID: 842109</strong></div>
+    </nav>
+
+    <div class="main-wrapper">
+        <div class="status-card">
+            <div class="status-header">
+                <div class="check-icon">✓</div>
+                <h1>Platba byla odeslána</h1>
+                <p style="color: var(--text-muted); font-size: 14px;">Vaše transakce byla úspěšně zpracována systémem.</p>
+            </div>
+
+            <div class="amount-display">
+                <div class="amount-label">Celková částka</div>
+                <div class="amount-value" id="transfer-amount">5 000 Kč</div>
+            </div>
+
+            <div class="details-grid">
+                <div class="detail-item">
+                    <span class="label">Z účtu:</span>
+                    <span class="value" id="victim-account">ÚČET_OBĚTI</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Na účet:</span>
+                    <span class="value" id="recipient-account">ÚČET_ÚTOČNÍKA</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Datum transakce:</span>
+                    <span class="value" id="transaction-time">---</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Referenční číslo:</span>
+                    <span class="value" id="reference-number">FLAG(ObrazkyZakazuj)</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Typ platby:</span>
+                    <span class="value">Okamžitá tuzemská platba</span>
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button class="primary-btn" onclick="window.close()">Zavřít přehled</button>
+            </div>
+        </div>
+
+
+        <div class="security-footer">
+            © 2024 Vaše Banka, a.s. | Tato stránka je chráněna šifrováním TLS.
+        </div>
+    </div>
+
+    <script>
+
+
+
+        window.addEventListener('load', function() {
+
+            const timestamp = new Date().getTime();
+
+            const date = new Date(parseInt(timestamp));
+            const timeString = date.toLocaleString('cs-CZ');
+
+            document.getElementById('transaction-time').textContent = timeString;
+            document.getElementById('url-display').textContent = window.location.href;
+        });
+    </script>
+</body>
+</html>

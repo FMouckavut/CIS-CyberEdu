@@ -1,0 +1,151 @@
+{
+    "groups": [
+        {
+            "id": "tento-tyden",
+            "label": "Tento týden",
+            "emails": [
+                {
+                    "id": 1,
+                    "isRead": false,
+                    "sender": {
+                        "name": "Česká pošta",
+                        "email": "info@ceskaposta-dorucovani.com",
+                        "initials": "ČP",
+                        "avatarColor": "marigold"
+                    },
+                    "recipients": "Novák Jan",
+                    "subject": "Vaše zásilka čeká na doručení – nutné potvrzení adresy",
+                    "date": "2026-10-28T09:12:00",
+                    "bodyHtml": "<p>Vážený zákazníku,</p><p>vaši zásilku č. <b>RR482736195CZ</b> se nám nepodařilo doručit z důvodu neúplné adresy příjemce. Zásilka je nyní uložena na naší depu.</p><p>Pro opětovné doručení je nutné potvrdit doručovací adresu a uhradit poplatek za opětovné doručení ve výši <b>34,00 Kč</b>.</p><p>Adresu potvrdíte a poplatek uhradíte zde:<br><a href=\"https://tinyurl.com/cp-dorucovani-cz\">https://www.postaonline.cz/zasilky/doruceni</a></p><p>Pokud adresu nepotvrdíte, zásilka bude:</p><ul><li>vrácena zpět odesílateli,</li><li>zatížena poplatkem za uskladnění 89 Kč/den,</li><li>a další zásilky na vaši adresu budou dočasně pozastaveny.</li></ul><p>Potvrzení je nutné provést <strong>do 24 hodin</strong> od doručení této zprávy.</p><p>Podací štítek zásilky si můžete stáhnout zde: <a href=\"hxxps://cp-dorucovani-stitky.com/download/Stitek_zasilky.pdf.exe\">Stitek_zasilky.pdf</a></p><p>Děkujeme, že využíváte služeb České pošty.</p><p>S pozdravem,<br>Zákaznický servis<br>Česká pošta, s.p.</p><hr><p><small>Tato zpráva byla vygenerována automaticky, neodpovídejte na ni. © 2026 Česká pošta, s.p.</small></p>",
+                    "type": "phishing"
+                },
+                {
+                    "id": 2,
+                    "isRead": false,
+                    "sender": {
+                        "name": "Alza.cz",
+                        "email": "sluzebnicek@alza.cz",
+                        "initials": "AL",
+                        "avatarColor": "gray"
+                    },
+                    "recipients": "Novák Jan",
+                    "subject": "Děkujeme za objednávku 512847396",
+                    "date": "2026-10-27T16:40:00",
+                    "bodyHtml": "<div style='font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1a1a1a;'><table style='width:100%;border-collapse:collapse;border-bottom:1px solid #e6e6e6;'><tr><td style='padding:16px 8px;'><span style='display:inline-block;background-color:#1a3a7a;color:white;font-weight:700;font-size:18px;padding:0 7px;transform:rotate(-8deg);'>a</span> <span style='color:#1a3a7a;font-size:22px;font-weight:700;font-style:italic;'>alza.cz</span></td><td style='padding:16px 8px;text-align:right;'><a href='https://www.alza.cz/objednavky' style='color:#1a9ee5;text-decoration:none;font-size:14px;'>Objednávka 512847396</a></td></tr></table><div style='text-align:center;padding:28px 16px 8px;'><h1 style='font-size:26px;margin:0 0 16px 0;'><span style='color:#f6c625;font-size:22px;vertical-align:middle;'>●</span> Děkujeme za objednávku</h1><p style='font-size:15px;margin:0 0 16px 0;'>Objednávku jsme v pořádku přijali. O jejím zpracování vás budeme dále informovat e-mailem.</p><p style='font-size:15px;margin:0 0 20px 0;'>Děkujeme, vaše Alza.cz</p><a href='https://www.alza.cz/objednavky' style='display:inline-block;border:1px solid #e6e6e6;border-radius:6px;padding:12px 18px;margin:4px;color:#1a1a1a;text-decoration:none;font-size:14px;'>Zaplatit online</a><a href='https://www.alza.cz/objednavky' style='display:inline-block;border:1px solid #e6e6e6;border-radius:6px;padding:12px 18px;margin:4px;color:#1a1a1a;text-decoration:none;font-size:14px;'>Podrobnosti a změna</a><a href='https://www.alza.cz/objednavky' style='display:inline-block;border:1px solid #e6e6e6;border-radius:6px;padding:12px 18px;margin:4px;color:#1a1a1a;text-decoration:none;font-size:14px;'><span style='color:#e8423b;'>✕</span> Zrušit</a></div><div style='border:1px solid #e6e6e6;border-radius:10px;margin:20px 8px;padding:8px 20px;'><table style='width:100%;border-collapse:collapse;font-size:15px;'><tr><td style='padding:12px 0;'>1x <a href='https://www.alza.cz/' style='color:#1a9ee5;text-decoration:none;'>Sluchátka Xiaomi Redmi Buds 6 Active černá</a></td><td style='padding:12px 0 12px 16px;text-align:right;white-space:nowrap;'>599 Kč<br><span style='color:#3d9a1f;'>Rezervováno pro vás</span></td></tr><tr><td style='padding:12px 0;'>1x <a href='https://www.alza.cz/' style='color:#1a9ee5;text-decoration:none;'>Datový kabel AlzaPower Core USB-C to USB-C 1 m černý</a></td><td style='padding:12px 0 12px 16px;text-align:right;white-space:nowrap;'>199 Kč<br><span style='color:#3d9a1f;'>Rezervováno pro vás</span></td></tr><tr><td style='padding:12px 0;'>1x <a href='https://www.alza.cz/' style='color:#1a9ee5;text-decoration:none;'>Doprava - AlzaBox, , Platba - Kartou online</a></td><td style='padding:12px 0 12px 16px;text-align:right;white-space:nowrap;'>69 Kč<br><span style='color:#3d9a1f;'>Rezervováno pro vás</span></td></tr><tr><td style='padding:12px 0;'>1x <a href='https://www.alza.cz/' style='color:#1a9ee5;text-decoration:none;'>Sleva na dopravné - AlzaBox</a></td><td style='padding:12px 0 12px 16px;text-align:right;white-space:nowrap;'>-20 Kč<br><span style='color:#3d9a1f;'>Rezervováno pro vás</span></td></tr><tr><td style='padding:16px 0 8px;font-weight:700;'>Celkem k úhradě (včetně DPH)</td><td style='padding:16px 0 8px;text-align:right;font-weight:700;white-space:nowrap;'>847,00 Kč</td></tr><tr><td colspan='2' style='padding:8px 0 12px;border-top:1px solid #e6e6e6;'>Zvolený způsob úhrady: Kartou online</td></tr></table></div><div style='padding:24px 8px;font-size:13px;line-height:1.6;'><p style='margin:0;'><strong>Na tento e-mail prosím neodpovídejte, byl vám zaslán automaticky v souvislosti s objednávkou.</strong><br><strong>Tento e-mail slouží jako potvrzení o uzavření kupní smlouvy.</strong><br>Pokud si nejste jistí, zda zpráva byla určena pro vás, kontaktujte naší infolinku.</p><p style='margin:4px 0;font-size:11px;'>Alza.cz a.s., se sídlem Jankovcova 1522/53, Praha 7 – Holešovice, IČO 27082440, zapsaná v obchodním rejstříku vedeném Městským soudem v Praze, oddíl B, vložka 8573</p><a href='https://www.alza.cz/vseobecne-obchodni-podminky' style='color:#e8642c;text-decoration:none;'>Všeobecné obchodní podmínky</a><p style='text-align:center;margin:24px 0 0 0;font-size:15px;'><span style='color:#e8423b;'>♥</span> Vaše Alza.cz</p></div></div>",
+                    "type": "normal"
+                },
+                {
+                    "id": 3,
+                    "isRead": false,
+                    "sender": {
+                        "name": "Microsoft 365",
+                        "email": "security-noreply@microsoft365-vut.com",
+                        "initials": "M",
+                        "avatarColor": "steel"
+                    },
+                    "recipients": "Novák Jan; Svobodová Eva; Dvořák Tomáš; Černá Hana; Procházka Lukáš; Kučerová Anna; Veselý Jiří; Krejčí Lenka; Horák Petr; Pokorná Alena; Marek Jakub; Pospíšilová Jana; Hájek Martin; Jelínek David; Král Michal; Růžičková Marie; Beneš Josef; Fiala Pavel; Sedláček Milan; Zemanová Kateřina; Kolář Zdeněk; Vlčková Veronika; Kříž Štěpán; Navrátilová Petra; Sýkora Ondřej; Vacek Matěj; Machová Tereza; Kovář Filip; Štěpánek Václav; Šmídová Barbora; Hrubý Radek; Kadlec Adam; Kopecká Zuzana; Doležal Patrik; Urbanová Klára; Tesař Vojtěch; Novotný Roman; Ševčíková Michaela; Vítková Eliška; Slavík Dominik",
+                    "subject": "Neobvyklá aktivita přihlášení – vyžadována kontrola",
+                    "date": "2026-10-26T22:18:00",
+                    "bodyHtml": "<div style='font-family:Segoe UI,sans-serif;max-width:600px;margin:0 auto;'><div style='background-color:#0078d4;padding:16px 24px;'><span style='color:white;font-size:20px;font-weight:600;'>Microsoft</span></div><div style='padding:24px;border:1px solid #e0e0e0;border-top:none;'><p style='font-size:14px;color:#252525;'>Dobrý den,</p><p style='font-size:14px;color:#252525;'>zaznamenali jsme neobvyklý pokus o přihlášení k vašemu účtu <strong>j.novak@vut.cz</strong> z neznámého zařízení.</p><table style='width:100%;border-collapse:collapse;margin:16px 0;font-size:13px;'><tr style='background-color:#f5f5f5;'><td style='padding:8px 12px;font-weight:600;border:1px solid #e0e0e0;'>Země/oblast</td><td style='padding:8px 12px;border:1px solid #e0e0e0;'>Rumunsko (Bukurešť)</td></tr><tr><td style='padding:8px 12px;font-weight:600;border:1px solid #e0e0e0;'>IP adresa</td><td style='padding:8px 12px;border:1px solid #e0e0e0;'>185.215.113.47</td></tr><tr style='background-color:#f5f5f5;'><td style='padding:8px 12px;font-weight:600;border:1px solid #e0e0e0;'>Platforma</td><td style='padding:8px 12px;border:1px solid #e0e0e0;'>Windows 11 – Chrome 124.0</td></tr><tr><td style='padding:8px 12px;font-weight:600;border:1px solid #e0e0e0;'>Datum a čas</td><td style='padding:8px 12px;border:1px solid #e0e0e0;'>26. 10. 2026, 20:52 UTC</td></tr></table><p style='font-size:14px;color:#252525;'>Pokud jste se přihlásili vy, můžete tuto zprávu ignorovat. Pokud ne, doporučujeme okamžitě zkontrolovat aktivitu vašeho účtu a zabezpečit přihlašovací údaje.</p><div style='text-align:center;margin:24px 0;'><a href='https://microsoft365-vut.com/security/review-activity' style='background-color:#0078d4;color:white;padding:12px 32px;text-decoration:none;font-size:14px;font-weight:600;border-radius:4px;display:inline-block;'>Zkontrolovat aktivitu účtu</a></div><p style='font-size:13px;color:#666;'>Pokud tlačítko nefunguje, zkopírujte následující odkaz do prohlížeče:<br><span style='color:#0078d4;word-break:break-all;'>https://microsoft365-vut.com/security/review-activity?uid=168149&token=eyJhbGciOiJSUz</span></p><hr style='border:none;border-top:1px solid #e0e0e0;margin:20px 0;'><p style='font-size:11px;color:#999;'>Toto je automatické oznámení zabezpečení Microsoft 365. Neodpovídejte na tuto zprávu.<br>© 2026 Microsoft Corporation, One Microsoft Way, Redmond, WA 98052</p></div></div>",
+                    "type": "phishing"
+                }
+            ]
+        },
+        {
+            "id": "minuly-tyden",
+            "label": "Tento měsíc",
+            "emails": [
+                {
+                    "id": 4,
+                    "isRead": false,
+                    "sender": {
+                        "name": "Jana Nováková",
+                        "email": "jana.novakova62@seznam.cz",
+                        "initials": "JN",
+                        "avatarColor": "pink"
+                    },
+                    "recipients": "Novák Jan",
+                    "subject": "Neděle u babičky",
+                    "date": "2026-10-22T19:34:00",
+                    "bodyHtml": "<p>Ahoj Honzo,</p><p>tak jsme se s tátou domluvili, že v neděli pojedeme k babičce na oběd. Bude svíčková, tak si nic nedomlouvej :) Přijede i Lenka s dětmi, Kubík se na tebe moc těší, prý mu máš ukázat tu hru, co jste spolu hráli v létě.</p><p>Vyzvedneme tě v Brně u nádraží kolem půl jedenácté, ať nemusíš jet vlakem. A prosím tě, nezapomeň na tu krabici s fotkama, co sis od babičky půjčil, chce je ukázat tetě Věře.</p><p>Kdyby se něco změnilo, zavolej mi večer, přes den jsem v práci a telefon moc nekontroluju.</p><p>Pa, máma</p>",
+                    "type": "normal"
+                },
+                {
+                    "id": 5,
+                    "isRead": false,
+                    "sender": {
+                        "name": "Petr Svoboda",
+                        "email": "petr.svoboda84@seznam.cz",
+                        "initials": "PS",
+                        "avatarColor": "grape"
+                    },
+                    "recipients": "Novák Jan; Svobodová Klára; Dvořák Tomáš; Horák Martin; Černá Hana; Kučera Ondřej; Malá Tereza; Pokorný David; Veselá Lucie; Kratochvíl Adam; Bártová Simona; Fiala Pavel",
+                    "subject": "Sdílený dokument",
+                    "date": "2026-10-20T23:47:00",
+                    "bodyHtml": "<p>Ahoj,</p><p>sdílel jsem s tebou důležitý dokument přes OneDrive. Prosím podívej se na něj co nejdřív a dej mi vědět.</p><div style='border:1px solid #e0e0e0;border-radius:6px;padding:16px;margin:16px 0;max-width:420px;font-family:Segoe UI,sans-serif;'><p style='margin:0 0 4px 0;font-size:13px;color:#666;'>Petr Svoboda s vámi sdílí soubor</p><p style='margin:0 0 12px 0;font-size:15px;font-weight:600;color:#252525;'>📄 Dokumenty_2026.pdf</p><a href='https://1drv-sdileni-souboru.com/view/Dokumenty_2026.pdf?share=jan.novak' data-open-url='assets/img/fun_image.jpg' style='background-color:#0078d4;color:white;padding:8px 20px;text-decoration:none;font-size:13px;font-weight:600;border-radius:4px;display:inline-block;'>Otevřít v OneDrive</a></div><p>Pro zobrazení se budeš muset přihlásit svým e-mailem a heslem.</p><p>Díky<br>Petr</p><p><small>Odesláno z mého iPhonu</small></p>",
+                    "type": "phishing"
+                },
+                {
+                    "id": 9,
+                    "isRead": false,
+                    "sender": {
+                        "name": "Clockify Team",
+                        "email": "no.reply@cIockify.com",
+                        "initials": "CT",
+                        "avatarColor": "blue"
+                    },
+                    "recipients": "Novák Jan",
+                    "subject": "Tried extra features? Try PRO for free",
+                    "date": "2026-10-19T11:00:00",
+                    "bodyHtml": "<div class='outlook-banner'><div class='info-icon'>i</div><div class='banner-text'>Některé části v této zprávě jsou zablokované, protože odesílatele nemáte v seznamu bezpečných odesílatelů.</div><div class='banner-buttons'><button class='banner-btn' data-reveal-img='logo-scheduling' data-reveal-src='assets/img/kalendar.svg' data-open-url='mojebanka.html?castka=5000&prijemce=UCET_UTOCNIKA&odesílatel=UCET_OBETI'>Důvěřovat odesílateli</button><button class='banner-btn' data-reveal-img='logo-scheduling' data-reveal-src='assets/img/kalendar.svg' data-open-url='mojebanka.html?castka=5000&prijemce=UCET_UTOCNIKA&odesílatel=UCET_OBETI'>Zobrazit blokovaný obsah</button></div></div><div class='email-body'><div class='image-container'><img id='logo-csrf' alt='Clockify' class='real-img blocked-image' style='width:150px;'><span style='background-color:#d13438;' class='image-tooltip'>GET MojeBanka?castka=5000&prijemce=UCET_UTOCNIKA&odesílatel=UCET_OBETI</span></div><h1>Tried extra features?</h1><p>Clockify is more than just a time tracker. Our additional features help you better manage projects and teammates. Try out the PRO features for free.</p><button class='btn-trial'>Start Free Trial</button><p></p><div class='image-container'><img id='logo-scheduling' alt='Scheduling' class='real-img blocked-image' style='width:150px;'><span style='background-color:darkgreen;' class='image-tooltip'>GET https://google.images.com/calendar.png</span></div><p><small>Invoicing • Expenses • Budgeting • Approvals</small></p></div><style>.outlook-banner { background-color: #f3f2f1; border-left: 4px solid #605e5c; padding: 6px 8px; display: flex; align-items: center; font-size: 13px; color: #323130; margin-bottom: 20px; max-width: 100%; gap: 12px; }.info-icon { background-color: #605e5c; color: white; border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; flex-shrink: 0; }.banner-text { flex: 1; line-height: 1.4; }.banner-buttons { display: flex; gap: 8px; flex-shrink: 0; }.banner-btn { background: #fff; border: 1px solid #c8c6c4; padding: 3px 6px; cursor: pointer; font-size: 12px; border-radius: 2px; white-space: nowrap; }.banner-btn:hover { background-color: #f0efed; }.email-body { background-color: #ffffff; max-width: 600px; margin: 0 auto; padding: 40px; text-align: center; }.placeholder-img { background-color: #f3f2f1; border: 1px dashed #a19f9d; color: #605e5c; padding: 20px; margin: 20px auto; display: block; width: 200px; text-decoration: none; }.real-img { max-width: 100%; height: auto; margin: 20px 0; }h1 { color: #201f1e; font-size: 28px; }p { color: #605e5c; line-height: 1.5; }.btn-trial { background-color: #4bb3fd; color: white; padding: 12px 30px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 20px; border: none; cursor: pointer; font-size: 16px; }.image-container { position: relative; display: inline-block; overflow: visible; }.image-tooltip { visibility: hidden; background-color: #323130; color: #fff; text-align: center; border-radius: 6px; padding: 10px 15px; position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); z-index: 3; opacity: 0; transition: opacity 0.3s; font-size: 12px; white-space: nowrap; }.image-container:hover .image-tooltip { visibility: visible; opacity: 1; }.blocked-image { cursor: zoom-in; }small { color: #949494; }</style>",
+                    "type": "phishing"
+                },
+                {
+                    "id": 6,
+                    "isRead": false,
+                    "sender": {
+                        "name": "Google",
+                        "email": "no-reply@accounts.google.com",
+                        "initials": "G",
+                        "avatarColor": "steel"
+                    },
+                    "recipients": "Novák Jan",
+                    "subject": "Bezpečnostní upozornění",
+                    "date": "2026-10-15T21:03:00",
+                    "bodyHtml": "<div style='font-family:Roboto,Arial,sans-serif;max-width:520px;margin:0 auto;border:1px solid #dadce0;border-radius:8px;padding:32px 24px;text-align:center;'><p style='font-size:22px;margin:0 0 8px 0;'><span style='color:#4285f4;'>G</span><span style='color:#ea4335;'>o</span><span style='color:#fbbc05;'>o</span><span style='color:#4285f4;'>g</span><span style='color:#34a853;'>l</span><span style='color:#ea4335;'>e</span></p><p style='font-size:20px;color:#202124;margin:8px 0;'>Nové přihlášení ve Windows</p><p style='font-size:14px;color:#3c4043;margin:0 0 16px 0;'>Jan.Novak@vut.cz</p><hr style='border:none;border-top:1px solid #dadce0;margin:16px 0;'><p style='font-size:14px;color:#3c4043;text-align:left;'>Zaznamenali jsme nové přihlášení k vašemu účtu Google na zařízení se systémem Windows. Pokud jste to byli vy, nemusíte nic dělat. Pokud ne, pomůžeme vám účet zabezpečit.</p><div style='margin:24px 0;'><a href='https://myaccount.google.com/notifications' style='background-color:#1a73e8;color:white;padding:10px 24px;text-decoration:none;font-size:14px;font-weight:500;border-radius:4px;display:inline-block;'>Zkontrolovat aktivitu</a></div><p style='font-size:12px;color:#5f6368;text-align:left;'>Bezpečnostní aktivitu si můžete prohlédnout také na adrese<br><a href='https://myaccount.google.com/notifications' style='color:#1a73e8;'>https://myaccount.google.com/notifications</a></p></div><p style='font-size:11px;color:#5f6368;text-align:center;max-width:520px;margin:12px auto;'>Tento e-mail jste dostali, abychom vás informovali o důležitých změnách ve vašem účtu Google a službách.<br>© 2026 Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA</p>",
+                    "type": "normal"
+                },
+                {
+                    "id": 7,
+                    "isRead": false,
+                    "sender": {
+                        "name": "Google One",
+                        "email": "storage-alert@g00gle-cloud.com",
+                        "initials": "GO",
+                        "avatarColor": "navy"
+                    },
+                    "recipients": "Novák Jan",
+                    "subject": "Vaše úložiště je plné – fotky a videa budou smazány",
+                    "date": "2026-10-12T10:20:00",
+                    "bodyHtml": "<div style='font-family:Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;'><div style='padding:20px 24px;border-bottom:1px solid #dadce0;'><span style='font-size:20px;color:#5f6368;'><span style='color:#4285f4;'>G</span><span style='color:#ea4335;'>o</span><span style='color:#fbbc05;'>o</span><span style='color:#4285f4;'>g</span><span style='color:#34a853;'>l</span><span style='color:#ea4335;'>e</span> One</span></div><div style='padding:24px;'><p style='font-size:14px;color:#202124;'>Dobrý den,</p><p style='font-size:14px;color:#202124;'>vaše úložiště Google je <strong style='color:#d93025;'>plné (15 GB z 15 GB)</strong>. Nové fotky a videa se již nezálohují a e-maily vám nemusí být doručeny.</p><p style='font-size:14px;color:#202124;'>Pokud úložiště nerozšíříte <strong>do 48 hodin</strong>, budou vaše nejstarší fotky a videa <strong>trvale smazány</strong>.</p><div style='background-color:#e8f0fe;border-radius:8px;padding:20px;text-align:center;margin:20px 0;'><p style='font-size:13px;color:#1a73e8;margin:0 0 4px 0;text-transform:uppercase;letter-spacing:1px;'>Věrnostní nabídka</p><p style='font-size:28px;font-weight:700;color:#202124;margin:0;'>50 GB za 1,99 Kč</p><p style='font-size:13px;color:#5f6368;margin:4px 0 0 0;'>jako poděkování za vaši věrnost</p></div><div style='text-align:center;margin:24px 0;'><a href='https://g00gle-cloud.com/one/upgrade?offer=loyalty50' style='background-color:#1a73e8;color:white;padding:12px 32px;text-decoration:none;font-size:14px;font-weight:500;border-radius:4px;display:inline-block;'>Získat 50 GB</a></div><p style='font-size:12px;color:#5f6368;'>Pro aktivaci nabídky bude vyžadováno ověření platební karty.</p><hr style='border:none;border-top:1px solid #dadce0;margin:20px 0;'><p style='font-size:11px;color:#999;'>© 2026 Google LLC. Tuto zprávu jste obdrželi, protože máte účet Google.</p></div></div>",
+                    "type": "phishing"
+                },
+                {
+                    "id": 8,
+                    "isRead": false,
+                    "sender": {
+                        "name": "Netflix",
+                        "email": "info@netflix-ucet-platby.com",
+                        "initials": "N",
+                        "avatarColor": "cranberry"
+                    },
+                    "recipients": "Novák Jan; Procházková Monika; Novotný Radek; Kolářová Petra; Marek Jiří; Šimková Eva; Beneš Lukáš; Zemanová Lenka; Doležal Michal; Vávrová Jitka; Holub Tomáš; Říhová Kateřina; Kubíček Josef",
+                    "subject": "Vaše členství bylo pozastaveno – platba se nezdařila",
+                    "date": "2026-10-06T06:15:00",
+                    "bodyHtml": "<div style='font-family:Helvetica Neue,Arial,sans-serif;max-width:560px;margin:0 auto;background-color:#ffffff;'><div style='background-color:#000000;padding:20px 24px;'><span style='color:#e50914;font-size:28px;font-weight:700;letter-spacing:1px;'>NETFLIX</span></div><div style='padding:28px 24px;'><h1 style='font-size:24px;color:#221f1f;margin:0 0 16px 0;'>Aktualizujte platební údaje</h1><p style='font-size:15px;color:#221f1f;'>Dobrý den,</p><p style='font-size:15px;color:#221f1f;'>bohužel jsme nemohli autorizovat platbu za vaše příští fakturační období. Vaše členství bylo proto <strong>pozastaveno</strong>.</p><p style='font-size:15px;color:#221f1f;'>Pokud své platební údaje neaktualizujete <strong>do 24 hodin</strong>, váš účet bude zrušen a přijdete o svůj profil, historii sledování i seznam Můj seznam.</p><div style='text-align:center;margin:28px 0;'><a href='http://netflix-ucet-platby.com/cz/billing/update' style='background-color:#e50914;color:white;padding:14px 40px;text-decoration:none;font-size:16px;font-weight:600;border-radius:4px;display:inline-block;'>Aktualizovat platbu</a></div><p style='font-size:15px;color:#221f1f;'>Potřebujete pomoc? Odpovězte na tento e-mail a náš tým vám rád pomůže.</p><p style='font-size:15px;color:#221f1f;'>Váš tým Netflix</p></div><hr style='border:none;border-top:1px solid #eee;'><div style='padding:16px 24px;'><p style='font-size:11px;color:#8c8c8c;margin:0;'>Tuto zprávu jste obdrželi jako člen Netflixu. Netflix International B.V.</p></div></div>",
+                    "type": "phishing"
+                }
+            ]
+        }
+    ]
+}

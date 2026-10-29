@@ -1,0 +1,2786 @@
+/* ==========================================================================
+   Outlook klon – všechny styly stránky
+
+   Obsah:
+     1. Fonty – webové fonty Outlooku (Segoe UI Web, ikonové fonty Fluent / MDL2)
+     2. Převzaté styly Outlooku / Fluent UI (zachycené ze snímku stránky)
+     3. Vlastní styly aplikace
+          3.1 Proměnné             3.7 Seznam zpráv
+          3.2 Základ stránky       3.8 Podokno pro čtení
+          3.3 Hlavička             3.9 Kontextová nabídka
+          3.4 Levý panel aplikací  3.10 Modální okna
+          3.5 Pás karet            3.11 Responzivita
+          3.6 Navigační podokno
+
+   Pořadí částí je důležité: při stejné specifičnosti vyhrává pravidlo, které je
+   v souboru později – vlastní úpravy (část 3) proto přebíjejí převzaté styly (část 2).
+   ========================================================================== */
+
+
+/* ##########################################################################
+   ČÁST 1: FONTY
+
+   Segoe UI Web (text) a ikonové fonty Fluent UI / Fabric MDL2.
+   Ponechány jsou jen řezy, které stránka skutečně používá.
+   ########################################################################## */
+
+@font-face {
+    font-family: "Segoe UI Web (East European)";
+    src: url("./assets/fonts/segoe-ui-web-east-european-400.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Segoe UI Web (East European)";
+    src: url("./assets/fonts/segoe-ui-web-east-european-600.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Segoe UI Web (East European)";
+    src: url("./assets/fonts/segoe-ui-web-east-european-700.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Segoe UI Web (West European)";
+    src: local("Segoe UI"), url("./assets/fonts/segoe-ui-web-west-european-400.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Segoe UI Web (West European)";
+    src: local("Segoe UI SemiBold"), url("./assets/fonts/segoe-ui-web-west-european-600.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Segoe UI Web (West European)";
+    src: local("Segoe UI Bold"), url("./assets/fonts/segoe-ui-web-west-european-700.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: FluentSystemIconsRegular;
+    src: url("./assets/fonts/fluent-system-icons-regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: FluentSystemIcons;
+    src: url("./assets/fonts/fluent-system-icons.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: ShellFabricMDL2IconsLite;
+    src: url("./assets/fonts/shell-fabric-mdl2-icons-lite.woff") format("woff");
+}
+
+@font-face {
+    font-family: ShellFabricMDL2Icons;
+    src: url("./assets/fonts/shell-fabric-mdl2-icons-400.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+/* ##########################################################################
+   ČÁST 2: PŘEVZATÉ STYLY OUTLOOKU / FLUENT UI
+
+   Vygenerováno z původního snímku stránky (SingleFile). Ponechány jsou jen
+   deklarace, které mají na stránce viditelný účinek (ověřeno ve všech stavech UI
+   a velikostech okna) – odstraněny jsou mj. styly pro režim vysokého kontrastu,
+   prefers-reduced-motion, stavy prvků, které nastat nemohou (focus nezaměřitelných
+   prvků, :disabled), a hodnoty přebité jinými pravidly. Původní generované názvy
+   tříd Outlooku (např. jGG6V, f1sxfq9t) jsou nahrazené popisnými názvy.
+   Pořadí pravidel je důležité (rozhoduje při stejné specifičnosti) – vlastní úpravy
+   proto patří do části 3.
+   ########################################################################## */
+
+.sender-avatar-wrap {
+    color: var(--neutralPrimary);
+    font-family: "Segoe UI Web (East European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+}
+
+.select-mode-content,
+.quick-steps-content {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-gray {
+    color: rgb(97, 97, 97);
+    fill: rgb(97, 97, 97);
+}
+
+/* Záložky Prioritní / Další (.pivot-tab); vybraná má navíc tučné písmo a modré podtržení */
+.pivot-tab {
+    position: relative;
+    font-family: "Segoe UI Web (East European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--neutralPrimary);
+    background-color: transparent;
+    line-height: 44px;
+}
+
+.pivot-link-selected {
+    font-weight: 600;
+}
+
+.pivot-tab:hover {
+    color: var(--neutralDark);
+    background-color: var(--neutralLighter);
+}
+
+.pivot-tab::before {
+    bottom: 0px;
+    content: "";
+    left: 8px;
+    position: absolute;
+    right: 8px;
+}
+
+.pivot-link-selected::before {
+    background-color: var(--themePrimary);
+    transition: left 0.267s cubic-bezier(0.1, 0.25, 0.75, 0.9), right 0.267s cubic-bezier(0.1, 0.25, 0.75, 0.9);
+}
+
+.pivot-tab::after {
+    color: transparent;
+    content: attr(data-content);
+    display: block;
+    font-weight: 700;
+    height: 1px;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+.pivot-link-selected:hover::before {
+    left: 0px;
+    right: 0px;
+}
+
+.pivot-tab-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.select-mode-btn:hover {
+    background-color: var(--neutralLighter);
+}
+
+.select-mode-btn:active {
+    background-color: var(--neutralLight);
+}
+
+.icon-green {
+    color: rgb(73, 130, 5);
+    fill: rgb(73, 130, 5);
+}
+
+.icon-red {
+    color: rgb(164, 38, 44);
+    fill: rgb(164, 38, 44);
+}
+
+.icon-blue {
+    color: rgb(0, 120, 212);
+    fill: rgb(0, 120, 212);
+}
+
+.summarize-icon {
+    display: flex;
+    font-size: 16px;
+    align-items: center;
+}
+
+.btn-base {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    vertical-align: middle;
+    overflow: hidden;
+    background-color: var(--colorNeutralBackground1);
+    color: var(--colorNeutralForeground1);
+    border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
+    font-family: var(--fontFamilyBase);
+    padding: 5px var(--spacingHorizontalM);
+    border-radius: var(--borderRadiusMedium);
+    font-size: var(--fontSizeBase300);
+    font-weight: var(--fontWeightSemibold);
+    line-height: var(--lineHeightBase300);
+    transition-duration: var(--durationFaster);
+    transition-property: background, border, color;
+    transition-timing-function: var(--curveEasyEase);
+}
+
+.btn-base:hover {
+    background-color: var(--colorNeutralBackground1Hover);
+    border-color: var(--colorNeutralStroke1Hover);
+    color: var(--colorNeutralForeground1Hover);
+    cursor: pointer;
+}
+
+.btn-base:hover:active,
+.btn-base:active:focus-visible {
+    background-color: var(--colorNeutralBackground1Pressed);
+    border-color: var(--colorNeutralStroke1Pressed);
+}
+
+.btn-icon {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+    --fui-Button__icon--spacing: var(--spacingHorizontalSNudge);
+}
+
+.avatar {
+    display: inline-block;
+    flex-shrink: 0;
+    position: relative;
+    vertical-align: middle;
+    border-radius: var(--borderRadiusCircular);
+    font-family: var(--fontFamilyBase);
+    font-weight: var(--fontWeightSemibold);
+    font-size: var(--fontSizeBase300);
+    width: 32px;
+    height: 32px;
+}
+
+.avatar-initials {
+    position: absolute;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    line-height: 1;
+    border: var(--strokeWidthThin) solid var(--colorTransparentStroke);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    user-select: none;
+    border-radius: inherit;
+}
+
+.quick-reply-btn:not([disabled]) {
+    border-top-color: var(--neutralTertiaryAlt);
+    border-right-color: var(--neutralTertiaryAlt);
+    border-bottom-color: var(--neutralTertiaryAlt);
+    border-left-color: var(--neutralTertiaryAlt);
+}
+
+.quick-action-icon {
+    display: flex;
+}
+
+.toolbar-menu-item:hover {
+    background-color: var(--colorNeutralBackground1Hover);
+    color: var(--colorNeutralForeground2Hover);
+}
+
+.toolbar-menu-item:hover .menu-item-icon {
+    color: var(--colorNeutralForeground2BrandSelected);
+}
+
+.toolbar-menu-item:hover:active {
+    background-color: var(--colorNeutralBackground1Pressed);
+}
+
+.menu-item-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    line-height: 0;
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.no-padding {
+    padding: 0px;
+}
+
+.ribbon {
+    padding: 0px 19px 0px 4px;
+}
+
+.toolbar-end {
+    place-content: flex-end;
+}
+
+.icon-font {
+    font-family: FluentSystemIcons;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.icon-line-height {
+    line-height: 1em;
+}
+
+.font-base {
+    font-family: var(--fontFamilyBase);
+}
+
+.font-regular {
+    font-weight: 400;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.btn-transparent {
+    background-color: transparent;
+}
+
+.toolbar-items {
+    align-items: center;
+    flex-grow: 1;
+}
+
+.icon-font-regular {
+    font-family: FluentSystemIconsRegular;
+}
+
+.icon-style {
+    font-style: normal;
+}
+
+.btn-borderless,
+.btn-borderless:hover,
+.btn-borderless:hover:active,
+.btn-borderless:active:focus-visible {
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.btn-subtle-bg {
+    background-color: transparent;
+}
+
+.text-secondary {
+    color: var(--colorNeutralForeground2);
+}
+
+.min-width-32 {
+    min-width: 32px;
+}
+
+.btn-compact {
+    padding: 5px;
+    max-width: 32px;
+}
+
+.height-20 {
+    height: 20px;
+}
+
+.btn-icon-gap {
+    margin-right: var(--fui-Button__icon--spacing);
+}
+
+.avatar-40 {
+    height: 40px;
+    width: 40px;
+}
+
+.copilot-btn {
+    border-radius: inherit;
+    font-size: 16px;
+    line-height: var(--lineHeightBase400);
+    min-width: 40px;
+    height: 100%;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.ribbon-btn-icon i {
+    width: inherit;
+    height: inherit;
+}
+
+.ribbon-btn-icon {
+    line-height: var(--lineHeightBase300);
+}
+
+.ribbon-btn-icon-disabled {
+    opacity: 0.4;
+}
+
+.list-toolbar-icon {
+    font-size: 20px !important;
+}
+
+.sort-icon {
+    margin-top: 2px;
+}
+
+.copilot-container {
+    border-radius: 16px;
+    height: 44px;
+    width: 44px;
+}
+
+.reaction-btn {
+    min-width: 28px;
+    height: 28px;
+    width: 28px;
+}
+
+.app-shell {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    z-index: 1000000;
+}
+
+.fluent-provider {
+    color: var(--colorNeutralForeground1);
+    font-size: var(--fontSizeBase300);
+}
+
+.reaction-icon {
+    user-select: none;
+    font-size: 16px;
+    color: var(--themePrimary);
+}
+
+.toolbar-overflow {
+    container-type: inline-size;
+    container-name: overflowContainer;
+}
+
+.toolbar-divider::before,
+.toolbar-divider::after {
+    content: "";
+    box-sizing: border-box;
+    display: flex;
+    flex-grow: 1;
+    border-right-color: var(--colorNeutralStroke2);
+    border-right-style: solid;
+    border-right-width: var(--strokeWidthThin);
+    min-height: 8px;
+}
+
+.btn-transparent:hover {
+    background-color: transparent;
+}
+
+.btn-transparent:hover:active,
+.btn-transparent:active:focus-visible {
+    background-color: transparent;
+}
+
+.btn-subtle-hover:hover .btn-icon {
+    color: var(--colorNeutralForeground2BrandHover);
+}
+
+.btn-borderless:hover:active .fui-Icon-regular,
+.btn-borderless:active:focus-visible .fui-Icon-regular {
+    display: none;
+}
+
+.btn-subtle-hover:hover:active .btn-icon,
+.btn-subtle-hover:active:focus-visible .btn-icon {
+    color: var(--colorNeutralForeground2BrandPressed);
+}
+
+.reaction-wrap {
+    max-height: 28px;
+    max-width: 28px;
+}
+
+.tree-icon {
+    align-items: center;
+    display: flex;
+    flex: 0 0 auto;
+    height: 100%;
+    justify-content: center;
+    padding-left: 2px;
+    width: 36px;
+}
+
+.chevron-icon:hover {
+    color: var(--black);
+}
+
+.chevron-icon {
+    font-size: 14px;
+}
+
+.nav-folder,
+.nav-section-header {
+    align-items: center;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nav-folder:hover,
+.nav-section-header:hover {
+    --displayNameColor: var(--black);
+}
+
+.nav-row.nav-folder,
+.nav-row.nav-section-header {
+    padding-right: 8px;
+}
+
+.nav-row.nav-folder:hover,
+.nav-row.nav-section-header:hover {
+    padding-right: 6px;
+}
+
+.nav-folder:hover {
+    --displayNameColor: var(--neutralDark);
+    background-color: var(--neutralQuaternaryAlt);
+}
+
+.nav-folder:active {
+    background-color: var(--neutralQuaternary);
+}
+
+.is-selected-folder {
+    --regularNodeBackgroundColor: var(--themeSecondarySurfaceSelected);
+    --displayNameFontWeight: var(--fontWeightSemibold);
+}
+
+.nav-row {
+    border-radius: 4px;
+}
+
+.nav-tree {
+    --nodeFontSize: 14px;
+    --allFoldersPadding: 26px;
+    --regularNodeHeight: 36px;
+}
+
+.nav-link,
+.nav-link:hover {
+    --displayNameColor: var(--themeDark);
+}
+
+.nav-folder {
+    background-color: var(--regularNodeBackgroundColor);
+    height: var(--regularNodeHeight);
+}
+
+.nav-section-header {
+    padding-bottom: 3px;
+    height: 36px;
+}
+
+.nav-folder-icon {
+    font-size: 20px;
+    padding-left: var(--allFoldersPadding);
+    padding-right: 6px;
+    width: auto;
+}
+
+.nav-row-label {
+    color: var(--displayNameColor, var(--neutralDark));
+    flex: 1 1 auto;
+    font-weight: var(--displayNameFontWeight, 400);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: var(--nodeFontSize, 12px);
+}
+
+.nav-section-title {
+    padding-left: 2px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.summarize-btn {
+    border-radius: 6px;
+    margin-bottom: -1px;
+    margin-right: 4px;
+    padding: 0 8px 0 6px;
+    height: 26px;
+    min-width: 108px;
+}
+
+.app-main,
+.app-columns {
+    align-items: stretch;
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.app-columns {
+    position: relative;
+}
+
+.email-item:active:hover {
+    background-color: var(--customBrandBackground3Pressed);
+}
+
+.email-item:hover {
+    background-color: var(--customBrandBackground3Hover);
+}
+
+.summarize-icon-inner {
+    height: 1em;
+}
+
+.summarize-icon-inner,
+.icon-fill {
+    contain: layout;
+}
+
+.icon-fill {
+    fill: currentColor;
+    font-weight: 400;
+    height: 100%;
+    vertical-align: top;
+}
+
+.summarize-label {
+    padding: 0 0 2px 6px;
+}
+
+.sender-heading,
+.sender-name-wrap {
+    color: var(--neutralDark);
+}
+
+.sender-name-wrap {
+    display: inline-block;
+    position: relative;
+    max-width: 100%;
+    word-break: break-all;
+}
+
+.sender-name {
+    display: flex;
+    height: 20px;
+    min-width: 20px;
+    white-space: normal;
+    word-break: break-word;
+}
+
+a,
+button,
+div,
+html,
+img,
+span {
+    border: 0;
+    font: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+body,
+button,
+div,
+html,
+img,
+span {
+    color: inherit;
+}
+
+.app-body :focus {
+    outline: 0;
+}
+
+.app-body {
+    cursor: default;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.selectable {
+    cursor: auto;
+    -webkit-user-select: text;
+    user-select: text;
+}
+
+@supports not (selector(::-webkit-scrollbar)) {
+    .custom-scrollbar {
+        scrollbar-color: var(--neutralSecondary) transparent;
+        scrollbar-width: thin;
+    }
+}
+
+.custom-scrollbar::-webkit-scrollbar-button:horizontal:increment {
+    background: conic-gradient(at 50% 50%, transparent 0 225deg, var(--neutralSecondary) 225deg 315deg, transparent 0);
+}
+
+.custom-scrollbar::-webkit-scrollbar-button:horizontal:increment:hover {
+    background: conic-gradient(at 50% 50%, transparent 0 225deg, var(--neutralPrimaryAlt) 225deg 315deg, transparent 0);
+}
+
+.custom-scrollbar::-webkit-scrollbar-button:horizontal:decrement {
+    background: conic-gradient(at 50% 50%, transparent 45deg, var(--neutralSecondary) 0deg, var(--neutralSecondary) 135deg, transparent 0);
+}
+
+.custom-scrollbar::-webkit-scrollbar-button:horizontal:decrement:hover {
+    background: conic-gradient(at 50% 50%, transparent 45deg, var(--neutralPrimaryAlt) 0deg, var(--neutralPrimaryAlt) 135deg, transparent 0);
+}
+
+.custom-scrollbar::-webkit-scrollbar-button:vertical:increment {
+    background: conic-gradient(at 50% 50%, var(--neutralSecondary) 45deg, transparent 0, transparent 315deg, var(--neutralSecondary)0);
+}
+
+.custom-scrollbar::-webkit-scrollbar-button:vertical:increment:hover {
+    background: conic-gradient(at 50% 50%, var(--neutralPrimaryAlt) 45deg, transparent 0, transparent 315deg, var(--neutralPrimaryAlt)0);
+}
+
+.custom-scrollbar::-webkit-scrollbar-button:single-button:horizontal,
+.custom-scrollbar::-webkit-scrollbar-button:single-button:vertical {
+    border: 5px solid transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-button:single-button:vertical:decrement {
+    background: conic-gradient(at 50% 50%, transparent 135deg, var(--neutralSecondary)0, var(--neutralSecondary) 225deg, transparent 0);
+    background-repeat: no-repeat;
+}
+
+.custom-scrollbar::-webkit-scrollbar-button:single-button:vertical:decrement:hover {
+    background: conic-gradient(at 50% 50%, transparent 135deg, var(--neutralPrimaryAlt)0, var(--neutralPrimaryAlt) 225deg, transparent 0);
+    background-repeat: no-repeat;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    height: 18px;
+    width: 18px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-button,
+.custom-scrollbar::-webkit-scrollbar-corner {
+    background: transparent;
+    cursor: pointer;
+}
+
+.custom-scrollbar::-webkit-scrollbar-button:vertical:decrement,
+.custom-scrollbar::-webkit-scrollbar-button:vertical:decrement:hover,
+.custom-scrollbar::-webkit-scrollbar-button:vertical:increment,
+.custom-scrollbar::-webkit-scrollbar-button:vertical:increment:hover {
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 18px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-button:horizontal:decrement,
+.custom-scrollbar::-webkit-scrollbar-button:horizontal:decrement:hover,
+.custom-scrollbar::-webkit-scrollbar-button:horizontal:increment,
+.custom-scrollbar::-webkit-scrollbar-button:horizontal:increment:hover {
+    background-repeat: no-repeat;
+    height: 18px;
+    width: 16px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb,
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-clip: content-box;
+    border: 6px solid transparent;
+    border-radius: 9px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--neutralSecondary);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--neutralPrimaryAlt);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:vertical {
+    min-height: 50px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:horizontal {
+    min-width: 50px;
+}
+
+.header-font-icon {
+    font-size: 20px;
+}
+
+.header-svg-icon {
+    line-height: 0;
+    font-size: 20px;
+}
+
+.workspace {
+    background-color: var(--neutralSecondarySurface);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+}
+
+.main-area {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+}
+
+.content-area {
+    flex: 1 1 auto;
+    display: flex;
+    flex-flow: column;
+    overflow: hidden;
+}
+
+.content-row {
+    align-items: stretch;
+    display: flex;
+    flex: 1 1 auto;
+    position: relative;
+}
+
+.mail-list-column {
+    width: 354px;
+    max-width: 1667px;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.mail-list-panel {
+    width: 350px;
+    max-width: 1663px;
+    border-right: 1px solid var(--neutralLight);
+    display: flex;
+    flex: 1 1 100%;
+    flex-direction: column;
+    position: relative;
+    border-radius: 4px 4px 0 0;
+    border-width: 0;
+    border-left: 1px solid var(--colorNeutralStroke2);
+    box-shadow: var(--shadow4);
+    margin: 8px 2px 0 0;
+    overflow: hidden;
+}
+
+.reading-pane {
+    min-width: 370px;
+    flex: 1 1 auto;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+.reading-pane,
+.main-area-column {
+    display: flex;
+}
+
+.main-area-column {
+    flex: 1;
+    flex-flow: column;
+    min-width: 0;
+}
+
+.main-area-row {
+    margin-left: 1px;
+    overflow: hidden;
+    display: flex;
+    height: 100%;
+}
+
+.email-sender {
+    color: var(--neutralDark);
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.email-sender-row {
+    align-items: center;
+    display: flex;
+    flex: 1 1 auto;
+    font-size: 14px;
+    line-height: 20px;
+    padding-top: 8px;
+    position: relative;
+}
+
+div.email-item:active,
+div.email-item:focus,
+div.email-item:focus-within {
+    outline: var(--colorBrandStroke1) solid 1px;
+    outline-offset: -1px;
+}
+
+div.email-item {
+    border-bottom: 1px solid var(--neutralTertiaryAlt);
+    width: 100%;
+}
+
+.email-item-inner {
+    display: flex;
+}
+
+.conversation-scroll {
+    box-sizing: border-box;
+    height: 100%;
+    overflow: auto;
+    position: relative;
+    scrollbar-gutter: stable;
+    will-change: scroll-position;
+}
+
+.conversation-spacer {
+    height: 128px;
+}
+
+.conversation {
+    animation: PYrle .2s ease-out;
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    margin: 0 0 8px;
+    min-width: 300px;
+    width: 100%;
+    z-index: 1;
+}
+
+@keyframes PYrle {
+    0% {
+        opacity: 0;
+        transform: translateY(5%)
+    }
+    
+    90% {
+        opacity: .2
+    }
+    
+    95% {
+        opacity: .5
+    }
+    
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+.conversation-list {
+    display: grid;
+    grid-auto-rows: max-content;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 6px;
+}
+
+.conversation-body {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.conversation-item:first-child .message-card {
+    border-radius: 4px;
+}
+
+.message-card {
+    color: var(--black);
+    border: 1px solid transparent;
+    box-shadow: var(--shadow4);
+    display: flex;
+    flex-direction: column;
+    margin: 2px;
+    padding: 6px 12px 12px;
+}
+
+.toolbar-row {
+    align-items: center;
+    box-shadow: var(--shadow4);
+    display: flex;
+    flex: 0 0 auto;
+}
+
+.subject-bar {
+    border-radius: 4px;
+    min-height: 44px;
+}
+
+.surface {
+    background-color: var(--neutralPrimarySurface);
+}
+
+.reading-pane-row {
+    height: 100%;
+    display: flex;
+}
+
+.quick-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 12px 16px 0 48px;
+    position: relative;
+}
+
+.quick-reply-btn:hover:not([disabled]) {
+    background-color: var(--colorNeutralBackground1Hover);
+    border-color: var(--neutralTertiaryAlt);
+}
+
+.quick-reply-btn:active:not([disabled]) {
+    background-color: var(--themeLight);
+}
+
+.quick-reply-btn:active:not([disabled]).fui-Button,
+.quick-reply-btn:hover:not([disabled]).fui-Button {
+    color: var(--themeDarker);
+}
+
+.quick-reply-btn {
+    font-weight: 400;
+    margin-top: 4px;
+    min-width: 0;
+    white-space: nowrap;
+    color: unset;
+    margin-left: 4px;
+    background-color: var(--neutralPrimarySurface);
+}
+
+.sender-avatar-box {
+    float: left;
+    height: 34px;
+    margin-right: 8px;
+    position: relative;
+    top: 10px;
+}
+
+.message-header-row {
+    justify-content: space-between;
+    display: flex;
+    -webkit-user-select: text;
+    user-select: text;
+    cursor: pointer;
+}
+
+.sender-details {
+    flex: 0 5 auto;
+    flex-direction: column;
+    margin-left: 4px;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.sender-info,
+.sender-details {
+    display: flex;
+}
+
+.sender-info {
+    align-items: center;
+    flex-flow: column;
+    padding-top: 2px;
+}
+
+.message-date {
+    color: var(--neutralPrimary);
+    font-size: 12px;
+    text-align: right;
+}
+
+.message-divider {
+    margin: 0 16px 0 52px;
+}
+
+.sender-block {
+    display: flex;
+}
+
+.message-toolbar {
+    align-items: flex-end;
+    flex: 1 0 auto;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    padding-top: 6px;
+}
+
+.message-toolbar,
+.message-date-pad {
+    display: flex;
+    text-align: right;
+}
+
+.message-date-pad {
+    margin-left: 16px;
+    padding-top: 6px;
+}
+
+.message-date-row {
+    align-items: baseline;
+    display: flex;
+    justify-content: space-between;
+}
+
+.message-date-box {
+    flex: 0 0 auto;
+    min-height: 20px;
+    margin-right: 10px;
+}
+
+.sender-heading {
+    width: 100%;
+}
+
+.message-body {
+    color: var(--neutralDark);
+    font-size: 15px;
+    margin: 12px 16px 0 52px;
+    padding-bottom: 2px;
+    overflow-y: auto;
+    will-change: scroll-position;
+}
+
+.subject-heading {
+    font-weight: 600;
+    overflow: hidden;
+    width: 100%;
+    font-size: 16px;
+}
+
+.subject-inner {
+    display: flex;
+    min-height: 32px;
+}
+
+.subject-row {
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.subject-box {
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: inline-block;
+    overflow-wrap: anywhere;
+    padding: 6px 12px 6px 10px;
+    position: relative;
+    width: 100%;
+    z-index: 3;
+    min-height: 44px;
+    background-color: var(--neutralPrimarySurface);
+}
+
+.reading-pane-fill {
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+@container overflowContainer (max-width:700px) {
+    .toolbar-menu-item {
+        max-height: 28px;
+    }
+}
+
+.more-icon {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.action-icon-primary {
+    color: var(--themePrimary);
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.icon-azure,
+.quick-action-icon-azure {
+    color: #0078d4;
+}
+
+.icon-purple,
+.quick-action-icon-purple {
+    color: var(--purple);
+}
+
+.toolbar-menu-item {
+    border-radius: var(--borderRadiusMedium);
+    position: relative;
+    color: var(--colorNeutralForeground2);
+    background-color: var(--colorNeutralBackground1);
+    padding-right: var(--spacingVerticalSNudge);
+    padding-left: var(--spacingVerticalSNudge);
+    box-sizing: border-box;
+    max-width: 290px;
+    flex-shrink: 0;
+    gap: 4px;
+    font-family: Segoe UI Variable Text, Segoe UI, "Segoe UI Web (West European)", -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+    font-weight: 500;
+    align-items: center;
+    display: flex;
+    font-size: 12px;
+    justify-content: center;
+    min-height: 28px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.toolbar-item-square {
+    height: 28px;
+    min-width: 28px;
+    -webkit-user-select: none;
+    user-select: none;
+    width: 28px;
+}
+
+.toolbar-divider {
+    text-align: center;
+    font-size: var(--fontSizeBase200);
+    line-height: var(--lineHeightBase200);
+    box-sizing: border-box;
+    position: relative;
+    min-height: 20px;
+    max-width: 1px;
+    padding: 0 8px;
+}
+
+.nav-link-icon {
+    color: var(--themeDark);
+}
+
+.email-actions {
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 24px;
+    display: flex;
+}
+
+.pivot-tabs {
+    align-self: flex-end;
+}
+
+.pivot-tab-label {
+    align-items: center;
+    display: flex;
+    flex: 1 1 auto;
+    height: 16px;
+    overflow: hidden;
+    padding-bottom: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 8px;
+    position: relative;
+}
+
+.pivot-tab {
+    border-radius: 4px;
+    height: 32px;
+}
+
+.pivot-tab:active {
+    background-color: var(--neutralQuaternaryAlt);
+}
+
+.pivot-tab::before {
+    border-radius: 2px 2px 0 0;
+    height: 2px;
+    margin: 0 6px;
+}
+
+.pivot-text {
+    font-size: 16px;
+}
+
+.filter-btn,
+.sort-btn {
+    align-self: flex-end;
+    border: none;
+    cursor: pointer;
+    flex: 0 0 auto;
+    font-weight: 400;
+    min-width: auto;
+    padding: 8px;
+    height: 32px;
+}
+
+.email-text {
+    flex: 1 1 auto;
+    flex-flow: column nowrap;
+    overflow: hidden;
+    display: flex;
+}
+
+.email-avatar-column,
+.email-select {
+    position: relative;
+}
+
+.email-subject,
+.email-preview-row {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.email-preview-row {
+    color: var(--neutralPrimaryAlt);
+    font-size: 14px;
+    line-height: var(--textThreeColumnLineHeight, 16px);
+    display: flex;
+}
+
+.email-line-vars {
+    --textThreeColumnLineHeight: 20px;
+}
+
+.email-date {
+    flex: 0 0 auto;
+    font-size: 12px;
+    overflow: hidden;
+    padding-left: 16px;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.text-dark {
+    color: var(--neutralDark);
+}
+
+.email-preview-inner {
+    align-items: center;
+    display: flex;
+    flex: 1 1 auto;
+    overflow: inherit;
+    text-overflow: inherit;
+}
+
+.email-subject {
+    align-items: center;
+    display: flex;
+    flex: 1 1 auto;
+    line-height: 20px;
+}
+
+.email-subject-text,
+.email-subject {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.email-item {
+    background-color: var(--neutralPrimarySurface);
+    background-clip: padding-box;
+    overflow: hidden;
+}
+
+.email-preview {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.email-avatar-column {
+    align-self: flex-start;
+    flex: 0 0 auto;
+    align-items: center;
+    display: flex;
+    padding-top: 12px;
+    padding-left: 28px;
+}
+
+.email-subject-row {
+    align-items: center;
+    display: flex;
+    flex: 1 1 auto;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+.email-item-row {
+    align-items: center;
+    flex: 1 1 auto;
+    display: flex;
+    overflow: hidden;
+    padding-bottom: 12px;
+}
+
+.email-select {
+    cursor: pointer;
+    flex: 0 0 auto;
+    justify-content: center;
+    margin-right: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    width: 16px;
+    align-items: center;
+    display: flex;
+}
+
+.jump-btn {
+    border: none;
+    font-weight: 400;
+}
+
+.jump-icon {
+    font-size: 20px;
+}
+
+.mail-list-header {
+    background-color: var(--neutralPrimarySurface);
+    border-bottom: 1px solid var(--neutralTertiaryAlt);
+    display: flex;
+    flex: 0 0 auto;
+    flex-flow: column nowrap;
+    overflow: hidden;
+}
+
+.mail-list-header-inner {
+    align-items: baseline;
+    display: flex;
+    margin-bottom: 6px;
+    margin-top: 6px;
+    width: calc(100% - 70px);
+}
+
+.mail-list-toolbar {
+    padding-left: 64px;
+    align-items: center;
+    display: flex;
+    flex: 0 0 auto !important;
+    height: 44px;
+    padding-right: 24px;
+}
+
+.select-mode-btn {
+    position: relative;
+    font-family: "Segoe UI Web (East European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0px 4px;
+    background-color: transparent;
+    border-radius: 4px;
+    color: var(--neutralDark) !important;
+    width: 32px;
+}
+
+.list-toolbar-buttons {
+    align-self: center;
+    background-color: var(--neutralPrimarySurface);
+    display: flex;
+    position: absolute;
+    right: 12px;
+}
+
+.select-mode-icon {
+    margin: 0px 4px;
+    height: 16px;
+    line-height: 16px;
+    flex-shrink: 0;
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.nav-pane-scroll {
+    padding-left: 8px;
+}
+
+.nav-pane {
+    background-color: var(--neutralSecondarySurface);
+    margin: 8px 0 0;
+    border-radius: 4px 0 0 0;
+    display: flex;
+}
+
+.mail-list-items {
+    background-color: var(--neutralSecondarySurface);
+}
+
+.email-preview-wrap {
+    align-items: center;
+    display: flex;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.email-group-header:active:hover {
+    background-color: var(--customBrandBackground3Pressed);
+}
+
+.email-group-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.email-group-header:hover {
+    --moreButtonOpacity: 1;
+    background-color: var(--customBrandBackground3Hover);
+    color: var(--black);
+}
+
+.email-group-header {
+    align-items: center;
+    background-color: var(--neutralSecondarySurface);
+    border-bottom: 1px solid var(--neutralTertiaryAlt);
+    color: var(--neutralDark);
+    display: flex;
+    font-weight: 600;
+    height: 36px;
+    overflow: hidden;
+    padding-right: 24px;
+    cursor: pointer;
+}
+
+.group-collapse-icon {
+    display: flex;
+    margin-right: 16px;
+    color: var(--neutralDark);
+}
+
+.group-collapse-icon:hover {
+    color: var(--black);
+}
+
+.group-more-btn {
+    color: var(--colorNeutralForeground3);
+    height: 24px;
+    min-width: 0;
+    opacity: var(--moreButtonOpacity, 0);
+    padding: 0;
+    transition: opacity .12s;
+    width: 24px;
+    margin-left: auto;
+}
+
+.reading-pane-content {
+    flex: 1 1 auto;
+    position: relative;
+    background-color: var(--neutralSecondarySurface);
+}
+
+.chat-icon-wrap [class^=ms-Icon--],
+.chat-icon-wrap [class^=ms-Icon--]:before {
+    font-family: ShellFabricMDL2IconsLite, ShellFabricMDL2Icons;
+    display: inline-block;
+    line-height: 1;
+}
+
+.fluent-theme {
+    --borderRadiusMedium: 4px;
+    --borderRadiusCircular: 10000px;
+    --fontSizeBase200: 12px;
+    --fontSizeBase300: 14px;
+    --lineHeightBase200: 16px;
+    --lineHeightBase300: 20px;
+    --lineHeightBase400: 22px;
+    --fontFamilyBase: "Segoe UI", "Segoe UI Web (West European)", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+    --fontWeightSemibold: 600;
+    --strokeWidthThin: 1px;
+    --spacingHorizontalSNudge: 6px;
+    --spacingHorizontalM: 12px;
+    --spacingVerticalSNudge: 6px;
+    --durationFaster: 100ms;
+    --curveEasyEase: cubic-bezier(0.33, 0, 0.67, 1);
+    --colorNeutralForeground1: #242424;
+    --colorNeutralForeground1Hover: #242424;
+    --colorNeutralForeground2: #424242;
+    --colorNeutralForeground2Hover: #242424;
+    --colorNeutralForeground2BrandHover: #1883d3;
+    --colorNeutralForeground2BrandPressed: #0072C6;
+    --colorNeutralForeground2BrandSelected: #1883d3;
+    --colorNeutralForeground3: #616161;
+    --colorBrandForeground1: #1883d3;
+    --colorNeutralBackground1: #ffffff;
+    --colorNeutralBackground1Hover: #f5f5f5;
+    --colorNeutralBackground1Pressed: #e0e0e0;
+    --colorNeutralStroke1: #d1d1d1;
+    --colorNeutralStroke1Hover: #c7c7c7;
+    --colorNeutralStroke1Pressed: #b3b3b3;
+    --colorNeutralStroke2: #e0e0e0;
+    --colorBrandStroke1: #1883d3;
+    --colorTransparentStroke: transparent;
+    --shadow4: 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.14);
+}
+
+.tenant-logo-link {
+    max-width: 200px;
+    max-height: 48px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0;
+}
+
+.tenant-logo-link img {
+    max-width: 200px;
+    max-height: 48px;
+}
+
+.tenant-logo {
+    line-height: 48px;
+    display: flex;
+}
+
+.chat-icon-wrap .ms-Icon--OfficeChat:before {
+    content: "";
+}
+
+body {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-font-smoothing: antialiased;
+    font-family: "Segoe UI Web (West European)", Segoe UI, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+    overflow-wrap: break-word;
+}
+
+.is-hidden {
+    display: none !important;
+}
+
+
+/* ##########################################################################
+   ČÁST 3: VLASTNÍ STYLY APLIKACE
+   ########################################################################## */
+
+/* ---------- 3.1 Proměnné ---------- */
+
+:root {
+    --headerHeight: 48px;
+    --fontFamilyUi: "Segoe UI", "Segoe UI Web (West European)", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+
+    /* Barvy motivu Outlooku */
+    --black: #000000;
+    --white: #FFFFFF;
+    --neutralDark: #242424;
+    --neutralPrimary: #424242;
+    --neutralPrimaryAlt: #616161;
+    --neutralPrimarySurface: #FFFFFF;
+    --neutralSecondary: #808080;
+    --neutralSecondarySurface: #F5F5F5;
+    --neutralTertiary: #D1D1D1;
+    --neutralTertiaryAlt: #E0E0E0;
+    --neutralQuaternary: #E5E5E5;
+    --neutralQuaternaryAlt: #EBEBEB;
+    --neutralLight: #F0F0F0;
+    --neutralLighter: #F5F5F5;
+    --purple: #881798;
+    --themeDarker: #00497E;
+    --themeDark: #005DA1;
+    --themePrimary: #0072C6;
+    --themeLight: #DAECF9;
+    --themeSecondarySurfaceSelected: #F4F9FD;
+    --customBrandBackground3Hover: #EBF3FC;
+    --customBrandBackgroundforSelected3: #CFE4FA;
+    --customBrandBackground3Pressed: #B4D6FA;
+
+    /* Barvy modálních oken a výsledku úlohy */
+    --buttonPrimary: #0f6cbd;
+    --buttonPrimaryHover: #115ea3;
+    --success: #0e700e;
+    --danger: #c4314b;
+    --splitButtonBorder: #d6d5d5f1;
+}
+
+
+/* ---------- 3.2 Základ stránky ---------- */
+
+/* Stránka se jako celek nescrolluje – scrollují jen jednotlivé panely. */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Obal aplikace vyplní přesně okno prohlížeče: hlavička nahoře, zbytek pod ní
+   (position: absolute, top/left/right: 0 a z-index nastavuje část 2). */
+.app-shell {
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Flex položky se standardně nezmenší pod výšku obsahu; tady je to potřeba,
+   aby se seznam zpráv a podokno pro čtení vešly do okna a scrollovaly uvnitř. */
+.app-shell > .app-main,
+.content-area > .content-row {
+    min-height: 0;
+}
+
+/* Tenký scrollbar, který je vidět jen při najetí myší
+   (navigační podokno a seznam zpráv) */
+.nav-pane,
+.mail-list {
+    scrollbar-width: thin;                      /* Firefox */
+    scrollbar-color: transparent transparent;
+    transition: scrollbar-color 0.2s;
+}
+
+.nav-pane::-webkit-scrollbar,
+.mail-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.nav-pane::-webkit-scrollbar-track,
+.mail-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.nav-pane::-webkit-scrollbar-thumb,
+.mail-list::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 3px;
+}
+
+.nav-pane::-webkit-scrollbar-thumb {
+    transition: background 0.2s;
+}
+
+.nav-pane:hover::-webkit-scrollbar-thumb,
+.mail-list:hover::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.nav-pane:hover {
+    scrollbar-color: rgba(0, 0, 0, 0.5) transparent;
+}
+
+.mail-list:hover {
+    scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+}
+
+
+/* ---------- 3.3 Hlavička (modrá lišta nahoře) ---------- */
+
+.outlook-header {
+    flex: none;
+    height: var(--headerHeight);
+    background-color: var(--themePrimary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--white);
+}
+
+.header-left,
+.header-center,
+.header-right {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* Šířka odpovídá levému panelu + navigačnímu podoknu */
+.header-left {
+    width: 260px;
+}
+
+/* Vyhledávání lícuje se seznamem zpráv */
+.header-center {
+    flex: 1;
+    justify-content: flex-start;
+    padding-left: 12px;
+}
+
+.header-right {
+    justify-content: flex-end;
+    gap: 2px;
+}
+
+.header-icon-btn {
+    width: 48px;
+    height: 48px;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.1s;
+}
+
+.header-icon-btn:hover {
+    background-color: #0c5ea5;
+}
+
+/* Ikona 9 teček je o něco menší než ostatní */
+.header-icon-btn.app-launcher svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Logo VUT */
+.tenant-logo-link {
+    margin-left: 8px;
+    margin-right: 14px;
+}
+
+/* Nápis "Outlook" – zároveň skryté tlačítko pro vyhodnocení úlohy */
+.brand-link {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 20px;
+    margin-right: 30px;
+    line-height: var(--headerHeight);
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background-color: var(--white);
+    border-radius: 4px;
+    width: 335px;
+    height: 32px;
+    padding: 0 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin-left: 22px;
+}
+
+.search-icon {
+    color: #000000d9;
+    display: flex;
+    align-items: center;
+    margin-right: 6px;
+}
+
+.search-input {
+    background: transparent;
+    border: none;
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.search-input::placeholder {
+    color: var(--neutralPrimary);
+    opacity: 1;
+}
+
+.search-box:hover .search-input::placeholder,
+.search-box:focus-within .search-input::placeholder {
+    color: var(--neutralSecondary);
+}
+
+.profile-btn {
+    background: transparent;
+    padding: 0 8px;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.profile-initials {
+    background-color: var(--themePrimary);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.875);
+}
+
+
+/* ---------- 3.4 Levý panel aplikací (left rail) ---------- */
+
+.outlook-left-rail {
+    width: 48px;
+    background-color: var(--neutralLight);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid var(--neutralLight);
+    box-sizing: border-box;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    flex-shrink: 0;
+    z-index: 100;
+}
+
+.left-rail-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.left-rail-item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.left-rail-item a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 33px;
+    border-radius: 4px;
+    color: var(--neutralSecondary);
+    text-decoration: none;
+    transition: background-color 0.1s ease;
+}
+
+.left-rail-item a:hover {
+    background-color: var(--white);
+}
+
+.left-rail-item img {
+    width: 20px;
+}
+
+.left-rail-item.active a {
+    color: var(--themePrimary);
+}
+
+/* Modrý proužek vlevo u aktivní aplikace (Pošta) */
+.left-rail-item.active::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 34px;
+    background-color: var(--themePrimary);
+    border-radius: 0 2px 2px 0;
+}
+
+
+/* ---------- 3.5 Pás karet: záložky a panel akcí ---------- */
+
+/* Řádek se záložkami (Soubor, Domů, Zobrazení, Nápověda) */
+.outlook-top-bar {
+    display: flex;
+    align-items: center;
+    background-color: var(--neutralSecondarySurface);
+    padding: 0 8px 0 6px;
+}
+
+.top-bar-controls {
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+}
+
+.top-bar-btn {
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--neutralPrimary);
+    transition: background-color 0.1s ease-in-out;
+}
+
+.top-bar-btn:hover {
+    background-color: var(--neutralLighter);
+}
+
+/* Tlačítko s ikonou hamburger menu */
+.icon-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 20px;
+    color: var(--neutralSecondary);
+}
+
+/* Systémový ikonový font Windows (Segoe Fluent Icons / Segoe MDL2 Assets) */
+.fluent-icon {
+    font-family: 'Segoe Fluent Icons', 'Segoe MDL2 Assets', sans-serif;
+    font-style: normal;
+}
+
+.file-btn {
+    height: 36px;
+    padding: 0 6px;
+    font-size: 14px;
+    margin-left: 2px;
+    transition: background-color 0.1s;
+}
+
+.file-btn:hover,
+.tab-btn:hover {
+    background-color: var(--white);
+}
+
+.top-bar-tabs {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.tab-btn {
+    background: transparent;
+    height: 100%;
+    padding: 0 10px;
+    font-size: 14px;
+    color: var(--neutralPrimary);
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.1s;
+}
+
+.tab-btn.active {
+    font-weight: 600;
+}
+
+/* Modré podtržení aktivní záložky */
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 6px;
+    left: 8px;
+    right: 6px;
+    height: 2px;
+    width: calc(100% - 16px);
+    background-color: var(--themePrimary);
+}
+
+/* Řádek s panelem akcí a tlačítkem Copilot */
+.ribbon-actions-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ribbon-actions-row .copilot-container {
+    box-shadow: var(--shadow4);
+}
+
+/* Panel akcí – zabere všechen volný prostor vedle tlačítka Copilot */
+.outlook-action-bar {
+    height: 40px;
+    margin: 8px 0 8px 2px;
+    background-color: var(--white);
+    border-bottom: 1px solid #e1dfdd;
+    border-radius: 9px;
+    padding: 0 8px;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    padding: 0 6px;
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--neutralPrimary);
+    font-size: 14px;
+    transition: background-color 0.1s ease;
+}
+
+.action-btn:hover {
+    background-color: var(--neutralLighter);
+}
+
+.action-btn:active {
+    background-color: var(--neutralLight);
+}
+
+/* Tlačítko s rozbalovací šipkou má víc místa vpravo */
+.action-btn.has-menu {
+    padding: 0 10px 0 14px;
+}
+
+/* Ikony Fluent uvnitř tlačítek panelu akcí */
+.ribbon-icon {
+    contain: inherit;
+}
+
+/* Ikona "Další akce" (tři tečky) – systémový ikonový font Windows */
+.action-icon {
+    font-family: 'Segoe Fluent Icons', 'Segoe MDL2 Assets', sans-serif;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.action-separator {
+    width: 1px;
+    height: 24px;
+    background-color: var(--neutralTertiary);
+    flex-shrink: 0;
+}
+
+.teams-logo {
+    width: 16px;
+}
+
+/* Dělená tlačítka: "Nová zpráva" (modré) a "Rychlé kroky" (bílé).
+   Levá část má zaoblené jen levé rohy, šipka vpravo jen pravé. */
+.split-btn-container,
+.quick-steps-split {
+    display: flex;
+    align-items: center;
+}
+
+.split-btn-container .action-btn {
+    background-color: #1883d3;
+    color: var(--white);
+}
+
+.quick-steps-split .action-btn {
+    background-color: var(--white);
+    color: var(--neutralDark);
+}
+
+.split-btn-container .action-btn:hover {
+    background-color: var(--themePrimary);
+}
+
+.quick-steps-split .action-btn:hover {
+    background-color: var(--neutralLight);
+}
+
+.split-btn-main,
+.quick-steps-main {
+    border-radius: 4px 0 0 4px;
+}
+
+.split-btn-main {
+    padding: 0 8px;
+}
+
+.quick-steps-main {
+    padding: 0 5px;
+    border: 0.5px solid var(--splitButtonBorder);
+}
+
+.split-btn-chevron,
+.quick-steps-chevron {
+    border-radius: 0 4px 4px 0;
+    padding-right: 6px;
+}
+
+.split-btn-chevron {
+    border-left: 1px solid rgba(255, 255, 255, 0.4);
+    width: 22px;
+}
+
+.quick-steps-chevron {
+    border-right: 0.5px solid var(--splitButtonBorder);
+    border-top: 0.5px solid var(--splitButtonBorder);
+    border-bottom: 0.5px solid var(--splitButtonBorder);
+    width: 20px;
+}
+
+
+/* ---------- 3.6 Navigační podokno se složkami ---------- */
+
+/* Pevná šířka a vlastní scrollování; výšku dává flex rodič */
+.nav-pane {
+    flex: 0 0 246px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Sekce (Oblíbené, Jan.Novak@vut.cz) */
+.nav-section {
+    padding-bottom: 12px;
+}
+
+.nav-chevron {
+    background: transparent;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Počet nepřečtených zpráv vedle "Doručená pošta" (vkládá script.js) */
+.unread-badge {
+    margin-right: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--colorBrandForeground1);
+}
+
+
+/* ---------- 3.7 Seznam zpráv ---------- */
+
+/* Scroll kontejner seznamu – vyplní zbytek sloupce pod záložkami a filtry */
+.mail-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    will-change: scroll-position;   /* vlastní vrstva – stejné vyhlazování písma jako v Outlooku */
+}
+
+/* Záhlaví skupiny ("Tento týden", "Tento měsíc"; generuje script.js) */
+.email-group-header {
+    padding-left: 40px;
+}
+
+/* Hláška, když se nepodaří načíst emails.json */
+.email-list-error {
+    margin: 0;
+    padding: 16px;
+    color: var(--danger);
+}
+
+/* Vybraná zpráva je vždy světle modrá – i při najetí myší nebo stisknutí
+   (!important přebíjí .email-item:active:hover z části 2) */
+.email-item.is-selected {
+    background-color: var(--customBrandBackgroundforSelected3) !important;
+}
+
+/* Nepřečtená zpráva: modrá linka vlevo, tučný odesílatel, modrý tučný předmět a datum */
+.email-item.unread {
+    border-left: 3px solid var(--colorBrandForeground1);
+}
+
+.email-item.unread .email-sender span {
+    font-weight: 600;
+}
+
+.email-item.unread .email-subject-text,
+.email-item.unread .email-date {
+    font-weight: 600;
+    color: var(--colorBrandForeground1);
+}
+
+/* Avatar zůstává vidět i při najetí myší (Outlook by ho nahradil zaškrtávacím polem) */
+.email-item .email-avatar,
+.email-item:hover .email-avatar {
+    display: flex;
+}
+
+/* Barvy avatarů (paleta Fluent UI, odstíny "Background2" / "Foreground2").
+   Název barvy odpovídá poli sender.avatarColor v emails.json. */
+.avatar-cranberry { color: #6e0811; background-color: #eeacb2; }
+.avatar-red       { color: #751d1f; background-color: #f1bbbc; }
+.avatar-peach     { color: #8f4e00; background-color: #ffddb3; }
+.avatar-marigold  { color: #835b00; background-color: #f9e2ae; }
+.avatar-brass     { color: #553e06; background-color: #e0cea2; }
+.avatar-teal      { color: #02494c; background-color: #9bd9db; }
+.avatar-steel     { color: #00333f; background-color: #94c8d4; }
+.avatar-blue      { color: #004377; background-color: #a9d3f2; }
+.avatar-navy      { color: #001665; background-color: #a3b2e8; }
+.avatar-grape     { color: #4c0d55; background-color: #d9a7e0; }
+.avatar-lilac     { color: #63276d; background-color: #e6bfed; }
+.avatar-pink      { color: #80215d; background-color: #f7c0e3; }
+.avatar-beige     { color: #444241; background-color: #d7d4d4; }
+.avatar-anchor    { color: #202427; background-color: #bcc3c7; }
+.avatar-gray      { color: #616161; background-color: #e6e6e6; }
+
+
+/* ---------- 3.8 Podokno pro čtení ---------- */
+
+/* Prázdný stav (není vybrána žádná zpráva) */
+.reading-pane-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: var(--neutralLighter);
+}
+
+.reading-pane-empty img {
+    width: 200px;
+    height: 200px;
+}
+
+.reading-pane-empty-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--neutralDark);
+    margin: 0 0 6px;
+}
+
+.reading-pane-empty-subtitle {
+    font-size: 14px;
+    color: #707070;
+    margin: 0;
+}
+
+.reading-pane-row {
+    margin-left: 8px;
+}
+
+/* Předmět zprávy + tlačítko "Shrnout" v jednom řádku */
+.toolbar-row.subject-bar {
+    margin: 8px 19px 8px 2px;
+}
+
+.subject-heading .subject-box,
+.subject-heading .subject-inner,
+.subject-row,
+.subject-row .subject-text {
+    white-space: nowrap;
+}
+
+.subject-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+.subject-row .subject-text {
+    font-size: 18px;
+}
+
+/* Záhlaví zprávy: odesílatel zarovnaný k hornímu okraji avataru,
+   ikony nástrojů vpravo nahoře a datum přímo pod nimi. */
+.message-header {
+    position: relative;
+    min-height: 72px;
+}
+
+.message-header-row {
+    align-items: flex-start;
+}
+
+.sender-block .sender-details {
+    align-self: flex-start;
+    padding-top: 4px;
+}
+
+.reading-pane-sender-email {
+    color: var(--neutralPrimary);
+}
+
+/* Řádek "Komu:" */
+.reading-pane-recipients-row {
+    font-size: 12px;
+    color: var(--neutralPrimary);
+    margin-top: 2px;
+    line-height: 1.4;
+}
+
+.reading-pane-recipient-name,
+.reading-pane-more-link {
+    font-weight: 600;
+    color: var(--neutralDark);
+}
+
+.reading-pane-recipient-extra {
+    padding-left: 2.6em;
+}
+
+.reading-pane-more-link {
+    user-select: none;
+}
+
+/* Datum zprávy */
+.message-date-row {
+    position: absolute;
+    top: 36px;
+    right: 10px;
+}
+
+.message-date-row .message-date-extra {
+    display: none;
+}
+
+/* Panel nástrojů zprávy: jen ikony, bez textových popisků */
+.message-toolbar .menu-item-label {
+    display: none;
+}
+
+/* Při najetí myší se místo obrysové ikony zobrazí vyplněná
+   (vyplněná ikona má třídu is-hidden s display: none !important) */
+.message-toolbar .fui-Button:hover .fui-Icon-filled.is-hidden,
+.message-toolbar .toolbar-menu-item:hover .fui-Icon-filled.is-hidden {
+    display: inline !important;
+}
+
+.message-toolbar .fui-Button:hover .fui-Icon-regular,
+.message-toolbar .toolbar-menu-item:hover .fui-Icon-regular {
+    display: none;
+}
+
+
+/* ---------- 3.9 Kontextová nabídka (tři tečky) ---------- */
+
+/* Pozici (top/right) nastavuje script.js podle tlačítka */
+.ctx-menu {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    min-width: 180px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, .14), 0 2px 8px rgba(0, 0, 0, .08);
+    padding: 4px 0;
+    font-family: var(--fontFamilyUi);
+    font-size: 14px;
+    color: var(--neutralDark);
+}
+
+.ctx-menu.open {
+    display: block;
+}
+
+.ctx-menu-item {
+    padding: 6px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    white-space: nowrap;
+    line-height: 20px;
+}
+
+.ctx-menu-item:hover {
+    background: var(--neutralLighter);
+}
+
+/* Neaktivní položky vypadají stejně, jen nereagují na kliknutí */
+.ctx-menu-item.disabled {
+    cursor: default;
+}
+
+.ctx-menu-separator {
+    height: 1px;
+    background: var(--neutralTertiaryAlt);
+    margin: 4px 12px;
+}
+
+.ctx-arrow {
+    font-size: 20px;
+    margin-left: 16px;
+    color: var(--neutralPrimaryAlt);
+}
+
+
+/* ---------- 3.10 Modální okna ---------- */
+
+.report-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .4);
+    z-index: 10001;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.report-modal-overlay.open {
+    display: flex;
+}
+
+.report-modal {
+    background: var(--white);
+    border-radius: 8px;
+    padding: 24px;
+    min-width: min(400px, calc(100vw - 80px));
+    max-width: 480px;
+    box-shadow: 0 25px 65px rgba(0, 0, 0, .18);
+    font-family: var(--fontFamilyUi);
+}
+
+.report-modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: var(--neutralDark);
+    text-align: left;
+}
+
+.report-modal-text {
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--neutralDark);
+    margin: 20px 0 22px 0;
+    text-align: left;
+}
+
+.report-modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.report-modal-btn {
+    padding: 6px 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    line-height: 20px;
+}
+
+.report-modal-btn-primary {
+    background: var(--buttonPrimary);
+    color: var(--white);
+    border-color: var(--buttonPrimary);
+}
+
+.report-modal-btn-primary:hover {
+    background: var(--buttonPrimaryHover);
+    border-color: var(--buttonPrimaryHover);
+}
+
+.report-modal-btn-secondary {
+    background: var(--white);
+    color: var(--neutralDark);
+    border-color: var(--neutralTertiary);
+}
+
+.report-modal-btn-secondary:hover {
+    background: var(--neutralLighter);
+}
+
+/* Výsledek vyhodnocení (obsah vkládá script.js) */
+.eval-title-success {
+    color: var(--success);
+}
+
+.eval-title-fail {
+    color: var(--danger);
+}
+
+.eval-mistakes {
+    margin-top: 8px;
+    padding-left: 20px;
+}
+
+.eval-flag {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: #f0faf0;
+    border: 2px solid var(--success);
+    border-radius: 6px;
+    text-align: center;
+}
+
+.eval-flag-label {
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+.eval-flag-value {
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--success);
+    user-select: text;
+    cursor: text;
+    letter-spacing: 0.5px;
+}
+
+.eval-flag-copy {
+    margin-left: 8px;
+    padding: 4px;
+    vertical-align: middle;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--success);
+    cursor: pointer;
+    line-height: 0;
+}
+
+.eval-flag-copy:hover {
+    background: rgba(14, 112, 14, 0.1);
+}
+
+
+/* ---------- 3.11 Responzivita ----------
+   Od šířky 1100 px vypadá stránka jako originál. Užší okno (malý notebook,
+   tablet): schová se navigační podokno, zúží se vyhledávání a seznam zpráv
+   a dlouhé texty v záhlaví zprávy se zalamují nebo zkracují výpustkou (…). */
+
+/* Panel nástrojů zprávy má container-type: inline-size, takže by se bez
+   min. šířky smrskl a ikony by se ořízly. 212 px = šířka všech ikon. */
+.message-toolbar {
+    min-width: 212px;
+}
+
+@media (max-width: 1099px) {
+    .nav-pane {
+        display: none;
+    }
+
+    /* Hlavička */
+    .header-left {
+        width: auto;
+    }
+
+    .header-center {
+        min-width: 0;
+    }
+
+    .header-right {
+        flex-shrink: 0;
+    }
+
+    .search-box {
+        flex: 0 1 335px;
+        min-width: 120px;
+    }
+
+    /* Seznam zpráv: sloupec se zužuje, vnitřní panel (Fluent má pevných 350 px) s ním */
+    .mail-list-column {
+        width: clamp(280px, 35vw, 354px);
+    }
+
+    .mail-list-panel {
+        width: auto;
+    }
+
+    /* Záložky "Prioritní / Další": menší odsazení zleva, aby se vešly do jednoho řádku */
+    .mail-list-header .mail-list-toolbar {
+        padding: 0 8px 0 16px;
+    }
+
+    .mail-list-header .pivot-tabs {
+        white-space: nowrap;
+    }
+
+    .mail-list-header .mail-list-header-inner {
+        gap: 4px;
+    }
+
+    /* Záhlaví zprávy: odesílatel a příjemci se zalomí na další řádek, aby
+       nepřekrývali datum a ikony. Adresa odesílatele se nezkracuje – její
+       doména je pro rozpoznání phishingu důležitá.
+       overflow: clip (ne hidden) – blok nejde odscrollovat, když prohlížeč
+       zaměří odkaz "+N další" a chce ho posunout do viditelné oblasti. */
+    .sender-block {
+        min-width: 0;
+    }
+
+    .sender-block .sender-details {
+        overflow: clip;
+    }
+
+    .sender-block .sender-name-wrap,
+    .reading-pane-recipients-row {
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    /* Jméno odesílatele má ve Fluent CSS pevnou výšku 20 px – zalomený
+       druhý řádek by jinak překryl adresu pod ním */
+    .sender-block .sender-name {
+        height: auto;
+    }
+
+    /* Dlouhý předmět se zkrátí, tlačítko "Shrnout" zůstane vidět */
+    .subject-heading .subject-box,
+    .subject-heading .subject-inner,
+    .subject-row {
+        max-width: 100%;
+    }
+
+    .subject-row .subject-text {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .subject-row .summarize-wrap {
+        flex-shrink: 0;
+    }
+}
+
+/* Telefony nejsou cílová velikost, ale nic se nesmí oříznout mimo obrazovku */
+@media (max-width: 767px) {
+    .header-right .header-icon-btn:nth-child(-n + 3) {
+        display: none;
+    }
+
+    .brand-link {
+        margin: 0 12px;
+    }
+
+    .search-box {
+        margin-left: 0;
+    }
+
+    .mail-list-column {
+        width: 240px;
+    }
+
+    .reading-pane {
+        min-width: 0;
+    }
+
+    /* Odesílatel má přednost před ikonami nástrojů (ty se případně oříznou),
+       datum je pod ním místo vpravo nahoře */
+    .message-toolbar {
+        min-width: 0;
+    }
+
+    .message-date-row {
+        position: static;
+        padding-left: 52px;
+    }
+}
+
+
+/* ---------- 3.12 Průvodce nahlášením phishingu (driver.js) ---------- */
+
+/* Overlay driveru (inline z-index 10000) musí ležet nad .app-shell (z-index 1000000) */
+.driver-overlay {
+    z-index: 1000001 !important;
+}
+
+/* Nabídka, do které průvodce právě ukazuje, se nezavře odjetím myši */
+.ctx-menu.is-pinned {
+    display: block;
+}

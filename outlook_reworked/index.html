@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="cs" class="fluent-theme">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Stránka načítá jen vlastní soubory + driver.js z jsdelivr; obrázky v e-mailech mohou být i data: URI.
+             'unsafe-inline' u stylů je nutné kvůli inline stylům v tělech e-mailů (emails.json). -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+        <meta name="referrer" content="strict-origin-when-cross-origin">
+        <meta name="theme-color" content="#0078d4">
+        <title>Pošta - Klon Outlook</title>
+        <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
+        <!-- driver.js – průvodce nahlášením phishingu (startReportTour ve script.js) -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.6/dist/driver.css"
+            integrity="sha384-eyrYgcjChmzD338JTHFZssgJHOqqOZbajet8yZpCw8ESroLDi28BarMEKCImNGHC" crossorigin="anonymous">
+        <link rel="stylesheet" href="styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/driver.js@1.3.6/dist/driver.js.iife.js"
+            integrity="sha384-n0+N1F84TRb1beKh+tkD92wsVYiC9StnuPt7veT8Izt/qjUKUwNJEKy8Zhjb9tnk" crossorigin="anonymous" defer></script>
+    </head>
+    <body class="app-body">
+        <!-- Obal celé aplikace (Fluent portál; tvoří vrstvu se z-index 1000000,
+             proto jsou kontextové nabídky a modální okna až na jeho konci) -->
+        <div class="app-shell">
+
+            <!-- ===== Hlavička: spouštěč aplikací, logo, vyhledávání, ikony vpravo ===== -->
+            <header class="outlook-header">
+                <div class="header-left">
+                    <button class="header-icon-btn app-launcher" aria-label="Spouštěč aplikací">
+                        <svg viewBox="0 0 2048 2048" width="18" height="18">
+                            <path fill="currentColor" d="M128 128h384v384H128V128zm0 768h384v384H128V896zm0 768h384v384H128v-384zm768-1536h384v384H896V128zm0 768h384v384H896V896zm0 768h384v384H896v-384zm768-1536h384v384h-384V128zm0 768h384v384h-384V896zm0 768h384v384h-384v-384z"></path>
+                        </svg>
+                    </button>
+                    <div id="tenantLogo_container" class="tenant-logo" style="min-width:auto">
+                        <a id="O365_MainLink_TenantLogo" class="tenant-logo-link" title="VUT" aria-label="VUT">
+                            <img id="O365_MainLink_TenantLogoImg" alt="VUT" title="VUT" src="assets/img/vut.png">
+                        </a>
+                    </div>
+                    <!-- Kliknutí na "Outlook" vyhodnotí úlohu (script.js) -->
+                    <a href="#" class="brand-link" id="outlookEvalBtn">Outlook</a>
+                </div>
+                <div class="header-center">
+                    <div class="search-box">
+                        <span class="search-icon">
+                            <i class="icon-fill inline-block icon-line-height icon-style icon-font" aria-hidden="true">&#xEF1D;</i>
+                        </span>
+                        <input type="text" placeholder="Hledat" class="search-input">
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="header-icon-btn" aria-label="Chat" title="Chat">
+                        <div class="chat-icon-wrap" aria-hidden="true">
+                            <span class="ms-Icon--OfficeChat" role="presentation" style="display:inline-block;font-size:16px"></span>
+                        </div>
+                    </button>
+                    <button class="header-icon-btn" aria-label="OneNote" title="Informační kanál OneNotu">
+                        <svg width="1em" height="1em" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="header-svg-icon" fill="currentColor" aria-hidden="true">
+                            <path d="M15 2a2 2 0 012 2v12a2 2 0 01-2 2H7a3 3 0 01-2.83-2H4a2 2 0 01-2-2V9c0-1.1.9-2 2-2V5a3 3 0 013-3h8zM4.25 14H5.3v-2.7a28.54 28.54 0 00-.01-.8h.01l.1.17.14.24L7.61 14h1.14V9H7.7v2.7a21.64 21.64 0 00.01.7H7.7a2.98 2.98 0 00-.24-.41L5.46 9H4.25v5zM16 7.73c-.3.17-.64.27-1 .27h-1a1 1 0 00-1 1v2c0 .36-.1.7-.27 1H15a1 1 0 001-1V7.73zM5.27 16c.35.6.99 1 1.73 1h8a1 1 0 001-1v-3.27c-.3.17-.64.27-1 .27h-4v1a2 2 0 01-2 2H5.27zM9 7a2 2 0 012 2v3a1 1 0 001-1V9c0-1.1.9-2 2-2h1a1 1 0 001-1V4a1 1 0 00-1-1H7a2 2 0 00-2 2v2h4z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button class="header-icon-btn" aria-label="Můj den" title="Můj den">
+                        <svg width="1em" height="1em" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="header-svg-icon" fill="currentColor" aria-hidden="true">
+                            <path d="M14.5 3A2.5 2.5 0 0117 5.5v3.09a2 2 0 00-1 .23V7H4v7.5c0 .83.67 1.5 1.5 1.5h1.48a2 2 0 00.41.6l.4.4H5.5A2.5 2.5 0 013 14.5v-9A2.5 2.5 0 015.5 3h9zm0 1h-9C4.67 4 4 4.67 4 5.5V6h12v-.5c0-.83-.67-1.5-1.5-1.5zM8.1 15.9a1 1 0 010-1.42l1.06-1.06a1 1 0 011.41 0l1.07 1.06 4.6-4.6a1 1 0 011.4 0l1.07 1.06a1 1 0 010 1.42l-6.37 6.36a1 1 0 01-1.41 0L8.1 15.89zm2.47 1.05l1.07 1.06L18 11.65l-1.06-1.06-6.37 6.36zm-1.76-1.77l1.06 1.06 1.06-1.06-1.06-1.06-1.06 1.06z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button class="header-icon-btn" aria-label="Oznámení" title="Oznámení">
+                        <i class="header-font-icon inline-block icon-line-height icon-style icon-font" aria-hidden="true">&#xE027;</i>
+                    </button>
+                    <button class="header-icon-btn" aria-label="Nastavení" title="Nastavení">
+                        <i class="header-font-icon inline-block icon-line-height icon-style icon-font" aria-hidden="true">&#xEF51;</i>
+                    </button>
+                    <button class="profile-btn" aria-label="Správce účtu" title="Správce účtu pro uživatele Novák Jan (281569)">
+                        <span class="profile-initials">JN</span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="app-main custom-scrollbar">
+                <div id="mainApp" class="app-columns">
+
+                    <!-- ===== Levý panel aplikací (Pošta, Kalendář, …) ===== -->
+                    <nav id="LeftRail" class="outlook-left-rail" aria-label="Navigace aplikacemi">
+                        <ul class="left-rail-nav">
+                            <li class="left-rail-item active" title="Pošta">
+                                <a href="#" aria-label="Pošta">
+                                    <img src="assets/img/posta.svg">
+                                </a>
+                            </li>
+                            <li class="left-rail-item" title="Kalendář">
+                                <a href="#" aria-label="Kalendář">
+                                    <img src="assets/img/kalendar.svg">
+                                </a>
+                            </li>
+                            <li class="left-rail-item" title="Copilot">
+                                <a href="#" aria-label="Copilot">
+                                    <img src="assets/img/copilot.png">
+                                </a>
+                            </li>
+                            <li class="left-rail-item" title="Lidé">
+                                <a href="#" aria-label="Lidé">
+                                    <img src="assets/img/lide.svg">
+                                </a>
+                            </li>
+                            <li class="left-rail-item" title="To Do">
+                                <a href="#" aria-label="To Do">
+                                    <img src="assets/img/to-do.png">
+                                </a>
+                            </li>
+                            <li class="left-rail-item" title="OneDrive">
+                                <a href="#" aria-label="OneDrive">
+                                    <img src="assets/img/onedrive.svg">
+                                </a>
+                            </li>
+                            <li class="left-rail-item" title="Přejít do aplikace Word">
+                                <a href="#" aria-label="Přejít do aplikace Word">
+                                    <img src="assets/img/word.svg">
+                                </a>
+                            </li>
+                            <li class="left-rail-item" title="Přejít do aplikace Excel">
+                                <a href="#" aria-label="Přejít do aplikace Excel">
+                                    <img src="assets/img/excel.svg">
+                                </a>
+                            </li>
+                            <li class="left-rail-item" title="Přejít do aplikace PowerPoint">
+                                <a href="#" aria-label="Přejít do aplikace PowerPoint">
+                                    <img src="assets/img/powerpoint.svg" alt="Přejít do aplikace PowerPoint">
+                                </a>
+                            </li>
+                            <li class="left-rail-item" title="Další aplikace">
+                                <a href="#" aria-label="Další aplikace">
+                                    <i class="inline-block icon-line-height icon-style icon-font-regular" aria-hidden="true" style="color:var(--colorNeutralForeground3);font-size:24px">&#xF123;</i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="workspace">
+
+                        <!-- ===== Pás karet: záložky + panel akcí + Copilot ===== -->
+                        <div id="RibbonRoot" class="flex flex-column ribbon">
+                            <div id="TopBar" class="outlook-top-bar">
+                                <div class="top-bar-controls">
+                                    <button class="top-bar-btn icon-btn" aria-label="Skrýt navigační podokno">
+                                        <i class="fluent-icon" aria-hidden="true">&#xE700;</i>
+                                    </button>
+                                    <button class="top-bar-btn file-btn">Soubor</button>
+                                </div>
+                                <div class="top-bar-tabs" role="tablist">
+                                    <button class="tab-btn active" role="tab" aria-selected="true">Domů</button>
+                                    <button class="tab-btn" role="tab" aria-selected="false">Zobrazení</button>
+                                    <button class="tab-btn" role="tab" aria-selected="false">Nápověda</button>
+                                </div>
+                            </div>
+                            <div class="ribbon-actions-row">
+                                <div id="BottomBar" class="outlook-action-bar toolbar-row">
+                                    <div class="split-btn-container">
+                                        <button class="action-btn split-btn-main">
+                                            <span class="btn-icon ribbon-btn-icon height-20">
+                                                <i class="icon-fill inline-block icon-line-height icon-style icon-font ribbon-icon" aria-hidden="true">&#xE575;</i>
+                                            </span>
+                                            <span style="padding: 0 4px">Nová zpráva</span>
+                                        </button>
+                                        <button class="action-btn split-btn-chevron" aria-label="Další možnosti nového e-mailu">
+                                            <i class="tree-icon chevron-icon inline-block icon-line-height icon-style icon-font" aria-hidden="true">&#xE450;</i>
+                                        </button>
+                                    </div>
+                                    <button class="action-btn has-menu">
+                                        <span class="btn-icon ribbon-btn-icon height-20">
+                                            <i class="icon-fill inline-block icon-line-height icon-style icon-font ribbon-icon" aria-hidden="true">&#xE62B;</i>
+                                            <i class="tree-icon chevron-icon inline-block icon-line-height icon-style icon-font" aria-hidden="true">&#xE450;</i>
+                                        </span>
+                                    </button>
+                                    <button class="action-btn">
+                                        <span class="btn-icon ribbon-btn-icon height-20">
+                                            <i aria-hidden="true" class="icon-green">
+                                                <i class="icon-fill inline-block icon-line-height icon-style icon-font ribbon-icon" aria-hidden="true">&#xE07F;</i></i></span>
+                                    </button>
+                                    <button class="action-btn has-menu">
+                                        <span class="btn-icon ribbon-btn-icon height-20">
+                                            <i aria-hidden="true" class="icon-red">
+                                                <i class="icon-fill inline-block icon-line-height icon-style icon-font ribbon-icon" aria-hidden="true">&#xEF87;</i></i>
+                                            <i class="tree-icon chevron-icon inline-block icon-line-height icon-style icon-font" aria-hidden="true">&#xE450;</i>
+                                        </span>
+                                    </button>
+                                    <button class="action-btn">
+                                        <span class="btn-icon ribbon-btn-icon height-20">
+                                            <i class="icon-fill inline-block icon-line-height icon-style icon-font ribbon-icon" aria-hidden="true">&#xE2C4;</i></span>
+                                    </button>
+                                    <button class="action-btn has-menu">
+                                        <span class="btn-icon ribbon-btn-icon height-20">
+                                            <i aria-hidden="true" class="icon-blue">
+                                                <i class="icon-fill inline-block icon-line-height icon-style icon-font ribbon-icon" aria-hidden="true">&#xE891;</i></i>
+                                            <i class="tree-icon chevron-icon inline-block icon-line-height icon-style icon-font" aria-hidden="true">&#xE450;</i>
+                                        </span>
+                                    </button>
+                                    <div class="action-separator"></div>
+                                    <button class="action-btn">
+                                        <i class="fui-Icon-regular action-icon-primary icon-purple icon-line-height icon-style icon-font" aria-hidden="true">&#xE12B;</i>
+                                    </button>
+                                    <button class="action-btn">
+                                        <i class="fui-Icon-regular action-icon-primary icon-purple icon-line-height icon-style icon-font" aria-hidden="true">&#xE12D;</i>
+                                    </button>
+                                    <button class="action-btn has-menu">
+                                        <span class="btn-icon ribbon-btn-icon height-20">
+                                            <i class="fui-Icon-regular action-icon-primary icon-azure icon-line-height icon-style icon-font" aria-hidden="true">&#xE0F9;</i>
+                                            <i class="tree-icon chevron-icon inline-block icon-line-height icon-style icon-font" aria-hidden="true">&#xE450;</i>
+                                        </span>
+                                    </button>
+                                    <div class="action-separator"></div>
+                                    <button class="action-btn">
+                                        <img class="teams-logo" src="assets/img/teams.svg" alt="MS Teams">
+                                    </button>
+                                    <div class="action-separator"></div>
+                                    <div class="quick-steps-split">
+                                        <button class="action-btn quick-steps-main">
+                                            <span class="quick-steps-content">
+                                                <i aria-hidden="true" style="font-size:20px;height:20px;width:20px;color:rgb(170,132,19)">
+                                                    <i class="icon-fill inline-block icon-line-height icon-style icon-font ribbon-icon" aria-hidden="true">&#xE863;</i></i></span>
+                                            <span>Rychlé kroky</span>
+                                        </button>
+                                        <button class="action-btn quick-steps-chevron" aria-label="Další možnosti rychlých kroků">
+                                            <i class="tree-icon chevron-icon inline-block icon-line-height icon-style icon-font" aria-hidden="true">&#xE450;</i>
+                                        </button>
+                                    </div>
+                                    <button class="action-btn">
+                                        <span class="btn-icon ribbon-btn-icon height-20">
+                                            <i aria-hidden="true" class="icon-gray">
+                                                <i class="icon-fill inline-block icon-line-height icon-style icon-font ribbon-icon" aria-hidden="true">&#xEB66;</i></i></span>
+                                        <span style="padding-left: 4px"> Přečtené/nepřečtené</span>
+                                    </button>
+                                    <button class="action-btn" style="padding: 0 10px 0 16px">
+                                        <span class="btn-icon ribbon-btn-icon height-20">
+                                            <i class="icon-fill inline-block icon-line-height icon-style icon-font ribbon-icon" aria-hidden="true">&#xF1A7;</i>
+                                            <i class="tree-icon chevron-icon inline-block icon-line-height icon-style icon-font split-btn-chevron" aria-hidden="true">&#xE450;</i>
+                                        </span>
+                                    </button>
+                                    <button class="action-btn has-menu">
+                                        <span class="btn-icon ribbon-btn-icon height-20">
+                                            <i aria-hidden="true" class="icon-red">
+                                                <i class="icon-fill inline-block icon-line-height icon-style icon-font ribbon-icon" aria-hidden="true">&#xE857;</i></i>
+                                            <i class="tree-icon chevron-icon inline-block icon-line-height icon-style icon-font" aria-hidden="true">&#xE450;</i></span>
+                                    </button>
+                                    <button class="action-btn">
+                                        <span class="btn-icon ribbon-btn-icon height-20">
+                                            <i aria-hidden="true" class="icon-blue">
+                                                <i class="icon-fill inline-block icon-line-height icon-style icon-font ribbon-icon" aria-hidden="true">&#xEDC9;</i></i></span>
+                                    </button>
+                                    <button class="action-btn has-menu">
+                                        <span class="btn-icon ribbon-btn-icon height-20">
+                                            <i aria-hidden="true" class="icon-gray">
+                                                <i class="icon-fill inline-block icon-line-height icon-style icon-font ribbon-icon" aria-hidden="true">&#xE4CC;</i></i>
+                                            <i class="tree-icon chevron-icon inline-block icon-line-height icon-style icon-font" aria-hidden="true">&#xE450;</i>
+                                        </span>
+                                    </button>
+                                    <button class="action-btn has-menu">
+                                        <span class="btn-icon ribbon-btn-icon height-20">
+                                            <i aria-hidden="true" class="icon-blue">
+                                                <i class="icon-fill inline-block icon-line-height icon-style icon-font ribbon-icon" aria-hidden="true">&#xE085;</i></i>
+                                            <i class="tree-icon chevron-icon inline-block icon-line-height icon-style icon-font" aria-hidden="true">&#xE450;</i>
+                                        </span>
+                                    </button>
+                                    <div class="action-separator"></div>
+                                    <button class="action-btn">
+                                        <span class="btn-icon ribbon-btn-icon height-20">
+                                            <i aria-hidden="true" class="icon-gray">
+                                                <i class="icon-fill inline-block icon-line-height icon-style icon-font ribbon-icon" aria-hidden="true">&#xEE2F;</i></i></span>
+                                    </button>
+                                    <div class="action-separator"></div>
+                                    <button class="action-btn">
+                                        <span class="btn-icon ribbon-btn-icon height-20">
+                                            <i aria-hidden="true" class="icon-gray">
+                                                <i class="icon-fill inline-block icon-line-height icon-style icon-font ribbon-icon" aria-hidden="true">&#xE067;</i></i></span>
+                                    </button>
+                                    <div class="action-separator"></div>
+                                    <button class="action-btn">
+                                        <span class="btn-icon ribbon-btn-icon ribbon-btn-icon-disabled height-20">
+                                            <i aria-hidden="true" class="icon-gray">
+                                                <i class="icon-fill inline-block icon-line-height icon-style icon-font ribbon-icon" aria-hidden="true">&#xE197;</i></i></span>
+                                    </button>
+                                    <div class="action-separator"></div>
+                                    <button class="action-btn" aria-label="Další akce">
+                                        <i class="action-icon" style="margin-right: 0; color: #000000; ">&#xE712;</i>
+                                    </button>
+                                    <div class="action-separator"></div>
+                                </div>
+                                <div class="copilot-container">
+                                    <button type="button" aria-label="Copilot Chat" class="fui-Button btn-base btn-borderless text-secondary btn-subtle-hover copilot-btn no-padding full-width" id="copilot-dab-main-button" role="button" tabindex="0" aria-expanded="false">
+                                        <img src="assets/img/copilot.png" style="width:30px;height:30px">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="main-area">
+                            <div class="main-area-column">
+                                <div class="main-area-row">
+
+                                    <!-- ===== Navigační podokno se složkami ===== -->
+                                    <nav class="nav-pane" aria-label="Navigační podokno">
+                                        <div class="nav-pane-scroll custom-scrollbar">
+                                            <div class="nav-section" role="group" aria-labelledby="nav-header-favorites">
+                                                <div id="nav-header-favorites" class="nav-section-header nav-tree nav-row" role="treeitem" aria-expanded="true" aria-level="1">
+                                                    <button class="nav-chevron fui-Button" tabindex="-1" aria-hidden="true">
+                                                        <span class="btn-icon height-20">
+                                                            <i class="tree-icon chevron-icon inline-block icon-line-height icon-style icon-font">&#xE450;</i>
+                                                        </span>
+                                                    </button>
+                                                    <span class="nav-row-label nav-tree nav-section-title">Oblíbené</span>
+                                                </div>
+                                                <div class="nav-folder nav-tree nav-row" role="treeitem" aria-level="2" aria-selected="false" title="Doručená pošta">
+                                                    <i class="fui-Icon-filled tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font is-hidden">&#xEB45;</i>
+                                                    <i class="fui-Icon-regular tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font">&#xEB46;</i>
+                                                    <span class="nav-row-label nav-tree">Doručená pošta</span>
+                                                </div>
+                                                <div class="nav-folder nav-tree nav-row" role="treeitem" aria-level="2" aria-selected="false" title="Odeslaná pošta">
+                                                    <i class="fui-Icon-filled tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font is-hidden">&#xEF3A;</i>
+                                                    <i class="fui-Icon-regular tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font">&#xEF3B;</i>
+                                                    <span class="nav-row-label nav-tree">Odeslaná pošta</span>
+                                                </div>
+                                                <div class="nav-folder nav-tree nav-row" role="treeitem" aria-level="2" aria-selected="false" title="Koncepty">
+                                                    <i class="fui-Icon-filled tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font is-hidden">&#xE780;</i>
+                                                    <i class="fui-Icon-regular tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font">&#xE781;</i>
+                                                    <span class="nav-row-label nav-tree">Koncepty</span>
+                                                </div>
+                                                <div class="nav-folder nav-tree nav-row" role="treeitem" aria-level="2" aria-selected="false" title="Odstraněná pošta">
+                                                    <i class="fui-Icon-filled tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font is-hidden">&#xE62A;</i>
+                                                    <i class="fui-Icon-regular tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font">&#xE62B;</i>
+                                                    <span class="nav-row-label nav-tree">Odstraněná pošta</span>
+                                                </div>
+                                            </div>
+                                            <div class="nav-section" role="group" aria-labelledby="nav-header-mailbox">
+                                                <div id="nav-header-mailbox" class="nav-section-header nav-tree nav-row" role="treeitem" aria-expanded="true" aria-level="1">
+                                                    <button class="nav-chevron fui-Button" tabindex="-1" aria-hidden="true">
+                                                        <span class="btn-icon height-20">
+                                                            <i class="tree-icon chevron-icon inline-block icon-line-height icon-style icon-font">&#xE450;</i>
+                                                        </span>
+                                                    </button>
+                                                    <span class="nav-row-label nav-tree nav-section-title">Jan.Novak@vut.cz</span>
+                                                </div>
+                                                <div class="nav-folder nav-tree nav-row is-selected-folder" role="treeitem" aria-level="2" aria-selected="true" title="Doručená pošta">
+                                                    <i class="fui-Icon-filled tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font">&#xEB45;</i>
+                                                    <i class="fui-Icon-regular tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font is-hidden">&#xEB46;</i>
+                                                    <span class="nav-row-label nav-tree is-selected-folder">Doručená pošta</span>
+                                                </div>
+                                                <div class="nav-folder nav-tree nav-row" role="treeitem" aria-level="2" aria-selected="false" title="Koncepty">
+                                                    <i class="fui-Icon-filled tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font is-hidden">&#xE780;</i>
+                                                    <i class="fui-Icon-regular tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font">&#xE781;</i>
+                                                    <span class="nav-row-label nav-tree">Koncepty</span>
+                                                </div>
+                                                <div class="nav-folder nav-tree nav-row" role="treeitem" aria-level="2" aria-selected="false" title="Odeslaná pošta">
+                                                    <i class="fui-Icon-filled tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font is-hidden">&#xEF3A;</i>
+                                                    <i class="fui-Icon-regular tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font">&#xEF3B;</i>
+                                                    <span class="nav-row-label nav-tree">Odeslaná pošta</span>
+                                                </div>
+                                                <div class="nav-folder nav-tree nav-row" role="treeitem" aria-level="2" aria-selected="false" title="Odstraněná pošta">
+                                                    <i class="fui-Icon-filled tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font is-hidden">&#xE62A;</i>
+                                                    <i class="fui-Icon-regular tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font">&#xE62B;</i>
+                                                    <span class="nav-row-label nav-tree">Odstraněná pošta</span>
+                                                </div>
+                                                <div class="nav-folder nav-tree nav-row" role="treeitem" aria-level="2" aria-selected="false" title="Nevyžádaná pošta">
+                                                    <i class="fui-Icon-filled tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font is-hidden">&#xE8AC;</i>
+                                                    <i class="fui-Icon-regular tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font">&#xE8AD;</i>
+                                                    <span class="nav-row-label nav-tree">Nevyžádaná pošta</span>
+                                                </div>
+                                                <div class="nav-folder nav-tree nav-row" role="treeitem" aria-level="2" aria-selected="false" title="Poznámky">
+                                                    <i class="fui-Icon-filled tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font is-hidden">&#xEC09;</i>
+                                                    <i class="fui-Icon-regular tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font">&#xEC0A;</i>
+                                                    <span class="nav-row-label nav-tree">Poznámky</span>
+                                                </div>
+                                                <div class="nav-folder nav-tree nav-row" role="treeitem" aria-level="2" aria-selected="false" title="Archiv">
+                                                    <i class="fui-Icon-filled tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font is-hidden">&#xE07E;</i>
+                                                    <i class="fui-Icon-regular tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font">&#xE07F;</i>
+                                                    <span class="nav-row-label nav-tree">Archiv</span>
+                                                </div>
+                                                <div class="nav-folder nav-tree nav-row" role="treeitem" aria-level="2" aria-selected="false" title="Historie konverzací">
+                                                    <i class="fui-Icon-filled tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font is-hidden">&#xE88A;</i>
+                                                    <i class="fui-Icon-regular tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font">&#xE88B;</i>
+                                                    <span class="nav-row-label nav-tree">Historie konverzací</span>
+                                                </div>
+                                                <div class="nav-folder nav-tree nav-row" role="treeitem" aria-level="2" aria-selected="false" title="Informační kanály RSS">
+                                                    <i class="fui-Icon-filled tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font is-hidden">&#xE88A;</i>
+                                                    <i class="fui-Icon-regular tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font">&#xE88B;</i>
+                                                    <span class="nav-row-label nav-tree">Informační kanály RSS</span>
+                                                </div>
+                                                <div class="nav-folder nav-tree nav-row" role="treeitem" aria-level="2" aria-selected="false" title="Složky výsledků hledání">
+                                                    <i class="fui-Icon-filled tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font is-hidden">&#xE8AE;</i>
+                                                    <i class="fui-Icon-regular tree-icon nav-folder-icon nav-tree icon-line-height icon-style icon-font">&#xE8AF;</i>
+                                                    <span class="nav-row-label nav-tree">Složky výsledků hledání</span>
+                                                </div>
+                                                <div class="nav-folder nav-tree nav-row nav-link" role="treeitem" aria-level="1" title="Přejít na skupiny" style="padding-left: 0; padding-right: 8px;">
+                                                    <i class="tree-icon nav-link-icon nav-folder-icon nav-tree inline-block icon-line-height icon-style icon-font">&#xECDB;</i>
+                                                    <span class="nav-row-label nav-tree">Přejít na Skupiny</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </nav>
+
+                                    <div class="content-area">
+                                        <div class="content-row">
+
+                                            <!-- ===== Seznam zpráv (položky generuje script.js z emails.json) ===== -->
+                                            <div class="mail-list-column">
+                                                <div class="mail-list-panel">
+                                                    <div class="mail-list-header">
+                                                        <div class="mail-list-toolbar">
+                                                            <div class="mail-list-header-inner">
+                                                                <div class="pivot-tabs">
+                                                                    <button type="button" role="tab" class="pivot-tab pivot-link-selected">
+                                                                        <span class="pivot-tab-content">
+                                                                            <div class="pivot-tab-label">
+                                                                                <span class="pivot-text" style="color:#000000">Prioritní</span>
+                                                                            </div>
+                                                                        </span>
+                                                                    </button>
+                                                                    <button type="button" role="tab" class="pivot-tab">
+                                                                        <span class="pivot-tab-content">
+                                                                            <div class="pivot-tab-label">
+                                                                                <span class="pivot-text">Další</span>
+                                                                            </div>
+                                                                        </span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="list-toolbar-buttons">
+                                                                    <button type="button" class="select-mode-btn">
+                                                                        <span class="select-mode-content">
+                                                                            <i class="select-mode-icon">
+                                                                                <i class="icon-fill inline-block icon-line-height icon-style icon-font">&#xEF2F;</i>
+                                                                            </i>
+                                                                        </span>
+                                                                    </button>
+                                                                    <button type="button" class="fui-Button btn-base jump-btn btn-compact min-width-32" role="button">
+                                                                        <i class="jump-icon inline-block icon-line-height icon-style icon-font" aria-hidden="true">&#xE0C5;</i>
+                                                                    </button>
+                                                                    <button type="button" class="fui-Button btn-base filter-btn btn-compact min-width-32">
+                                                                        <i class="inline-block icon-line-height icon-style icon-font list-toolbar-icon" aria-hidden="true">&#xE847;</i>
+                                                                    </button>
+                                                                    <button type="button" class="fui-Button btn-base sort-btn btn-compact min-width-32">
+                                                                        <i class="inline-block icon-line-height icon-style icon-font list-toolbar-icon sort-icon" aria-hidden="true">&#xE141;</i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="MailList" class="mail-list">
+                                                        <div>
+                                                            <div class="custom-scrollbar mail-list-items" id="emailListContainer"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- ===== Podokno pro čtení (obsah plní script.js po kliknutí na zprávu) ===== -->
+                                            <div tabindex="-1" role="main" class="reading-pane" aria-label="Podokno pro čtení" id="reading-pane">
+                                                <div id="reading-pane-empty" class="reading-pane-empty">
+                                                    <img src="assets/img/no-mail-selected.svg" alt="">
+                                                    <p class="reading-pane-empty-title">Vyberte položku, kterou si chcete
+                                                        přečíst.</p>
+                                                    <p class="reading-pane-empty-subtitle">Není vybrána žádná položka.</p>
+                                                </div>
+                                                <div class="reading-pane-content" id="ReadingPaneContainerId" style="display:none">
+                                                    <div class="reading-pane-fill">
+                                                        <div class="reading-pane-row">
+                                                            <div class="fluent-provider font-base font-regular full-width flex">
+                                                                <div id="ConversationReadingPaneContainer" class="conversation" tabindex="-1">
+                                                                    <!-- Předmět + tlačítko "Shrnout" -->
+                                                                    <div class="toolbar-row subject-bar surface">
+                                                                        <div class="subject-heading selectable" role="heading" aria-level="3">
+                                                                            <div class="subject-box">
+                                                                                <div class="subject-inner">
+                                                                                    <div class="subject-row">
+                                                                                        <span id="reading-pane-subject" class="subject-text"></span>
+                                                                                        <div class="summarize-wrap">
+                                                                                            <button type="button" class="fui-Button btn-base summarize-btn">
+                                                                                                <i aria-hidden="true" class="summarize-icon">
+                                                                                                    <span role="presentation" aria-hidden="true" class="summarize-icon-inner">
+                                                                                                        <i class="icon-fill inline-block icon-line-height icon-style icon-font" aria-hidden="true">&#xF250;</i></span></i>
+                                                                                                <span class="summarize-label">Shrnout</span>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="conversation-body">
+                                                                        <div aria-label="Počet zpráv: 1" tabindex="-1" class="conversation-scroll custom-scrollbar">
+                                                                            <div class="conversation-list" style="height:100%">
+                                                                                <div class="conversation-item">
+                                                                                    <div aria-expanded="true">
+                                                                                        <div class="fluent-provider font-base font-regular">
+                                                                                            <div tabindex="-1" aria-label="E-mailová zpráva" class="message-card surface">
+                                                                                                <!-- Záhlaví zprávy: avatar, odesílatel, příjemci, nástroje, datum -->
+                                                                                                <div class="message-header">
+                                                                                                    <div class="message-header-row">
+                                                                                                        <div class="sender-block">
+                                                                                                            <div class="sender-avatar-wrap">
+                                                                                                                <div class="sender-avatar-box">
+                                                                                                                    <span class="persona-trigger" tabindex="-1" role="button" aria-haspopup="dialog">
+                                                                                                                        <span id="reading-pane-sender-avatar" role="img" class="avatar avatar-40">
+                                                                                                                            <span id="reading-pane-sender-initials" class="avatar-initials"></span>
+                                                                                                                        </span>
+                                                                                                                    </span>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="sender-details">
+                                                                                                                <div class="sender-info">
+                                                                                                                    <span class="sender-heading" role="heading" aria-level="3">
+                                                                                                                        <span class="sender-name-wrap persona-trigger" tabindex="0" role="button" aria-haspopup="dialog">
+                                                                                                                            <div class="sender-name-wrap">
+                                                                                                                                <span id="reading-pane-sender-name" class="sender-name"></span><span id="reading-pane-sender-email" class="reading-pane-sender-email"></span>
+                                                                                                                            </div>
+                                                                                                                        </span>
+                                                                                                                    </span>
+                                                                                                                </div>
+                                                                                                                <div id="reading-pane-recipients-row" class="reading-pane-recipients-row" style="display:none;">
+                                                                                                                    <span>Komu: </span><span id="reading-pane-recipients-content"></span>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="message-toolbar">
+                                                                                                            <div class="full-width flex toolbar-overflow height-20">
+                                                                                                                <div role="toolbar" class="flex toolbar-items no-padding toolbar-end">
+                                                                                                                    <div class="fluent-provider font-base font-regular">
+                                                                                                                        <div class="reaction-wrap">
+                                                                                                                            <button type="button" aria-label="Reakce" class="fui-Button btn-base btn-subtle-bg btn-borderless text-secondary btn-subtle-hover btn-compact reaction-btn font-regular" role="button" tabindex="0" aria-expanded="false">
+                                                                                                                                <span class="btn-icon">
+                                                                                                                                    <i class="fui-Icon-filled icon-line-height icon-style reaction-icon icon-font is-hidden" aria-hidden="true">&#xE7EC;</i>
+                                                                                                                                    <i class="fui-Icon-regular icon-line-height icon-style reaction-icon icon-font" aria-hidden="true">&#xE7ED;</i>
+                                                                                                                                </span>
+                                                                                                                            </button>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                    <div role="menuitem" tabindex="0" class="toolbar-menu-item" aria-label="Odpovědět">
+                                                                                                                        <span class="menu-item-icon">
+                                                                                                                            <i class="fui-Icon-filled action-icon-primary icon-purple icon-line-height icon-style icon-font is-hidden" aria-hidden="true">&#xE12A;</i>
+                                                                                                                            <i class="fui-Icon-regular action-icon-primary icon-purple icon-line-height icon-style icon-font" aria-hidden="true">&#xE12B;</i>
+                                                                                                                        </span>
+                                                                                                                        <span class="menu-item-label">
+                                                                                                                            <span>Odpovědět</span>
+                                                                                                                        </span>
+                                                                                                                    </div>
+                                                                                                                    <div role="menuitem" tabindex="0" class="toolbar-menu-item" aria-label="Odpovědět všem">
+                                                                                                                        <span class="menu-item-icon">
+                                                                                                                            <i class="fui-Icon-filled action-icon-primary icon-purple icon-line-height icon-style icon-font is-hidden" aria-hidden="true">&#xE12C;</i>
+                                                                                                                            <i class="fui-Icon-regular action-icon-primary icon-purple icon-line-height icon-style icon-font" aria-hidden="true">&#xE12D;</i>
+                                                                                                                        </span>
+                                                                                                                        <span class="menu-item-label">
+                                                                                                                            <span>Odpovědět
+                                                                                                                                všem</span>
+                                                                                                                        </span>
+                                                                                                                    </div>
+                                                                                                                    <div role="menuitem" tabindex="0" class="toolbar-menu-item" aria-label="Přeposlat">
+                                                                                                                        <span class="menu-item-icon">
+                                                                                                                            <i class="fui-Icon-filled action-icon-primary icon-azure icon-line-height icon-style icon-font is-hidden" aria-hidden="true">&#xE0F8;</i>
+                                                                                                                            <i class="fui-Icon-regular action-icon-primary icon-azure icon-line-height icon-style icon-font" aria-hidden="true">&#xE0F9;</i></span>
+                                                                                                                        <span class="menu-item-label">
+                                                                                                                            <span>Přeposlat</span>
+                                                                                                                        </span>
+                                                                                                                    </div>
+                                                                                                                    <div role="separator" aria-orientation="vertical" class="toolbar-divider flex toolbar-items flex-column font-base font-regular text-secondary">
+                                                                                                                    </div>
+                                                                                                                    <div role="menuitem" tabindex="0" class="toolbar-menu-item toolbar-item-square" aria-label="Aplikace">
+                                                                                                                        <span class="menu-item-icon">
+                                                                                                                            <i class="fui-Icon-filled action-icon-primary icon-line-height icon-style icon-font is-hidden" aria-hidden="true">&#xE066;</i>
+                                                                                                                            <i class="fui-Icon-regular action-icon-primary icon-line-height icon-style icon-font" aria-hidden="true">&#xE067;</i>
+                                                                                                                        </span>
+                                                                                                                    </div>
+                                                                                                                    <div role="separator" aria-orientation="vertical" class="toolbar-divider flex toolbar-items flex-column font-base font-regular text-secondary">
+                                                                                                                    </div>
+                                                                                                                    <button id="moreItemsBtn" type="button" class="fui-Button btn-base toolbar-item-square btn-subtle-bg btn-borderless text-secondary btn-subtle-hover btn-compact min-width-32" aria-label="More items" role="button" tabindex="0" aria-haspopup="menu">
+                                                                                                                        <span class="btn-icon">
+                                                                                                                            <i class="fui-Icon-filled more-icon icon-line-height icon-style icon-font is-hidden" aria-hidden="true">&#xEBCB;</i>
+                                                                                                                            <i class="fui-Icon-regular more-icon icon-line-height icon-style icon-font" aria-hidden="true">&#xEBCC;</i>
+                                                                                                                        </span>
+                                                                                                                    </button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="message-date-row">
+                                                                                                        <div class="message-date-extra">
+                                                                                                            <div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="message-date-box">
+                                                                                                            <div id="reading-pane-date" class="message-date" role="heading" aria-level="3"></div>
+                                                                                                            <div class="message-date-pad">
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="message-divider">
+                                                                                                </div>
+                                                                                                <!-- Tělo zprávy (bodyHtml z emails.json) -->
+                                                                                                <div class="message-body custom-scrollbar selectable">
+                                                                                                    <div tabindex="0" aria-label="Text zprávy" role="document" id="UniqueMessageBody_1">
+                                                                                                        <div>
+                                                                                                            <div id="reading-pane-body"></div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <!-- Rychlé akce pod zprávou -->
+                                                                                                <div tabindex="-1" class="quick-actions" role="toolbar" aria-label="Rychlé akce">
+                                                                                                    <button type="button" aria-label="Odpovědět" role="menuitem" class="fui-Button btn-base quick-reply-btn btn-transparent">
+                                                                                                        <span class="btn-icon btn-icon-gap">
+                                                                                                            <i aria-hidden="true" class="quick-action-icon quick-action-icon-purple">
+                                                                                                                <i class="icon-fill inline-block icon-line-height icon-style icon-font" aria-hidden="true">&#xE12B;</i></i></span>Odpovědět</button>
+                                                                                                    <button type="button" aria-label="Odpovědět všem" role="menuitem" class="fui-Button btn-base quick-reply-btn btn-transparent">
+                                                                                                        <span class="btn-icon btn-icon-gap">
+                                                                                                            <i aria-hidden="true" class="quick-action-icon quick-action-icon-purple">
+                                                                                                                <i class="icon-fill inline-block icon-line-height icon-style icon-font" aria-hidden="true">&#xE12D;</i></i></span>Odpovědět všem</button>
+                                                                                                    <button type="button" aria-label="Přeposlat" role="menuitem" class="fui-Button btn-base quick-reply-btn btn-transparent">
+                                                                                                        <span class="btn-icon btn-icon-gap">
+                                                                                                            <i aria-hidden="true" class="quick-action-icon quick-action-icon-azure">
+                                                                                                                <i class="icon-fill inline-block icon-line-height icon-style icon-font" aria-hidden="true">&#xE0F9;</i></i></span>Přeposlat</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="conversation-spacer"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== Kontextová nabídka "Další možnosti" (tři tečky v podokně pro čtení) =====
+                 Pozici nastavuje script.js; funkční je jen "Nahlásit", ostatní položky jsou atrapy. -->
+            <div id="moreItemsMenu" class="ctx-menu">
+                <div class="ctx-menu-item disabled">Nasdílet do Teams</div>
+                <div class="ctx-menu-item disabled">Další akce odpovědi<span class="ctx-arrow">›</span></div>
+                <div class="ctx-menu-item disabled">Odstranit</div>
+                <div class="ctx-menu-item disabled">Označit jako nepřečtené</div>
+                <div class="ctx-menu-item disabled">Označit příznakem</div>
+                <div class="ctx-menu-item disabled">Přizpůsobení akcí</div>
+                <div class="ctx-menu-separator"></div>
+                <div class="ctx-menu-item" id="nahlasitMenuItem">Nahlásit<span class="ctx-arrow">›</span></div>
+                <div class="ctx-menu-item disabled">Blokovat<span class="ctx-arrow">›</span></div>
+                <div class="ctx-menu-separator"></div>
+                <div class="ctx-menu-item disabled">Tisk</div>
+                <div class="ctx-menu-item disabled">Přeložit</div>
+                <div class="ctx-menu-item disabled">Zobrazit v asistivní čtečce</div>
+                <div class="ctx-menu-item disabled">Zobrazit<span class="ctx-arrow">›</span></div>
+                <div class="ctx-menu-item disabled">Stáhnout</div>
+                <div class="ctx-menu-separator"></div>
+                <div class="ctx-menu-item disabled">Pokročilé akce<span class="ctx-arrow">›</span></div>
+            </div>
+
+            <!-- Podnabídka "Nahlásit" (otevírá se při najetí myší) -->
+            <div id="nahlasitSubmenu" class="ctx-menu">
+                <div class="ctx-menu-item disabled">Nahlásit spam</div>
+                <div class="ctx-menu-item" id="reportPhishingBtn">Nahlásit útok phishing</div>
+            </div>
+
+            <!-- ===== Modální okna: nahlášení phishingu a vyhodnocení úlohy ===== -->
+            <div id="reportPhishingModal" class="report-modal-overlay">
+                <div class="report-modal">
+                    <h2 class="report-modal-title">Nahlásit útok phishing</h2>
+                    <p class="report-modal-text">Nahlášení phishingových podvodů pomáhá zabezpečit osobní údaje, jak
+                        vaše, tak ostatních lidí.</p>
+                    <div class="report-modal-buttons">
+                        <button class="report-modal-btn report-modal-btn-primary" id="confirmPhishingBtn">Sestava</button>
+                        <button class="report-modal-btn report-modal-btn-secondary" id="cancelPhishingBtn">Zrušit</button>
+                    </div>
+                </div>
+            </div>
+            <div id="evalModal" class="report-modal-overlay">
+                <div class="report-modal">
+                    <h2 class="report-modal-title" id="evalModalTitle"></h2>
+                    <div class="report-modal-text" id="evalModalText"></div>
+                    <div class="report-modal-buttons">
+                        <button class="report-modal-btn report-modal-btn-primary" id="evalModalBtn">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="module" src="script.js"></script>
+    </body>
+</html>
