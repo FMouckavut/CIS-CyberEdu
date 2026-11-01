@@ -1,18 +1,23 @@
 /**
  * Outlook Clone – page logic
  *
- * 1. Loads emails.json and renders the email list (groups + items).
+ * 1. Loads emails.json (?email=csrf → email_csrf.json) and renders the email list (groups + items).
+ *    "checking": false in the JSON turns steps 3–4 and the reporting tour off: the buttons stay but do nothing.
  * 2. Clicking an email shows it in the reading pane and marks it as read.
- * 3. Three-dot menu → "Nahlásit" → phishing: the reported email disappears from the list ("Nahlásit spam" is inactive).
+ * 3. Three-dot menu → "Nahlásit" → phishing: a modal says at once whether the report was right. A right report removes
+ *    the email from the list once the modal is closed, a wrong one is not stored ("Nahlásit spam" is inactive).
  * 4. Clicking "Outlook" in the header evaluates the reports and, on success, shows the flag.
- * 5. On the first visit in a browser session a driver.js tour walks through reporting one phishing email.
+ * 5. On the first visit in a browser session a driver.js tour walks through reporting one phishing email,
+ *    with ?email=csrf through the danger of loading unknown images (CSRF) instead.
  */
 
 /* ================================================================
    Constants
    ================================================================ */
 
-const DATA_URL = 'emails.json';
+/* Only known sets can be chosen, so the URL cannot load an arbitrary file */
+const CSRF_MODE = new URLSearchParams(location.search).get('email') === 'csrf';
+const DATA_URL = CSRF_MODE ? 'email_csrf.json' : 'emails.json';
 
 /** Emails in this group show "Po 9:23" in the list, older ones "Čt 26.02" */
 const THIS_WEEK_GROUP_ID = 'tento-tyden';
@@ -48,6 +53,10 @@ const REPORT_DIALOGS = {
     phishing: { modal: 'reportPhishingModal', confirm: 'confirmPhishingBtn', cancel: 'cancelPhishingBtn', menuItem: 'reportPhishingBtn' },
 };
 
+const REPORT_CORRECT_HTML = 'Tento e-mail je opravdu phishing. Po zavření tohoto okna zmizí ze seznamu.';
+const REPORT_WRONG_HTML = '<p>Tento legitimní e-mail je v pořádku, proto nebyl nahlášen a zůstává v seznamu. '
+    + 'Před nahlášením zprávy si dobře prohlédněte všechny její prvky, jako jsou například odesílatel, počet příjemců, legitimnost odkazů, celková struktura a obsah textu apod.</p>';
+
 /* ================================================================
    State
    ================================================================ */
@@ -58,11 +67,14 @@ const emailsById = new Map();
 /** emailId → id of the group the email belongs to */
 const groupIdByEmailId = new Map();
 
-/** emailId → 'phishing' – what the user reported */
+/** emailId → 'phishing' – what the user reported correctly (wrong reports are not stored) */
 const userFlags = new Map();
 
 /** Id of the email shown in the reading pane (null = none) */
 let selectedEmailId = null;
+
+/** "checking" from the JSON: false disables reporting, evaluation and the tour (a missing key keeps them on) */
+let checkingEnabled = true;
 
 /* ================================================================
    Utilities
@@ -398,6 +410,7 @@ function setupMoreItemsMenu() {
 
     for (const dialog of Object.values(REPORT_DIALOGS)) {
         byId(dialog.menuItem).addEventListener('click', () => {
+            if (!checkingEnabled) return;
             closeMenus();
             byId(dialog.modal).classList.add('open');
         });
@@ -417,11 +430,31 @@ function setupReportModals() {
     for (const [type, dialog] of Object.entries(REPORT_DIALOGS)) {
         const modal = byId(dialog.modal);
         byId(dialog.confirm).addEventListener('click', () => {
-            reportSelectedEmail(type);
             modal.classList.remove('open');
+            showReportResult(type);
         });
         byId(dialog.cancel).addEventListener('click', () => modal.classList.remove('open'));
     }
+}
+
+/** Tells the user whether the report was right; only a right one is stored, when the modal is closed */
+function showReportResult(type) {
+    const correct = emailsById.get(selectedEmailId)?.type === type;
+    const modal = byId('reportResultModal');
+    const button = byId('reportResultBtn');
+
+    const titleEl = byId('reportResultTitle');
+    titleEl.textContent = correct ? 'Správně!' : 'Toto není phishing';
+    titleEl.classList.toggle('eval-title-success', correct);
+    titleEl.classList.toggle('eval-title-fail', !correct);
+    byId('reportResultText').innerHTML = correct ? REPORT_CORRECT_HTML : REPORT_WRONG_HTML;
+
+    button.addEventListener('click', () => {
+        modal.classList.remove('open');
+        if (correct) reportSelectedEmail(type);
+    }, { once: true });
+    modal.classList.add('open');
+    button.focus();
 }
 
 /** Stores the report, hides the email from the list and resets the reading pane */
@@ -450,9 +483,8 @@ function hideEmptyGroupHeaders() {
    ================================================================ */
 
 /**
- * A mistake is any email whose report differs from its type in emails.json
- * (unreported = "normal"): a missed phishing email or a normal email reported as phishing.
- * Any mistake costs the flag.
+ * A mistake is any email whose report differs from its type in emails.json (unreported = "normal").
+ * Wrong reports are never stored, so that is only a missed phishing email. Any mistake costs the flag.
  */
 function collectMistakes() {
     const mistakes = [];
@@ -531,7 +563,7 @@ function showEvaluation() {
 function setupEvaluation() {
     byId('outlookEvalBtn').addEventListener('click', (event) => {
         event.preventDefault();
-        showEvaluation();
+        if (checkingEnabled) showEvaluation();
     });
 
     byId('evalModalText').addEventListener('click', (event) => {
@@ -547,19 +579,92 @@ function setupEvaluation() {
 }
 
 /* ================================================================
-   Guided tour (driver.js) – reporting the first phishing email, once per browser session
+   Guided tour (driver.js), once per browser session – reporting the first phishing email,
+   or with ?email=csrf the danger of loading unknown images
    ================================================================ */
 
 /** sessionStorage key: set once the tour was finished or closed, so a refresh skips it */
-const TOUR_DONE_KEY = 'reportTourDone';
+const TOUR_DONE_KEY = CSRF_MODE ? 'csrfTourDone' : 'reportTourDone';
 
 /** Keeps a menu visible while the tour points into it (the submenu normally closes on mouseleave) */
 const PINNED_CLASS = 'is-pinned';
 
-function startReportTour() {
+/* shortcut: selectors match the body of the Clockify email in email_csrf.json, update them if it changes. */
+function csrfTourSteps(email, advanceOn) {
+    const nextButton = ['next', 'close'];
+    return [
+        {
+            popover: {
+                title: 'Vítejte',
+                description: 'Jak může být i běžný obsah e-mailu nebezpečný a proč je dobré vždy defaultně blokovat jeho načítání? Na prvním e-mailu si nyní ukážeme, jak funguje tzv. CSRF útok.',
+                showButtons: nextButton,
+            },
+        },
+        {
+            element: '#email-' + email.id,
+            popover: { title: 'Obyčejná reklama?', description: 'Tenhle e-mail vypadá jako běžná nabídka. Klikněte na něj a otevřete ho.' },
+            ...advanceOn('click'),
+        },
+        {
+            element: '#reading-pane-body .outlook-banner',
+            disableActiveInteraction: true,
+            popover: {
+                title: 'Zablokovaný obsah',
+                description: 'Outlook obrázky od neznámých odesílatelů sám nenačítá a čeká, až je povolíte. Podívejme se, co by se načetlo.',
+                showButtons: nextButton,
+            },
+        },
+        /* The whole email body is highlighted: on a single image driver.js would clip its hover bubble and dim it under the overlay.
+           shortcut: the nowrap bubble is cut off in a reading pane narrower than about 480 px, wrap it if small windows matter. */
+        {
+            element: '#reading-pane-body .email-body',
+            popover: {
+                title: 'Tohle není obrázek',
+                description: 'Najeďte myší na první obrázek (Clockify) a přečtěte si jeho adresu v červené bublině. Nevede na soubor s logem, ale do vaší banky, a obsahuje příkaz k platbě 5 000 Kč na účet útočníka. Ve skutečném e-mailu takovou adresu běžně neuvidíte.',
+                side: 'left',
+                showButtons: nextButton,
+            },
+        },
+        {
+            element: '#reading-pane-body .email-body',
+            popover: {
+                title: 'Pro srovnání',
+                description: 'Teď najeďte myší na druhý obrázek (Scheduling). Zelená bublina ukazuje adresu opravdového souboru s obrázkem, jehož načtení ničemu neublíží. Na pohled se přitom oba obrázky nijak neliší.',
+                side: 'left',
+                showButtons: nextButton,
+            },
+        },
+        {
+            popover: {
+                title: 'Jak CSRF funguje',
+                description: 'Prohlížeč adresu obrázku načte sám a přidá k ní vaše přihlášení, pokud jste na dané stránce přihlášeni, třeba v jiné kartě. Banka tak vidí příkaz od přihlášeného klienta a nepozná, že ho ve skutečnosti poslal útočník. Proto se útok jmenuje Cross-Site Request Forgery, tedy podvržený požadavek z cizí stránky.',
+                showButtons: nextButton,
+            },
+        },
+        {
+            element: '#reading-pane-body .banner-btn:last-child',
+            popover: {
+                title: 'Vyzkoušejte si to',
+                description: 'Představte si, že jste přihlášeni do banky. Klikněte na Zobrazit blokovaný obsah. Otevře se okno banky. Prohlédněte si ho, opište si z něj vlajku a pak se vraťte sem.',
+            },
+            ...advanceOn('click'),
+        },
+        {
+            popover: {
+                title: 'Co se právě stalo',
+                description: 'Stačilo povolit obrázky a platba odešla, nic dalšího jste potvrzovat nemuseli. První obrázek zůstal rozbitý, protože to nikdy obrázek nebyl. Referenční číslo platby v okně banky je vaše vlajka.<br><br>Jde jen o ukázku, žádné peníze se neposlaly. Dobře zabezpečené banky se proti CSRF brání, méně chráněné stránky ale takto napadnout lze. Proto obrázky od neznámých odesílatelů nezobrazujte a po práci se z citlivých stránek odhlašujte.',
+                showButtons: ['next'],
+            },
+        },
+    ];
+}
+
+function startTour() {
     const createDriver = window.driver?.js?.driver;   // undefined when the CDN script did not load
-    const email = [...emailsById.values()].find((e) => e.type === 'phishing');
-    if (!createDriver || !email || sessionStorage.getItem(TOUR_DONE_KEY)) return;
+    const emails = [...emailsById.values()];
+    const email = CSRF_MODE ? emails.find((e) => e.bodyHtml.includes('logo-csrf')) : emails.find((e) => e.type === 'phishing');
+    /* The CSRF tour only shows the email, so it does not need reporting ("checking") to be on */
+    if ((!CSRF_MODE && !checkingEnabled) || !createDriver || !email || sessionStorage.getItem(TOUR_DONE_KEY)) return;
 
     const listeners = new AbortController();
     const unpinMenus = () => document.querySelectorAll('.' + PINNED_CLASS)
@@ -571,6 +676,10 @@ function startReportTour() {
             afterAction?.();
             tour.moveNext();
         }, { once: true, signal: listeners.signal }),
+    });
+    /* Same for a highlighted dialog: its text stays readable and only the given button moves the tour on */
+    const advanceOnButton = (id) => ({
+        onHighlightStarted: () => byId(id).addEventListener('click', () => tour.moveNext(), { once: true, signal: listeners.signal }),
     });
     const pin = (id) => () => byId(id).classList.add(PINNED_CLASS);
 
@@ -591,7 +700,7 @@ function startReportTour() {
         showButtons: ['close'],
         /* Arrow keys would skip the action the step waits for; closing stays on ✕ and the overlay */
         allowKeyboardControl: false,
-        steps: [
+        steps: CSRF_MODE ? csrfTourSteps(email, advanceOn) : [
             /* No element → driver.js centers the popover on the screen */
             {
                 popover: {
@@ -676,9 +785,16 @@ function startReportTour() {
                 ...advanceOn('click', unpinMenus),
             },
             {
-                element: '#confirmPhishingBtn',
-                popover: { title: 'Potvrzení', description: 'Nahlášení potvrďte tlačítkem Sestava. E-mail tím zmizí ze seznamu.' },
-                ...advanceOn('click'),
+                element: '#reportPhishingModal .report-modal',
+                popover: { title: 'Potvrzení', description: 'Nahlášení potvrďte tlačítkem Sestava.' },
+                ...advanceOnButton('confirmPhishingBtn'),
+                /* "Zrušit" would close the dialog and leave the tour pointing at nothing; onDestroyed turns it back on */
+                onHighlighted: () => { byId('cancelPhishingBtn').disabled = true; },
+            },
+            {
+                element: '#reportResultModal .report-modal',
+                popover: { title: 'Výsledek', description: 'Hned se dozvíte, jestli bylo nahlášení správné. Správně nahlášený e-mail po kliknutí na OK zmizí ze seznamu, špatně nahlášený v něm zůstane. Pokračujte tlačítkem OK.' },
+                ...advanceOnButton('reportResultBtn'),
             },
             {
                 element: '#outlookEvalBtn',
@@ -694,6 +810,7 @@ function startReportTour() {
         onDestroyed: () => {
             listeners.abort();
             unpinMenus();
+            byId('cancelPhishingBtn').disabled = false;
             sessionStorage.setItem(TOUR_DONE_KEY, '1');
         },
     });
@@ -735,7 +852,9 @@ function showLoadError() {
 
 async function init() {
     try {
-        renderEmailList(await loadEmails());
+        const data = await loadEmails();
+        checkingEnabled = data.checking !== false;
+        renderEmailList(data);
         updateUnreadBadges();
         setupMoreItemsMenu();
         setupReportModals();
@@ -747,7 +866,7 @@ async function init() {
         return;
     }
     /* Outside the try: a tour failure must not replace the email list with the load error */
-    startReportTour();
+    startTour();
 }
 
 init();

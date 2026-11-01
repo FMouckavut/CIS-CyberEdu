@@ -10,7 +10,7 @@
         <meta name="theme-color" content="#0078d4">
         <title>Pošta - Klon Outlook</title>
         <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
-        <!-- driver.js – průvodce nahlášením phishingu (startReportTour ve script.js) -->
+        <!-- driver.js – průvodce nahlášením phishingu / útokem CSRF (startTour ve script.js) -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.6/dist/driver.css"
             integrity="sha384-eyrYgcjChmzD338JTHFZssgJHOqqOZbajet8yZpCw8ESroLDi28BarMEKCImNGHC" crossorigin="anonymous">
         <link rel="stylesheet" href="styles.css">
@@ -673,6 +673,15 @@
                     <div class="report-modal-buttons">
                         <button class="report-modal-btn report-modal-btn-primary" id="confirmPhishingBtn">Sestava</button>
                         <button class="report-modal-btn report-modal-btn-secondary" id="cancelPhishingBtn">Zrušit</button>
+                    </div>
+                </div>
+            </div>
+            <div id="reportResultModal" class="report-modal-overlay">
+                <div class="report-modal" role="alertdialog" aria-modal="true" aria-labelledby="reportResultTitle">
+                    <h2 class="report-modal-title" id="reportResultTitle"></h2>
+                    <div class="report-modal-text" id="reportResultText"></div>
+                    <div class="report-modal-buttons">
+                        <button class="report-modal-btn report-modal-btn-primary" id="reportResultBtn">OK</button>
                     </div>
                 </div>
             </div>
