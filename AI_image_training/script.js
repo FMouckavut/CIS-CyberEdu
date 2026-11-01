@@ -108,6 +108,8 @@ function odpovez(volba) {
     ? svg('<path d="M5 12.5l4.5 4.5L19 7.5"/>') + "Správně"
     : svg('<path d="M6 6l12 12M18 6L6 18"/>') + "Nesprávně";
   if (posledniSpravne) spravne++;
+  // Po odpovědi ukázat verzi s vyznačenými chybami (stažení dál nabízí originál).
+  if (obr.napoveda) $("photo").src = obr.napoveda;
   aktualizujPrubeh();
   $("next").hidden = false;
   $("next").focus();
