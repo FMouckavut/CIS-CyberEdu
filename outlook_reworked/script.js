@@ -708,8 +708,9 @@ function startTour() {
         nextBtnText: 'Další',
         doneBtnText: 'Rozumím',
         showButtons: ['close'],
-        /* Arrow keys would skip the action the step waits for; closing stays on ✕ and the overlay */
+        /* Arrow keys would skip the action the step waits for, a stray click must not end the tour: closing stays only on ✕ */
         allowKeyboardControl: false,
+        overlayClickBehavior: 'none',
         steps: revealEachStep(CSRF_MODE ? csrfTourSteps(email, advanceOn) : [
             /* No element → driver.js centers the popover on the screen */
             {

@@ -2780,6 +2780,27 @@ body {
     z-index: 1000001 !important;
 }
 
+/* Uživatel by si mohl odscrollovat prvek, na který má kliknout. Programové posunutí průvodce (scrollIntoView) funguje dál. */
+.driver-active .nav-pane,
+.driver-active .nav-pane-scroll,
+.driver-active .mail-list,
+.driver-active .mail-list-items,
+.driver-active .conversation-scroll,
+.driver-active .message-body {
+    overflow: hidden !important;
+}
+
+/* Skrytý posuvník by při přepnutí na krok se čtením e-mailu změnil šířku textu */
+.driver-active .conversation-scroll {
+    scrollbar-gutter: stable;
+}
+
+/* Výjimka: kroky, kde se má e-mail číst (celá karta v základním průvodci, tělo e-mailu v CSRF průvodci) */
+.driver-active:has(.message-card.driver-active-element, .email-body.driver-active-element) .conversation-scroll,
+.driver-active:has(.message-card.driver-active-element, .email-body.driver-active-element) .message-body {
+    overflow: auto !important;
+}
+
 /* Nabídka, do které průvodce právě ukazuje, se nezavře odjetím myši */
 .ctx-menu.is-pinned {
     display: block;
