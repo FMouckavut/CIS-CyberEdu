@@ -500,7 +500,7 @@ function collectMistakes() {
 
 function renderMistakeList(mistakes) {
     const items = mistakes.map(({ email, expected, got }) =>
-        `<li><strong>${escapeHtml(email.subject)}</strong> — správně: ${TYPE_LABELS[expected]}, `
+        `<li><strong>${escapeHtml(email.subject)}:</strong><br>správně: ${TYPE_LABELS[expected]}, `
         + `vaše označení: ${got ? TYPE_LABELS[got] : 'neoznačen'}</li>`);
     return `<ul class="eval-mistakes">${items.join('')}</ul>`;
 }
@@ -692,6 +692,16 @@ function startTour() {
         },
     };
 
+    /* driver.js only checks that an element is inside the window, not inside the scrolling reading pane:
+       without this the element can stay hidden under the toolbar and a step waiting for its click can never finish */
+    const revealEachStep = (steps) => steps.map((step) => ({
+        ...step,
+        onHighlightStarted: (element, ...rest) => {
+            element?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+            step.onHighlightStarted?.(element, ...rest);
+        },
+    }));
+
     const tour = createDriver({
         showProgress: true,
         progressText: '{{current}} / {{total}}',
@@ -700,7 +710,7 @@ function startTour() {
         showButtons: ['close'],
         /* Arrow keys would skip the action the step waits for; closing stays on ✕ and the overlay */
         allowKeyboardControl: false,
-        steps: CSRF_MODE ? csrfTourSteps(email, advanceOn) : [
+        steps: revealEachStep(CSRF_MODE ? csrfTourSteps(email, advanceOn) : [
             /* No element → driver.js centers the popover on the screen */
             {
                 popover: {
@@ -722,6 +732,8 @@ function startTour() {
                     side: 'left',
                     showButtons: ['next', 'close'],
                 },
+                /* The user may have scrolled while reading; the next steps start from the email header */
+                onDeselected: () => document.querySelector('.conversation-scroll').scrollTo(0, 0),
             },
             {
                 element: '#reading-pane-sender-email',
@@ -805,7 +817,7 @@ function startTour() {
                     showButtons: ['next'],
                 },
             },
-        ],
+        ]),
         /* Runs on finish and on early close – both count as done */
         onDestroyed: () => {
             listeners.abort();
