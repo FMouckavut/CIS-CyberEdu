@@ -1,0 +1,343 @@
+{
+  "flag": "RkxBRyhQb3pvckNvU2tlbnVqZXMp",
+  "qrLink": "https://wa.me/setting/linked_devics#0FrV6vhbbv0vgMgDQ01T3PlHtnw+LK+f2SmqWR9IzouQKK9//tBPoz4SXv9WZFcv123456789/*tlJF/lnktExINsgbsbvsr1XUmUnHQY=,AEUxknFftOobaS4x14pipipupu542MbPsG6k/KrIIHbPekG8IlZFDDFU=,conatoklikasRZLQMZZcU6j6Ma9XlnRQitTjviCrLuS2rgA=hj,99COqmsivP5x3VuaHiWFOjLYXCVqMCUxtfi57SeyHG4=",
+  "scanTip": {
+    "title": "Kontrola odkazu v QR kódu",
+    "text": "Zpráva slibuje hlasování v anketě na externím webu, odkaz v QR kódu však vede na WhatsApp (wa.me) a slouží k propojení dalšího zařízení s účtem WhatsApp. Před otevřením odkazu z QR kódu je nutné zkontrolovat, kam vede, a zda odpovídá tomu, co zpráva slibuje. Pro pokračování simulace klikněte na odkaz."
+  },
+  "statusTime": "16:47",
+  "contact": {
+    "name": "Verča",
+    "avatar": "img/avatar-verca.png",
+    "status": "online"
+  },
+  "chatList": [
+    {
+      "id": "verca",
+      "name": "Verča",
+      "avatar": "img/avatar-verca.png",
+      "last": "dík moc!! 💚 jen to honem, končí to dneska",
+      "time": "16:43",
+      "unread": 4
+    },
+    {
+      "name": "Třída 8.B",
+      "avatar": "img/avatar-trida.png",
+      "last": "Tomáš: zítra píšem test z matiky!!",
+      "time": "15:20"
+    },
+    {
+      "name": "Mamka",
+      "avatar": "img/avatar-mama.png",
+      "last": "Nezapomeň koupit rohlíky 🥖",
+      "time": "12:05",
+      "ticks": "read"
+    },
+    {
+      "name": "Tomáš",
+      "avatar": "img/avatar-tomas.png",
+      "last": "jdeš ven?",
+      "time": "Včera"
+    },
+    {
+      "name": "Babička",
+      "avatar": "img/avatar-babi.png",
+      "last": "Hezký den, zlatíčko ❤️",
+      "time": "Včera",
+      "ticks": "read"
+    }
+  ],
+  "chat": {
+    "history": [
+      {
+        "day": "Předevčírem"
+      },
+      {
+        "from": "them",
+        "text": "čau, máš už hotovej ten referát do zeměpisu? já mám zatím jen nadpis :)",
+        "time": "18:12"
+      },
+      {
+        "from": "me",
+        "text": "jo skoro, zítra ti pošlu, co mám",
+        "time": "18:20"
+      },
+      {
+        "from": "them",
+        "text": "super, díky moc. v pátek to odevzdáme spolu :)",
+        "time": "18:21"
+      },
+      {
+        "day": "Včera"
+      },
+      {
+        "from": "me",
+        "text": "posílám ten referát 📎",
+        "time": "17:02"
+      },
+      {
+        "from": "them",
+        "text": "jsi hvězda, díky :)",
+        "time": "17:30"
+      }
+    ],
+    "todayLabel": "Dnes",
+    "unreadBanner": "4 nepřečtené zprávy",
+    "today": [
+      {
+        "id": "msg-hello",
+        "from": "them",
+        "text": "ahoj! 🙌 děláme do školy projekt a potřebujeme hlasy",
+        "time": "16:41"
+      },
+      {
+        "id": "msg-request",
+        "from": "them",
+        "text": "můžeš mi prosím hodit hlas v týhle anketě? stačí naskenovat ten QR kód 🙏",
+        "time": "16:41"
+      },
+      {
+        "id": "msg-qr",
+        "from": "them",
+        "type": "qr",
+        "title": "ANKETA",
+        "caption": "naskenuj a hlasuj",
+        "time": "16:42"
+      },
+      {
+        "id": "msg-pressure",
+        "from": "them",
+        "text": "dík moc!! 💚 jen to honem, končí to dneska",
+        "time": "16:43"
+      }
+    ]
+  },
+  "choices": [
+    {
+      "id": "scan",
+      "label": "Naskenovat QR kód a hlasovat"
+    },
+    {
+      "id": "call",
+      "label": "Zavolat Verče a ověřit, zda zprávu odeslala",
+      "done": "Tato možnost již byla vyzkoušena"
+    }
+  ],
+  "praise": {
+    "call": {
+      "title": "Ověření jiným kanálem",
+      "text": "Ověření zprávy jiným kanálem, například telefonicky, je spolehlivá ochrana. Verča by potvrdila, že žádnou anketu neodeslala.",
+      "tryScan": "Pro srovnání si nyní vyzkoušejte i druhou možnost, tedy naskenování QR kódu, a zjistěte, co by se stalo."
+    }
+  },
+  "devices": [
+    {
+      "id": "device-phone",
+      "icon": "phone",
+      "name": "Tento telefon",
+      "detail": "Aktivní teď",
+      "current": true
+    },
+    {
+      "id": "device-unknown",
+      "icon": "laptop",
+      "name": "Chrome (Windows)",
+      "detail": "Frankfurt, Německo · Aktivní naposledy dnes v 3:12",
+      "unknown": true,
+      "info": [
+        [
+          "Prohlížeč",
+          "Google Chrome"
+        ],
+        [
+          "Systém",
+          "Windows"
+        ],
+        [
+          "Místo (přibližně)",
+          "Frankfurt, Německo"
+        ],
+        [
+          "Propojeno",
+          "Předevčírem v 3:07"
+        ]
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "id": "open",
+      "kind": "wait",
+      "element": "#chatrow-verca",
+      "screen": "chats",
+      "waitFor": "screen:chat",
+      "title": "Nová zpráva",
+      "text": "Vypadá to, že máte od Verči 4 nové zprávy. Otevřete konverzaci kliknutím na ni."
+    },
+    {
+      "id": "read",
+      "kind": "read",
+      "element": "#chat-body",
+      "screen": "chat",
+      "title": "Přečtení konverzace",
+      "text": "Projděte si celou konverzaci. Posuňte chat nahoru ke starším zprávám a následně si projděte zprávy až dolů do konce.",
+      "hint": "Posuňte chat nahoru i dolů",
+      "button": "Pokračovat"
+    },
+    {
+      "id": "history",
+      "dim": true,
+      "kind": "info",
+      "element": "#msgs-history",
+      "screen": "chat",
+      "title": "Starší zprávy",
+      "text": "Starší zprávy zachycují běžnou komunikaci s touto osobou. Všimněte si, v jakém stylu běžně píše."
+    },
+    {
+      "id": "request",
+      "dim": true,
+      "kind": "info",
+      "element": "#msg-request",
+      "screen": "chat",
+      "title": "Žádost o hlasování",
+      "text": "Kontakt žádá o naskenování QR kódu, které má sloužit k hlasování v anketě."
+    },
+    {
+      "id": "qr",
+      "dim": true,
+      "kind": "info",
+      "element": "#msg-qr",
+      "screen": "chat",
+      "title": "QR kód",
+      "text": "Tváří se jako klasický QR kód s odkazem na legitimní web s anketou. Na první pohled tak nemusí jít o nic nebezpečného."
+    },
+    {
+      "id": "pressure",
+      "dim": true,
+      "kind": "info",
+      "element": "#msg-pressure",
+      "screen": "chat",
+      "title": "Časový nátlak",
+      "text": "Zpráva zdůrazňuje časový limit („končí to dneska“). Časový nátlak je běžná technika, jejímž cílem je zkrátit čas na rozmyšlenou."
+    },
+    {
+      "id": "style",
+      "scroll": true,
+      "dim": true,
+      "kind": "info",
+      "element": "#chat-body",
+      "screen": "chat",
+      "title": "Změna stylu psaní",
+      "text": "Dnešní zprávy se stylem liší od starších: jiný pozdrav („ahoj!“ místo „čau“) a více emoji a vykřičníků. Změna stylu může znamenat, že zprávy píše jiná osoba."
+    },
+    {
+      "id": "decision",
+      "kind": "decision",
+      "element": null,
+      "screen": "chat",
+      "dim": true,
+      "title": "Výběr postupu",
+      "text": "Vyberte další postup:"
+    },
+    {
+      "id": "praise",
+      "kind": "praise",
+      "element": null,
+      "title": "",
+      "text": ""
+    },
+    {
+      "id": "reveal",
+      "kind": "info",
+      "element": "#attacker",
+      "dim": true,
+      "reveal": true,
+      "title": "Původ QR kódu",
+      "text": "Panel zobrazuje obrazovku počítače útočníka s otevřeným přihlášením do WhatsApp Web. Přihlašovací stránka čeká na naskenování QR kódu."
+    },
+    {
+      "id": "same",
+      "kind": "info",
+      "element": "compare",
+      "screen": "chat",
+      "compare": true,
+      "dim": true,
+      "title": "Shodné QR kódy",
+      "text": "QR kód z ankety je shodný s přihlašovacím QR kódem na počítači útočníka. Jeho naskenováním by se zařízení útočníka přihlásilo k vlastnímu účtu WhatsApp."
+    },
+    {
+      "id": "verca",
+      "kind": "info",
+      "element": "#chat-name",
+      "screen": "chat",
+      "title": "Napadený účet kontaktu",
+      "text": "Účet kontaktu Verča byl napaden stejným způsobem: po naskenování podobné „ankety“ získal útočník přístup k jejímu účtu a nyní jejím jménem rozesílá zprávy dalším kontaktům. Zpráva od známého kontaktu proto nemusí být důvěryhodná."
+    },
+    {
+      "id": "back",
+      "dim": true,
+      "kind": "wait",
+      "element": "#chat-back",
+      "screen": "chat",
+      "waitFor": "screen:chats",
+      "title": "Kontrola propojených zařízení",
+      "text": "Následující kroky ukazují kontrolu zařízení propojených s účtem. Vraťte se šipkou zpět na seznam chatů."
+    },
+    {
+      "id": "menu",
+      "dim": true,
+      "kind": "wait",
+      "element": "#chats-menu",
+      "waitFor": "menu:open",
+      "title": "Nabídka",
+      "text": "Otevřete nabídku kliknutím na tři tečky vpravo nahoře."
+    },
+    {
+      "id": "settings",
+      "dim": true,
+      "kind": "wait",
+      "element": "#menu-settings",
+      "waitFor": "screen:settings",
+      "backOn": "menu:close",
+      "title": "Nastavení",
+      "text": "Otevřete Nastavení."
+    },
+    {
+      "id": "linked",
+      "dim": true,
+      "kind": "wait",
+      "element": "#settings-linked",
+      "waitFor": "screen:linked",
+      "title": "Propojená zařízení",
+      "text": "Sekce obsahuje seznam počítačů a prohlížečů, které mají přístup k účtu. Otevřete ji."
+    },
+    {
+      "id": "device",
+      "dim": true,
+      "kind": "wait",
+      "element": "#device-unknown",
+      "waitFor": "device:open",
+      "title": "Neznámé zařízení",
+      "text": "Kromě tohoto telefonu je k účtu propojeno zařízení Chrome (Windows) z Frankfurtu s poslední aktivitou ve 3:12. Toto zařízení nepatří vlastníkovi účtu. Otevřete jeho detail."
+    },
+    {
+      "id": "logout",
+      "dim": true,
+      "kind": "wait",
+      "element": "#sheet .sheet",
+      "waitFor": "device:logout",
+      "backOn": "device:close",
+      "title": "Odhlášení zařízení",
+      "text": "Klikněte na Odhlásit. Útočník tím ztratí přístup ke zprávám."
+    },
+    {
+      "id": "warn",
+      "center": true,
+      "kind": "info",
+      "element": null,
+      "dim": true,
+      "title": "Upozornění kontaktu",
+      "text": "Účet kontaktu Verča je stále pod kontrolou útočníka. Informujte ji jiným způsobem, například telefonicky, aby si zkontrolovala propojená zařízení."
+    }
+  ]
+}
