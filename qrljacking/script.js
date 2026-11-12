@@ -34,7 +34,7 @@
   function start(C) {
     const $ = (sel, root = document) => root.querySelector(sel);
     const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    const icon = (name, cls = 'i') => `<svg class="${cls}" aria-hidden="true"><use href="#i-${name}"/></svg>`;
+    const icon = (name) => `<svg class="i" aria-hidden="true"><use href="#i-${name}"/></svg>`;
     const ticks = (read) => `<svg class="ticks${read ? ' read' : ''}" viewBox="0 0 18 12" aria-label="${read ? 'Přečteno' : 'Doručeno'}"><use href="#i-ticks"/></svg>`;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const stepIndex = (id) => C.steps.findIndex((s) => s.id === id);
@@ -318,7 +318,6 @@
     // Rámeček kolem obou QR kódů pro krok „Vidíš to?“.
     const compareFrame = document.createElement('div');
     compareFrame.className = 'compare-frame';
-    compareFrame.id = 'compare-frame';
     document.body.appendChild(compareFrame);
 
     // Zprávy v chatu se zvýrazní pruhem přes celou šířku chatu (až k okrajům), ne jen kolem bubliny.
@@ -633,35 +632,31 @@
       else finish();
     }
 
-    async function copyFlag() {
-      const flag = $('#flag');
+    // Zkopíruje text do schránky. Není-li schránka dostupná (např. bez HTTPS), označí el k ručnímu zkopírování.
+    async function copyText(text, el) {
       try {
-        await navigator.clipboard.writeText(flag.textContent);
-        $('#copy-label').textContent = $('#copy-label').dataset.copied;
-        $('#copy-msg').textContent = '';
+        await navigator.clipboard.writeText(text);
+        return true;
       } catch {
-        // Schránka není dostupná (např. bez HTTPS): označ vlajku k ručnímu zkopírování.
-        const range = document.createRange();
-        range.selectNodeContents(flag);
-        const sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-        $('#copy-msg').textContent = $('#copy-msg').dataset.fallback;
+        window.getSelection().selectAllChildren(el);
+        return false;
       }
     }
 
-    // Zkopíruje adresu z QR kódu; ikona se na chvíli změní na fajfku. Bez schránky (bez HTTPS) adresu jen označí.
+    async function copyFlag() {
+      const ok = await copyText($('#flag').textContent, $('#flag'));
+      if (ok) $('#copy-label').textContent = $('#copy-label').dataset.copied;
+      $('#copy-msg').textContent = ok ? '' : $('#copy-msg').dataset.fallback;
+    }
+
+    // Po zkopírování adresy z QR kódu se ikona na chvíli změní na fajfku.
     let copyTimer = 0;
     async function copyScanLink() {
-      const icon = $('#scan-copy use');
-      try {
-        await navigator.clipboard.writeText(C.qrLink);
-        icon.setAttribute('href', '#i-check');
-        clearTimeout(copyTimer);
-        copyTimer = setTimeout(() => icon.setAttribute('href', '#i-copy'), 1500);
-      } catch {
-        window.getSelection().selectAllChildren($('#scan-url'));
-      }
+      if (!(await copyText(C.qrLink, $('#scan-url')))) return;
+      const use = $('#scan-copy use');
+      use.setAttribute('href', '#i-check');
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(() => use.setAttribute('href', '#i-copy'), 1500);
     }
 
     /* ---------------- Události ---------------- */
@@ -742,9 +737,11 @@
     window.addEventListener('keydown', (e) => {
       if (e.key !== 'Tab') return;
       e.stopImmediatePropagation();
-      const layer = [sheet, viewer].find((l) => !l.hidden);
+      const layer = [scanner, sheet, viewer].find((l) => !l.hidden);
       if (!layer) return;
-      const f = [...layer.querySelectorAll('button')];
+      // Jen viditelná tlačítka (skener je ukazuje podle fáze); při propojování není vidět žádné.
+      const f = [...layer.querySelectorAll('button')].filter(isVisible);
+      if (!f.length) { e.preventDefault(); return; }
       const first = f[0];
       const last = f[f.length - 1];
       if (!layer.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
